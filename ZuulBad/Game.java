@@ -181,7 +181,6 @@ public class Game
             System.out.println(currentRoom.returnNpcMessage());
             currentRoom.addRoomEntry();
             
-            System.out.println(currentRoom.returnNpcHint("book"));
         }
     }
 
