@@ -1,5 +1,4 @@
 package ZuulBad;
-import java.util.ArrayList;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -180,7 +179,6 @@ public class Game
             System.out.println();
             System.out.println(currentRoom.returnNpcMessage());
             currentRoom.addRoomEntry();
-            
         }
     }
 
