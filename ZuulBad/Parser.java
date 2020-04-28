@@ -40,9 +40,7 @@ public class Parser
         String word1 = null;
         String word2 = null;
 
-        System.out.print("> ");     // print prompt
-
-        inputLine = reader.nextLine();
+        inputLine = getUserInput();
 
         // Find up to two words on the line.
         Scanner tokenizer = new Scanner(inputLine);
@@ -63,6 +61,17 @@ public class Parser
             return new Command(null, word2); 
         }
     }
+
+	/**
+	 * @return the input typed in by the User
+	 */
+	public String getUserInput() {
+		String inputLine;
+		System.out.print("> ");     
+
+        inputLine = reader.nextLine();
+		return inputLine;
+	}
 
     /**
      * Print out a list of valid command words.
