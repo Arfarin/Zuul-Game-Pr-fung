@@ -21,6 +21,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Player player;
     
         
     /**
@@ -30,6 +31,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        player = new Player();
 
     }
 
@@ -133,7 +135,13 @@ public class Game
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
-        // else command not recognised.
+        
+        else if (commandWord.equals("look")) {
+        	player.lookAround(currentRoom);
+        }
+        else if (commandWord.equals("eat")) {
+        	player.eat();
+        }
         return wantToQuit;
     }
 
