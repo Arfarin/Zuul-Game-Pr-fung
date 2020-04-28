@@ -114,7 +114,7 @@ public class Room
     	if (roomentries == 0) {
     	message = npc.returnMessage();
     	} else {
-    	message = "You have already entered this room.";
+    	message = "You have already been here.";
     	}
     	return message;
     }
