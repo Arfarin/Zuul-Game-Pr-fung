@@ -1,5 +1,5 @@
 package ZuulBad;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -11,56 +11,48 @@ import java.util.Random;
 
 public class NonPlayerCharacter {
 
-	private static ArrayList<String> messages;
-	private static ArrayList<String> hints;
+	private static HashMap<String, String> messages;
+	private static HashMap<String, String> hints;
 	
-	private Random random;
+	private String wanteditem;
 	
-	public NonPlayerCharacter() {
-		messages = new ArrayList<>();
-		hints = new ArrayList<>();
-		random = new Random();
+	public NonPlayerCharacter(String itemforhint) {
+		wanteditem = itemforhint;
+		messages = new HashMap<>();
+		hints = new HashMap<>();
+
 		fillMessages();
 		fillHints();
 	}
 	
 	private void fillMessages() {
-		messages.add("My name is Heinz, but feel free to call me pickle. Got something for me?");
-		messages.add("Ugh, why do they always let me deal with the lost people?");
-		messages.add("Hey there! Make yourself feel at home.");
-		messages.add("Omg be careful, you almost stepped on my dog!");
+		messages.put("old book", "My name is Heinz, but feel free to call me pickle. Got something for me?");
+		messages.put("nice smelling candle", "Ugh, why do they always let me deal with the lost people?");
+		messages.put("sock", "Hey there! Make yourself feel at home.");
+		messages.put("phone", "Omg be careful, you almost stepped on my dog!");
+		messages.put("dead plant", "empty string");
+		messages.put("baseball cap", "empty string");
 	}
 	
 	private void fillHints() {
-		hints.add("Oh thanks for finding this for me. Make sure you eat something every once in a while, hunger is deadly!");
-		hints.add("Oh let me tell you, everyone was stunned by the princess's beauty. But then she got kidnapped by a terrible monster.");
-		hints.add("The monsters might seem scary, but if you find something useful, they won't bother you.");
+		hints.put("old book", "Oh thanks for finding this for me. Make sure you eat something every once in a while, hunger is deadly!");
+		hints.put("nice smelling candle", "Oh let me tell you, everyone was stunned by the princess's beauty. But then she got kidnapped by a terrible monster.");
+		hints.put("sock", "The monsters might seem scary, but if you find something useful, they won't bother you.");
+		hints.put("phone", "empty string");
+		hints.put("dead plant", "empty string");
+		hints.put("baseball cap", "empty string");
 	}
 	
-	public String returnMessage() {
-		String message;
-		
-		if (messages.isEmpty()) { // to prevent NullPointerException
-			message = null;
-		} else {
-			int randomnumber = random.nextInt(messages.size());
-			message = messages.get(randomnumber);
-			messages.remove(randomnumber);
-		}
-		
+	public String getMessage() {
+		String message = messages.get(wanteditem);
 		return message;
 	}
 	
-	public String returnHint() {
-		String hint;
-		
-		if (hints.isEmpty()) { // to prevent NullPointerException
-			hint = "Sorry, you are on your own";
+	public String getHint(String givenitem) {
+		if (givenitem.equals(wanteditem)) {
+			return hints.get(wanteditem);
 		} else {
-			hint = hints.get(0);
-			hints.remove(0);
+			return "This is not the item I wanted.";
 		}
-		
-		return hint;
 	}
 }

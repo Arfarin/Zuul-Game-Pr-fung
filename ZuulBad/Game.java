@@ -52,24 +52,24 @@ public class Game {
 		outside.setExit("east", theater);
 		outside.setExit("south", lab);
 		outside.setExit("west", pub);
-		outside.createNPC("book");
+		outside.createNPC("old book");
 
 		theater.setExit("west", outside);
-		theater.createNPC(null);
+		theater.createNPC("nice smelling candle");
 
 		pub.setExit("east", outside);
 		pub.setExit("down", basement);
-		pub.createNPC(null);
+		pub.createNPC("sock");
 
 		lab.setExit("north", outside);
 		lab.setExit("east", office);
-		lab.createNPC(null);
+		lab.createNPC("phone");
 
 		office.setExit("west", lab);
-		office.createNPC(null);
+		office.createNPC("dead plant");
 
 		basement.setExit("up", pub);
-		basement.createNPC(null);
+		basement.createNPC("baseball cap");
 
 		currentRoom = outside; // start game outside
 		currentRoom.addRoomEntry();
