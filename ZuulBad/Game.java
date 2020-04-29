@@ -174,7 +174,7 @@ public class Game {
 			currentRoom = nextRoom;
 			System.out.println(currentRoom.getLongDescription());
 			System.out.println();
-			System.out.println(currentRoom.returnNpcMessage());
+			System.out.println(currentRoom.getNpcMessage());
 			currentRoom.addRoomEntry();
 		}
 	}

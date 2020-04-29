@@ -108,15 +108,15 @@ public class Room
      * @return Message from NPC
      */
     
-    public String getNpcMessage() {
-    	String message;
-    	if (roomentries == 0) {
-    	message = npc.getMessage();
-    	} else {
-    	message = "You have already been here.";
-    	}
-    	return message;
-    }
+	public String getNpcMessage() {
+		String message;
+		if (roomentries == 0) {
+			message = npc.getMessage();
+		} else {
+			message = "You have already been here.";
+		}
+		return message;
+	}
     
     /**
 	 * Gets hint from NPC.
