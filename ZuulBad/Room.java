@@ -43,8 +43,7 @@ public class Room
     }
     
     public void createNPC(String itemforhint) {
-    	 npc = new NonPlayerCharacter();
-    	 npcitem = itemforhint;
+    	 npc = new NonPlayerCharacter(itemforhint);
     }
 
     /**
@@ -109,10 +108,10 @@ public class Room
      * @return Message from NPC
      */
     
-    public String returnNpcMessage() {
+    public String getNpcMessage() {
     	String message;
     	if (roomentries == 0) {
-    	message = npc.returnMessage();
+    	message = npc.getMessage();
     	} else {
     	message = "You have already been here.";
     	}
@@ -125,16 +124,8 @@ public class Room
 	 * @param Item that unlocks hint
 	 * @return Hint from NPC
 	 */
-	public String returnNpcHint(String item) {
-		if (npcitem == null) {
-			return "I do not have a hint for you";
-		} else {
-			if (item.equals(npcitem)) {
-				return npc.returnHint();
-			} else {
-				return "This is not the item I wanted.";
-			}
-		}
+	public String getNpcHint(String item) {
+		return npc.getHint(item);
 	}
 
     /**
