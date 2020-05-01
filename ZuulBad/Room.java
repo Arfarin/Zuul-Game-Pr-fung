@@ -23,7 +23,6 @@ public class Room
     private HashMap<String, Room> exits;        // stores exits of this room.
     
     private NonPlayerCharacter npc;
-    private String npcitem;
 	
 	private int roomentries;
 
@@ -45,6 +44,7 @@ public class Room
     public void createNPC(String itemforhint) {
     	 npc = new NonPlayerCharacter(itemforhint);
     }
+    
 
     /**
      * Define an exit from this room.
