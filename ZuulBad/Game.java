@@ -56,10 +56,12 @@ public class Game {
 
 		theater.setExit("west", outside);
 		theater.createNPC("nice smelling candle");
+		theater.createFoods("apple", "starfruit");
 
 		pub.setExit("east", outside);
 		pub.setExit("down", basement);
 		pub.createNPC("sock");
+		pub.createFoods("apple");
 
 		lab.setExit("north", outside);
 		lab.setExit("east", office);
@@ -173,6 +175,8 @@ public class Game {
 		} else {
 			currentRoom = nextRoom;
 			System.out.println(currentRoom.getLongDescription());
+			System.out.println("These are the items in the room:");
+			System.out.println(currentRoom.getItemList());
 			System.out.println();
 			System.out.println(currentRoom.getNpcMessage());
 			currentRoom.addRoomEntry();

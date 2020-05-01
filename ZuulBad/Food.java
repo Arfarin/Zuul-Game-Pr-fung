@@ -2,14 +2,15 @@ package ZuulBad;
 
 import java.util.HashMap;
 
-class Food extends Items {
+class Food extends Items{
 	int weight = 5;
 	private String name;
 	private HashMap<String, String> descriptions;
 	
 	public Food(String name) {
 		this.name = name;
-		fillDescriptions();
+		descriptions = new HashMap<>();
+		this.fillDescriptions();
 	}
 	
 	private final void fillDescriptions() {
@@ -18,4 +19,15 @@ class Food extends Items {
 		descriptions.put("starfruit", "This is a yummy starfruit");
 	}
 	
+	public String getDescription() {
+		return descriptions.get(name);
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getWeight() {
+		return weight;
+	}
 }

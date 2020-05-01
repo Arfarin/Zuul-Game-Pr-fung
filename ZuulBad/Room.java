@@ -1,6 +1,7 @@
 package ZuulBad;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -23,6 +24,7 @@ public class Room
     private HashMap<String, Room> exits;        // stores exits of this room.
     
     private NonPlayerCharacter npc;
+    private ArrayList<Items> itemlist= new ArrayList<>();
 	
 	private int roomentries;
 
@@ -36,6 +38,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<>();
+        itemlist = new ArrayList<>();
         
         roomentries = 0;
 
@@ -45,6 +48,27 @@ public class Room
     	 npc = new NonPlayerCharacter(itemforhint);
     }
     
+    public void createFoods(String...items) {
+    	for (String itemname : items) {
+    		Food food = new Food(itemname);
+    		itemlist.add(food);
+    	}
+    }
+    
+	public String getItemList() {
+		String itemstring;
+		if (itemlist.isEmpty()) {
+			itemstring = "There are no items in this room.";
+		} else {
+			StringBuilder itemsinroom = new StringBuilder();
+
+			for (Items item : itemlist) {
+				itemsinroom.append(item.getName() + " ");
+			}
+			itemstring = itemsinroom.toString();
+		}
+		return itemstring;
+	}
 
     /**
      * Define an exit from this room.
