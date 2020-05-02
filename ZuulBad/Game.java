@@ -23,14 +23,17 @@ public class Game {
 	private Parser parser;
 	private Room currentRoom;
 	private Player player;
+	private static Level DifficultyLevel;
 
 	/**
-	 * Create the game and initialise its internal map.
+	 * Create the game and initialize its internal map.
 	 */
 	public Game() {
-		createRooms();
 		parser = new Parser();
+		chooseLevelOfDifficulty();
+		createRooms();
 		player = new Player();
+		
 
 	}
 
@@ -81,10 +84,8 @@ public class Game {
 	 */
 	public void play() {
 		printWelcome();
-		getUsersBackpackSettings();
 		System.out.println(currentRoom.getLongDescription());
-		
-		
+
 		// Enter the main command loop. Here we repeatedly read commands and
 		// execute them until the game is over.
 
@@ -174,7 +175,7 @@ public class Game {
 			currentRoom = nextRoom;
 			System.out.println(currentRoom.getLongDescription());
 			System.out.println();
-			System.out.println(currentRoom.returnNpcMessage());
+//			System.out.println(currentRoom.returnNpcMessage());
 			currentRoom.addRoomEntry();
 		}
 	}
@@ -194,38 +195,58 @@ public class Game {
 		}
 	}
 
-	public void getUsersBackpackSettings() {
-
-		boolean answer;
-		answer = false;
-		int limitWeight;
+	public void chooseLevelOfDifficulty() {
 
 		System.out.println();
 		System.out.println(
-				"Please choose a backpack: Type in 10, 15 or 20 to get a backpack with the maximum portable weight of 10, 15 or 20 kilogram during this game.");
-		while (answer == false) {
-			String input = parser.getUserInput().trim();
-			if (input.equals("10") || input.equals("15") || input.equals("20")) {
-				limitWeight = Integer.parseInt(input);
-			} else {
-				limitWeight = 0;
-			}
+				"Let's see how much you withstand.. You can choose between the following three levels of difficulty: ");
+		System.out.println("Level 1: EASY - nice to start with");
+		System.out.println("Level 2: MEAN - don't underrate it");
+		System.out.println("Level 3: HEAVY - for tough guys and ladies");
+		System.out.println("Please type in EASY, MEAN or HEAVY");
 
-			if (limitWeight == 10 || limitWeight == 15 || limitWeight == 20) {
-				player.chooseBackpack(limitWeight);
-				System.out.println("All right. The maximum portable weight of your backpack is set to " + limitWeight
-						+ " kilogram.");
-				System.out.println();
-				answer = true;
-			} else {
-				System.out.println(
-						"You have to choose between 10, 15 and 20 kilogram. Please type in one of these numbers.");
-			}
+		String input = parser.getUserInput().trim().toUpperCase();
+		try {
+			DifficultyLevel = Level.valueOf(input);
+			System.out.println("Thank you. Level of difficulty is set to: " + input);
+		} 
+		catch (IllegalArgumentException e) {
+			System.out.println(input + " ist ungültig!");
+			System.out.println();
+			chooseLevelOfDifficulty();
+
+//			if (input.equals(1)) {
+//				limitWeight = 20;
+//				damageByMonsters = 1;  
+//				lifePoints = 25;
+//			}
+//			else if (input.equals("2")) {
+//				limitWeight = 15;
+//				damageByMonsters = 2;  
+//				lifePoints = 20;
+//			}
+//			else if (input.equals("3")) {
+//				limitWeight = 10;
+//				damageByMonsters = 3;  
+//				lifePoints = 18;
+//			}
+//			else { System.out.println("You have to choose between 10, 15 and 20 kilogram. Please type in one of these numbers.");
+//			answer = false;
+//			}
+//		}
+//
+//				System.out.println("All right, I got your choice. Here some information for you - probably helpful for this game:")
+//				System.out.println("Here you get a backpack with which you can carry things of a maximum weight of " + limitWeight + " kilogram.");
+//	
+//				player.chooseBackpack(limitWeight);
+//				room.setDamage();
+////				
+//				System.out.println();
+
 		}
 	}
-
-	// getUsersTimeLimitSettings()
-
-	// getUsersSettingsRateOfDamageCausedByMonsters
-
+	
+	public static Level getLevel() {
+		return DifficultyLevel;
+	}
 }

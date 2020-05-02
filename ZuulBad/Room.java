@@ -24,8 +24,8 @@ public class Room
     
     private NonPlayerCharacter npc;
     private String npcitem;
-	
 	private int roomentries;
+//	private Monster monster;
 
     /**
      * Create a room described "description". Initially, it has

@@ -18,10 +18,10 @@ public class Player {
 	public void eat() {
 		
 	}
-	
-	public void chooseBackpack(int maxWeight){
-		backpack.setMaxWeight(maxWeight);
-	}
+//	
+//		public void chooseBackpack(int maxWeight){
+//		backpack.setMaxWeight(maxWeight);
+//	}
 	
 	public void useWeapon() {
 		

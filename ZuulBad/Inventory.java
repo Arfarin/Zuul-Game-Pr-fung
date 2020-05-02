@@ -22,10 +22,29 @@ public class Inventory {
 	// Konstruktor
 	public Inventory() {
 		contents = new HashMap<String, Integer>();
-//		maxWeight = getUsersWeightSelection();
+		makeSettings();
 	}
 
-	public void setMaxWeight(int maxWeight) {
+	/**
+	 * sets the maximum weight of the inventory depending on the value set by the
+	 * user at the very beginning of the game.
+	 */
+	private void makeSettings() {
+		Level difficultyLevel = Game.getLevel();
+		Level[] levels = Level.values();
+		int index = 20;
+		for (Level lev : levels) {
+			if (difficultyLevel.equals(lev)) {
+				break;
+			} else {
+				index = index - 5;
+			}
+		}
+		setMaxWeight(index);
+		System.out.println("Here you get a backback. You can put things you find into it witch you will need later. It's maximum portable weight is " + maxWeight + " kilo.");
+	}
+
+	private void setMaxWeight(int maxWeight) {
 		this.maxWeight = maxWeight;
 	}
 
