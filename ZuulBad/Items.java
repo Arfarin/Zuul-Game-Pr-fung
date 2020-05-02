@@ -1,4 +1,5 @@
 
+
 	package ZuulBad;
 
 	public abstract class Items {
@@ -12,3 +13,4 @@
 		public abstract int getWeight();
 
 	}
+
