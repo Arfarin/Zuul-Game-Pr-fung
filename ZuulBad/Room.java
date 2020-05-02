@@ -1,6 +1,7 @@
 package ZuulBad;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,7 +14,7 @@ import java.util.HashMap;
  * connected to other rooms via exits.  For each existing exit, the room 
  * stores a reference to the neighboring room.
  * 
- * @author  Michael KÃ¶lling and David J. Barnes
+ * @author  Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
 
@@ -23,9 +24,9 @@ public class Room
     private HashMap<String, Room> exits;        // stores exits of this room.
     
     private NonPlayerCharacter npc;
-    private String npcitem;
+    private ArrayList<Items> itemlist= new ArrayList<>();
+	
 	private int roomentries;
-//	private Monster monster;
 
     /**
      * Create a room described "description". Initially, it has
@@ -37,6 +38,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<>();
+        itemlist = new ArrayList<>();
         
         roomentries = 0;
 
@@ -45,6 +47,28 @@ public class Room
     public void createNPC(String itemforhint) {
     	 npc = new NonPlayerCharacter(itemforhint);
     }
+    
+    public void createFoods(String...items) {
+    	for (String itemname : items) {
+    		Food food = new Food(itemname);
+    		itemlist.add(food);
+    	}
+    }
+    
+	public String getItemList() {
+		String itemstring;
+		if (itemlist.isEmpty()) {
+			itemstring = "There are no items in this room.";
+		} else {
+			StringBuilder itemsinroom = new StringBuilder();
+
+			for (Items item : itemlist) {
+				itemsinroom.append(item.getName() + " ");
+			}
+			itemstring = itemsinroom.toString();
+		}
+		return itemstring;
+	}
 
     /**
      * Define an exit from this room.
@@ -108,15 +132,15 @@ public class Room
      * @return Message from NPC
      */
     
-    public String getNpcMessage() {
-    	String message;
-    	if (roomentries == 0) {
-    	message = npc.getMessage();
-    	} else {
-    	message = "You have already been here.";
-    	}
-    	return message;
-    }
+	public String getNpcMessage() {
+		String message;
+		if (roomentries == 0) {
+			message = npc.getMessage();
+		} else {
+			message = "You have already been here.";
+		}
+		return message;
+	}
     
     /**
 	 * Gets hint from NPC.
@@ -136,4 +160,3 @@ public class Room
     }
     
 }
-

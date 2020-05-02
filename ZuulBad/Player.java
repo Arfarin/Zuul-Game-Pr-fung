@@ -3,7 +3,8 @@ package ZuulBad;
 public class Player {
 	
 	Inventory backpack;
-	private int lifebar;
+	private int lifeBar;
+	private int foodBar;
 
 	public Player() {
 		backpack = new Inventory();
