@@ -30,17 +30,8 @@ public class Inventory {
 	 * user at the very beginning of the game.
 	 */
 	private void makeSettings() {
-		Level difficultyLevel = Game.getLevel();
-		Level[] levels = Level.values();
-		int index = 20;
-		for (Level lev : levels) {
-			if (difficultyLevel.equals(lev)) {
-				break;
-			} else {
-				index = index - 5;
-			}
-		}
-		setMaxWeight(index);
+		
+		setMaxWeight(Level.setValue(20, -5));
 		System.out.println("Here you get a backback. You can put things you find into it witch you will need later. It's maximum portable weight is " + maxWeight + " kilo.");
 	}
 

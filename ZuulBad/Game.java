@@ -208,16 +208,8 @@ public class Game {
 	}
 	
 	private void setTime() {
-		Level[] levels = Level.values();
-		int index = 30;
-		for (Level lev : levels) {
-			if (difficultyLevel.equals(lev)) {
-				break;
-			} else {
-				index = index - 5;
-			}
-		}
-		time = index;
+		time = Level.setValue(30, -5);
+		System.out.println("You can change room for " +time+ " times. Afterwards the game is over if you had not reached the goal until that time.");
 	}
 	
 	private boolean timeOver (int time){

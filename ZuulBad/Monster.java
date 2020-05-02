@@ -20,17 +20,8 @@ public class Monster {
 	 */
 	
 	public void setDamage() {
-		Level difficultyLevel = Game.getLevel();
-		Level[] levels = Level.values();
-		int index = 1;
-		for (Level lev : levels) {
-			if (difficultyLevel.equals(lev)) {
-				break;
-			} else {
-				index++;
-			}
-		}
-		damage = index;
-//		System.out.println("Monsters will reduce " + index + " points of life per attack.");
+		
+		damage = Level.setValue(1, 1);
+	//	System.out.println("Monsters will reduce " + damage + " points of life per attack.");
 	}
 }
