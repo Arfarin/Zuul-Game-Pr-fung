@@ -23,14 +23,22 @@ public class Game {
 	private Parser parser;
 	private Room currentRoom;
 	private Player player;
+	private static Level difficultyLevel;
+	
+	/**
+	 * how much time the game should last
+	 */
+	private int time;
 
 	/**
-	 * Create the game and initialise its internal map.
+	 * Create the game and initialize its internal map.
 	 */
 	public Game() {
-		createRooms();
 		parser = new Parser();
+		chooseLevelOfDifficulty();
+		createRooms();
 		player = new Player();
+		setTime();
 
 	}
 
@@ -83,10 +91,8 @@ public class Game {
 	 */
 	public void play() {
 		printWelcome();
-		getUsersBackpackSettings();
 		System.out.println(currentRoom.getLongDescription());
-		
-		
+
 		// Enter the main command loop. Here we repeatedly read commands and
 		// execute them until the game is over.
 
@@ -137,6 +143,7 @@ public class Game {
 		} else if (commandWord.equals("eat")) {
 			player.eat();
 		}
+		wantToQuit = timeOver(time);
 		return wantToQuit;
 	}
 
@@ -180,6 +187,8 @@ public class Game {
 			System.out.println();
 			System.out.println(currentRoom.getNpcMessage());
 			currentRoom.addRoomEntry();
+			time--;
+//			System.out.println(checkLevel(time));
 		}
 	}
 
@@ -197,39 +206,55 @@ public class Game {
 			return true; // signal that we want to quit
 		}
 	}
+	
+	private void setTime() {
+		time = Level.setValue(30, -5);
+		System.out.println("You can change room for " +time+ " times. Afterwards the game is over if you had not reached the goal until that time.");
+	}
+	
+	private boolean timeOver (int time){
+		if (time<1) {
+			System.out.println("Time is over.");
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+//	private String checkLevel(int feature) {
+//		if (feature <= 5) {
+//			System.out.println("Almost over. Status of "+ feature);
+//		}
+//	}
 
-	public void getUsersBackpackSettings() {
-
-		boolean answer;
-		answer = false;
-		int limitWeight;
+	public void chooseLevelOfDifficulty() {
 
 		System.out.println();
 		System.out.println(
-				"Please choose a backpack: Type in 10, 15 or 20 to get a backpack with the maximum portable weight of 10, 15 or 20 kilogram during this game.");
-		while (answer == false) {
-			String input = parser.getUserInput().trim();
-			if (input.equals("10") || input.equals("15") || input.equals("20")) {
-				limitWeight = Integer.parseInt(input);
-			} else {
-				limitWeight = 0;
-			}
+				"Let's see how much you withstand.. You can choose between the following three levels of difficulty: ");
+		System.out.println("Level 1: EASY - nice to start with");
+		System.out.println("Level 2: MEAN - don't underrate it");
+		System.out.println("Level 3: HEAVY - for tough guys and ladies");
+		System.out.println("Please type in EASY, MEAN or HEAVY");
 
-			if (limitWeight == 10 || limitWeight == 15 || limitWeight == 20) {
-				player.chooseBackpack(limitWeight);
-				System.out.println("All right. The maximum portable weight of your backpack is set to " + limitWeight
-						+ " kilogram.");
-				System.out.println();
-				answer = true;
-			} else {
-				System.out.println(
-						"You have to choose between 10, 15 and 20 kilogram. Please type in one of these numbers.");
-			}
+		String input = parser.getUserInput().trim().toUpperCase();
+		try {
+			difficultyLevel = Level.valueOf(input);
+			System.out.println("Thank you. Level of difficulty is set to: " + input);
+		} 
+		catch (IllegalArgumentException e) {
+			System.out.println(input + " ist ungültig!");
+			System.out.println();
+			chooseLevelOfDifficulty();
 		}
 	}
-
-	// getUsersTimeLimitSettings()
-
-	// getUsersSettingsRateOfDamageCausedByMonsters
-
+	
+	/**
+	 * Getter for the level of difficulty. For the classes player and monster to set the maximum weight of backpack and the damage of one attack 
+	 * @return the level of difficulty set by the user at the beginning of the Game
+	 */
+	public static Level getLevel() {
+		return difficultyLevel;
+	}
 }
