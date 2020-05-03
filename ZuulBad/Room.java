@@ -48,13 +48,12 @@ public class Room
     	 npc = new NonPlayerCharacter(itemforhint);
     }
     
-    public void createFoods(String...items) {
-    	for (String itemname : items) {
-    		Food food = new Food(itemname);
-    		itemlist.add(food);
+    public void fillItemList(Items...items) {
+    	for (Items individualitem : items) {
+    		itemlist.add(individualitem);
     	}
     }
-    
+
 	public String getItemList() {
 		String itemstring;
 		if (itemlist.isEmpty()) {
@@ -68,6 +67,33 @@ public class Room
 			itemstring = itemsinroom.toString();
 		}
 		return itemstring;
+	}
+	
+	public void useItem(String selecteditem) {
+		if (itemlist.isEmpty()) {
+			System.out.println("There are no items in this room.");
+		} else {
+			for (Items storeditem : itemlist) {
+				String itemname = storeditem.getName();
+
+				if (itemname.equals(selecteditem)) {
+					itemlist.remove(storeditem);
+				}
+			}
+		}
+	}
+
+	public boolean containsItem(String specificitem) {
+		boolean contains = false;
+		
+		for (Items storeditem : itemlist) {
+			String itemname = storeditem.getName();
+			
+			if (itemname.equals(specificitem)) {
+				contains = true;
+			}
+		}
+		return contains;
 	}
 
     /**
@@ -97,7 +123,9 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + ".\n" + getExitString() + "\n\n" +
+        "These are the items in the room:" + "\n" +
+		getItemList() + "\n\n"+ getNpcMessage();
     }
 
     /**
@@ -137,8 +165,9 @@ public class Room
 		if (roomentries == 0) {
 			message = npc.getMessage();
 		} else {
-			message = "You have already been here.";
+			message = "You have already entered this room.";
 		}
+		addRoomEntry();
 		return message;
 	}
     

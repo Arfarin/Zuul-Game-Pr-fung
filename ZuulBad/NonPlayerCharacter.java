@@ -26,7 +26,7 @@ public class NonPlayerCharacter {
 	}
 	
 	private final void fillMessages() {
-		messages.put("old book", "My name is Heinz, but feel free to call me pickle. Got something for me?");
+		messages.put("old book", "Welcome to the castle!");
 		messages.put("nice smelling candle", "Ugh, why do they always let me deal with the lost people?");
 		messages.put("sock", "Hey there! Make yourself feel at home.");
 		messages.put("phone", "Omg be careful, you almost stepped on my dog!");

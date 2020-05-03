@@ -23,6 +23,7 @@ public class Game {
 	private Parser parser;
 	private Room currentRoom;
 	private Player player;
+	private Printer printer;
 	private static Level difficultyLevel;
 	
 	/**
@@ -35,6 +36,7 @@ public class Game {
 	 */
 	public Game() {
 		parser = new Parser();
+		printer = new Printer();
 		chooseLevelOfDifficulty();
 		createRooms();
 		player = new Player();
@@ -47,6 +49,10 @@ public class Game {
 	 */
 	private void createRooms() {
 		Room outside, theater, pub, lab, office, basement;
+		
+		Food banana, apple, starfruit;
+		Weapon toothpick, bananapeel, glass;
+		
 
 		// create the rooms
 		outside = new Room("outside the main entrance of the university");
@@ -55,42 +61,54 @@ public class Game {
 		lab = new Room("in a computing lab");
 		office = new Room("in the computing admin office");
 		basement = new Room("down in the spooky basement");
+		
+		//create the items
+		banana = new Food("banana");
+		apple = new Food("apple");
+		starfruit = new Food("starfruit");
+		
+		toothpick = new Weapon("toothpick");
+		bananapeel = new Weapon("banana peel");
+		glass = new Weapon("piece of glass");
+		
 
 		// initialise room exits
 		outside.setExit("east", theater);
 		outside.setExit("south", lab);
 		outside.setExit("west", pub);
-		outside.createNPC("old book");
 
 		theater.setExit("west", outside);
-		theater.createNPC("nice smelling candle");
-		theater.createFoods("apple", "starfruit");
 
 		pub.setExit("east", outside);
 		pub.setExit("down", basement);
-		pub.createNPC("sock");
-		pub.createFoods("apple");
 
 		lab.setExit("north", outside);
 		lab.setExit("east", office);
-		lab.createNPC("phone");
 
 		office.setExit("west", lab);
-		office.createNPC("dead plant");
 
 		basement.setExit("up", pub);
+		
+		//initialize NPC
+		outside.createNPC("old book");
+		theater.createNPC("nice smelling candle");
+		pub.createNPC("sock");
+		lab.createNPC("phone");
+		office.createNPC("dead plant");
 		basement.createNPC("baseball cap");
+		
+		//initialize food
+		theater.fillItemList(apple, toothpick);
+		lab.fillItemList(banana, starfruit);
 
 		currentRoom = outside; // start game outside
-		currentRoom.addRoomEntry();
-
 	}
 
 	/**
 	 * Main play routine. Loops until end of play.
 	 */
 	public void play() {
-		printWelcome();
+		printer.printWelcome();
 		System.out.println(currentRoom.getLongDescription());
 
 		// Enter the main command loop. Here we repeatedly read commands and
@@ -102,17 +120,6 @@ public class Game {
 			finished = processCommand(command);
 		}
 		System.out.println("Thank you for playing.  Good bye.");
-	}
-
-	/**
-	 * Print out the opening message for the player.
-	 */
-	private void printWelcome() {
-		System.out.println();
-		System.out.println("Welcome to the World of Zuul!");
-		System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-		System.out.println("Type 'help' if you need help.");
-
 	}
 
 	/**
@@ -131,7 +138,7 @@ public class Game {
 
 		String commandWord = command.getCommandWord();
 		if (commandWord.equals("help")) {
-			printHelp();
+			printer.printHelp(parser);
 		} else if (commandWord.equals("go")) {
 			goRoom(command);
 		} else if (commandWord.equals("quit")) {
@@ -141,24 +148,10 @@ public class Game {
 		else if (commandWord.equals("look")) {
 			player.lookAround(currentRoom);
 		} else if (commandWord.equals("eat")) {
-			player.eat();
+			eat(command);
 		}
 		wantToQuit = timeOver(time);
 		return wantToQuit;
-	}
-
-	// implementations of user commands:
-
-	/**
-	 * Print out some help information. Here we print some stupid, cryptic message
-	 * and a list of the command words.
-	 */
-	private void printHelp() {
-		System.out.println("You are lost. You are alone. You wander");
-		System.out.println("around at the university.");
-		System.out.println();
-		System.out.println("Your command words are:");
-		System.out.println(parser.showCommands());
 	}
 
 	/**
@@ -182,12 +175,8 @@ public class Game {
 		} else {
 			currentRoom = nextRoom;
 			System.out.println(currentRoom.getLongDescription());
-			System.out.println("These are the items in the room:");
-			System.out.println(currentRoom.getItemList());
-			System.out.println();
-			System.out.println(currentRoom.getNpcMessage());
-			currentRoom.addRoomEntry();
 			time--;
+			printer.printRemainingTime(time);
 //			System.out.println(checkLevel(time));
 		}
 	}
@@ -207,9 +196,27 @@ public class Game {
 		}
 	}
 	
+	public void eat(Command command) {
+		String secondword = command.getSecondWord();
+		
+		if (!command.hasSecondWord()) { // check if user specified item to eat
+			System.out.println("Eat what?"); 
+		} else if (currentRoom.containsItem(secondword)){ // if item in room, eat it
+			
+			currentRoom.useItem(secondword);
+			player.addFood();
+			
+		} else { // if item is not in room, go to inventory
+			
+			System.out.println("This item is not in the room");
+			// check if item is in inventory
+			player.eat();
+		}
+	}
+
 	private void setTime() {
 		time = Level.setValue(30, -5);
-		System.out.println("You can change room for " +time+ " times. Afterwards the game is over if you had not reached the goal until that time.");
+		printer.printRemainingTime(time);
 	}
 	
 	private boolean timeOver (int time){
@@ -230,13 +237,7 @@ public class Game {
 
 	public void chooseLevelOfDifficulty() {
 
-		System.out.println();
-		System.out.println(
-				"Let's see how much you withstand.. You can choose between the following three levels of difficulty: ");
-		System.out.println("Level 1: EASY - nice to start with");
-		System.out.println("Level 2: MEAN - don't underrate it");
-		System.out.println("Level 3: HEAVY - for tough guys and ladies");
-		System.out.println("Please type in EASY, MEAN or HEAVY");
+		printer.printDifficultyChoices();
 
 		String input = parser.getUserInput().trim().toUpperCase();
 		try {
@@ -249,6 +250,7 @@ public class Game {
 			chooseLevelOfDifficulty();
 		}
 	}
+	
 	
 	/**
 	 * Getter for the level of difficulty. For the classes player and monster to set the maximum weight of backpack and the damage of one attack 

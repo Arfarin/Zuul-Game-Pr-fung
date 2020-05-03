@@ -27,4 +27,8 @@ public class Player {
 	public void useWeapon() {
 		
 	}
+	
+	public void addFood() {
+		foodBar++;
+	}
 }

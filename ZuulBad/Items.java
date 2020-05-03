@@ -1,16 +1,25 @@
+package ZuulBad;
 
+import java.util.HashMap;
 
-	package ZuulBad;
+public abstract class Items {
 
-	public abstract class Items {
-
-		int weight;
-		private String name;
-		private String description;
+		protected int weight;
+		protected String name;
+		protected String description;
+		protected HashMap<String, String> descriptions;
 		
-		public abstract String getDescription();
-		public abstract String getName();
-		public abstract int getWeight();
+		public String getDescription() {
+			return description;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public int getWeight() {
+			return weight;
+		}
 
-	}
+}
 
