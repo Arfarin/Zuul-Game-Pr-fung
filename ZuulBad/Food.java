@@ -1,15 +1,22 @@
 package ZuulBad;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+/**
+ * This class is responsible for food items in the game.
+ * 
+ * @author Katerina Matsyova
+ *
+ */
 
 class Food extends Items {
 	int weight = 5;
-	public static String[] foodlist;
 
 	public Food(String name) {
 		this.name = name;
 		descriptions = new HashMap<>();
-		this.fillDescriptions();
+		fillDescriptions();
 		description = descriptions.get(name);
 	}
 
@@ -19,5 +26,13 @@ class Food extends Items {
 		descriptions.put("starfruit", "This is a yummy starfruit");
 	}
 	
-
+	public boolean isFood() {
+		
+		if (descriptions.containsKey(name)) {
+			return true;
+		} else {
+		System.out.println("This item is not food!");
+		return false;
+		}
+	}
 }

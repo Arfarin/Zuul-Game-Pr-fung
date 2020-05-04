@@ -44,9 +44,21 @@ public class Room
 
     }
     
+    /**
+     * Creates a Non Player Character in the room
+     * 
+     * @param itemforhint The item that the NPC wants in return for a hint
+     */
+    
     public void createNPC(String itemforhint) {
     	 npc = new NonPlayerCharacter(itemforhint);
     }
+    
+    /**
+     * Creates an item list for the room
+     * 
+     * @param items List of items to be added to the room
+     */
     
     public void fillItemList(Items...items) {
     	for (Items individualitem : items) {
@@ -54,6 +66,12 @@ public class Room
     	}
     }
 
+    /**
+     * Converts the list with items into a String.
+     * 
+     * @return String with all items currently in the room
+     */
+    
 	public String getItemList() {
 		String itemstring;
 		if (itemlist.isEmpty()) {
@@ -69,27 +87,41 @@ public class Room
 		return itemstring;
 	}
 	
-	public void useItem(String selecteditem) {
-		if (itemlist.isEmpty()) {
-			System.out.println("There are no items in this room.");
-		} else {
-			for (Items storeditem : itemlist) {
-				String itemname = storeditem.getName();
 
-				if (itemname.equals(selecteditem)) {
-					itemlist.remove(storeditem);
-				}
+	/**
+	 * Causes a deletion of the item from the room's item list.
+	 * 
+	 * @param selecteditem Item to be used
+	 * @return boolean whether item was removed
+	 */
+	
+	public boolean useItem(Items specificitem) {
+
+		for (Items item : itemlist) { // for all items in room check if name is the same as the user input
+			if (specificitem.getName().equals(item.getName())) { 
+				itemlist.remove(item);
+				System.out.println(specificitem.getName() + " was used.");
+				return true; 
+				// this return statement has the function of terminating the loop when value is found
 			}
 		}
+		return false;
 	}
+	
+	
+	/**
+	 * Checks if the specified item is in the room.
+	 * 
+	 * @param specificitem Item to be checked
+	 * @return boolean whether item is in room or not
+	 */
 
-	public boolean containsItem(String specificitem) {
+	public boolean containsItem(Items specificitem) {
+		
 		boolean contains = false;
 		
-		for (Items storeditem : itemlist) {
-			String itemname = storeditem.getName();
-			
-			if (itemname.equals(specificitem)) {
+		for (Items item : itemlist) { // for all items in room check if name is the same as the user input
+			if (specificitem.getName().equals(item.getName())) { 
 				contains = true;
 			}
 		}

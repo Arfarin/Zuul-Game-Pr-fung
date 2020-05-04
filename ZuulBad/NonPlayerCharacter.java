@@ -43,14 +43,15 @@ public class NonPlayerCharacter {
 		hints.put("baseball cap", "empty string");
 	}
 	
+	
 	public String getMessage() {
 
 		String message = messages.get(wanteditem);
 		return message;
 	}
 	
-	public String getHint(String givenitem) {
-		if (givenitem.equals(wanteditem)) {
+	public String getHint(String itemname) {
+		if (itemname.equals(wanteditem)) {
 			return hints.get(wanteditem);
 		} else {
 			return "This is not the item I wanted.";

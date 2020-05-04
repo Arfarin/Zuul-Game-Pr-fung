@@ -52,6 +52,7 @@ public class Game {
 		
 		Food banana, apple, starfruit;
 		Weapon toothpick, bananapeel, glass;
+		Valuable book;
 		
 
 		// create the rooms
@@ -70,6 +71,8 @@ public class Game {
 		toothpick = new Weapon("toothpick");
 		bananapeel = new Weapon("banana peel");
 		glass = new Weapon("piece of glass");
+	
+		book = new Valuable("old book");
 		
 
 		// initialise room exits
@@ -98,8 +101,10 @@ public class Game {
 		basement.createNPC("baseball cap");
 		
 		//initialize food
+		outside.fillItemList(book);
 		theater.fillItemList(apple, toothpick);
 		lab.fillItemList(banana, starfruit);
+		
 
 		currentRoom = outside; // start game outside
 	}
@@ -143,14 +148,18 @@ public class Game {
 			goRoom(command);
 		} else if (commandWord.equals("quit")) {
 			wantToQuit = quit(command);
-		}
-
-		else if (commandWord.equals("look")) {
+		} else if (commandWord.equals("look")) {
 			player.lookAround(currentRoom);
 		} else if (commandWord.equals("eat")) {
 			eat(command);
+		} else if (commandWord.equals("hint")) {
+			hint(command);
 		}
-		wantToQuit = timeOver(time);
+		
+//		if (wantToQuit = timeOver(time)) {
+//			wantToQuit = true;
+//		}
+		
 		return wantToQuit;
 	}
 
@@ -196,22 +205,32 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Eat a food item. The food item is either picked up from the room or retrieved from the
+	 * inventory if not available in the room.
+	 * @param command
+	 */
+	
 	public void eat(Command command) {
 		String secondword = command.getSecondWord();
+		Food food = new Food(secondword);
 		
 		if (!command.hasSecondWord()) { // check if user specified item to eat
-			System.out.println("Eat what?"); 
-		} else if (currentRoom.containsItem(secondword)){ // if item in room, eat it
+			System.out.println("Eat what?");
+		} else if (food.isFood()&& currentRoom.containsItem(food)){ // if item in room, eat it
 			
-			currentRoom.useItem(secondword);
+			currentRoom.useItem(food);
 			player.addFood();
 			
 		} else { // if item is not in room, go to inventory
 			
-			System.out.println("This item is not in the room");
 			// check if item is in inventory
 			player.eat();
 		}
+	}
+	
+	private void hint(Command command) {
+		System.out.println(currentRoom.getNpcHint("old book"));
 	}
 
 	private void setTime() {
