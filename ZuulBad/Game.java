@@ -156,9 +156,7 @@ public class Game {
 			hint(command);
 		}
 		
-//		if (wantToQuit = timeOver(time)) {
-//			wantToQuit = true;
-//		}
+		wantToQuit = timeOver(time);
 		
 		return wantToQuit;
 	}
