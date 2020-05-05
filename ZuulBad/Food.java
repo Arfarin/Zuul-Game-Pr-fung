@@ -31,7 +31,6 @@ class Food extends Items {
 		if (descriptions.containsKey(name)) {
 			return true;
 		} else {
-		System.out.println("This item is not food!");
 		return false;
 		}
 	}

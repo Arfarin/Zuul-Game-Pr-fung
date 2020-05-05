@@ -213,9 +213,11 @@ public class Game {
 		String secondword = command.getSecondWord();
 		Food food = new Food(secondword);
 		
+		if (food.isFood()) {
+		
 		if (!command.hasSecondWord()) { // check if user specified item to eat
 			System.out.println("Eat what?");
-		} else if (food.isFood()&& currentRoom.containsItem(food)){ // if item in room, eat it
+		} else if (currentRoom.containsItem(food)){ // if item in room, eat it
 			
 			currentRoom.useItem(food);
 			player.addFood();
@@ -224,6 +226,9 @@ public class Game {
 			
 			// check if item is in inventory
 			player.eat();
+		}
+		} else {
+			System.out.println("You cannot eat this.");
 		}
 	}
 	
