@@ -57,9 +57,7 @@ public class Parser
 				// note: we just ignore the rest of the input line.
 			}
 		}
-
 		return new Command(command, word2);
-
 	}
 
 	/**
