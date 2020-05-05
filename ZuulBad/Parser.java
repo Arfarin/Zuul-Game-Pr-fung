@@ -19,48 +19,48 @@ import java.util.Scanner;
  */
 public class Parser 
 {
-    private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
+    private CommandWords command;
 
     /**
      * Create a parser to read from the terminal window.
      */
     public Parser() 
     {
-        commands = new CommandWords();
         reader = new Scanner(System.in);
     }
 
     /**
      * @return The next command from the user.
      */
-    public Command getCommand() 
-    {
-        String inputLine;   // will hold the full input line
-        String word1 = null;
-        String word2 = null;
+	public Command getCommand() {
+		String inputLine; // will hold the full input line
+		String word1 = null;
+		String word2 = null;
 
-        inputLine = getUserInput();
+		inputLine = getUserInput();
 
-        // Find up to two words on the line.
-        Scanner tokenizer = new Scanner(inputLine);
-        if(tokenizer.hasNext()) {
-            word1 = tokenizer.next();      // get first word
-            if(tokenizer.hasNext()) {
-                word2 = tokenizer.next();      // get second word
-                // note: we just ignore the rest of the input line.
-            }
-        }
+		// Find up to two words on the line.
+		Scanner tokenizer = new Scanner(inputLine);
+		if (tokenizer.hasNext()) {
+			word1 = tokenizer.next().toUpperCase(); // get first word
+			try {
+				command = CommandWords.valueOf(word1);
+				
+			} catch (IllegalArgumentException e) { // throw exception if not a command word
 
-        // Now check whether this word is known. If so, create a command
-        // with it. If not, create a "null" command (for unknown command).
-        if(commands.isCommand(word1)) {
-            return new Command(word1, word2);
-        }
-        else {
-            return new Command(null, word2); 
-        }
-    }
+				command = null;
+			}
+
+			if (tokenizer.hasNext()) {
+				word2 = tokenizer.next(); // get second word
+				// note: we just ignore the rest of the input line.
+			}
+		}
+
+		return new Command(command, word2);
+
+	}
 
 	/**
 	 * @return the input typed in by the User
@@ -78,7 +78,7 @@ public class Parser
      */
     public String showCommands()
     {
-        String allcommands = commands.showAll();
+        String allcommands = command.showAll();
         return allcommands;
     }
 }
