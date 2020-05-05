@@ -24,6 +24,7 @@ public class Game {
 	private Room currentRoom;
 	private Player player;
 	private Printer printer;
+	
 	private static Level difficultyLevel;
 	
 	/**
@@ -133,6 +134,7 @@ public class Game {
 	 * @param command The command to be processed.
 	 * @return true If the command ends the game, false otherwise.
 	 */
+	
 	private boolean processCommand(Command command) {
 		boolean wantToQuit = false;
 
@@ -141,25 +143,30 @@ public class Game {
 			return false;
 		}
 
-		String commandWord = command.getCommandWord();
-		if (commandWord.equals("help")) {
-			printer.printHelp(parser);
-		} else if (commandWord.equals("go")) {
-			goRoom(command);
-		} else if (commandWord.equals("quit")) {
-			wantToQuit = quit(command);
-		} else if (commandWord.equals("look")) {
-			player.lookAround(currentRoom);
-		} else if (commandWord.equals("eat")) {
-			eat(command);
-		} else if (commandWord.equals("hint")) {
-			hint(command);
+		CommandWords commandWord = command.getCommandWord();
+		
+		switch(commandWord) {
+		case HELP: 
+			printer.printHelp(parser);break;
+		case GO: 
+			goRoom(command); break;
+		case QUIT:
+			wantToQuit = quit(command); break;
+		case LOOK:
+			player.lookAround(currentRoom); break;
+		case EAT:
+			eat(command); break;
+		case HINT:
+			hint(command); break;
 		}
 		
-		wantToQuit = timeOver(time);
-		
+		if(timeOver(time)) {
+			wantToQuit = true;
+		}
+
 		return wantToQuit;
 	}
+	
 
 	/**
 	 * Try to in to one direction. If there is an exit, enter the new room,
