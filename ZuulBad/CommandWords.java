@@ -11,7 +11,7 @@ package ZuulBad;
  * @version 2016.02.29
  */
 
-public class CommandWords
+public enum CommandWords
 {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
