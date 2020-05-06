@@ -1,21 +1,36 @@
 package ZuulBad;
 
-import java.util.HashMap;
+enum Weapon {
 
-class Weapon extends Items {
+	TOOTHPICK(2, "Might not look like much, but used the right way it is a magic tool."),
+	NAIL(4, "Old and rusty, but could be useful in the future."),
+	SWORD(10, "This must have belonged to a strong man and mighty soldier.");
 
-	int weight = 10;
+	private int weight;
+	private String description;
 
-	public Weapon(String name) {
-		this.name = name;
-		descriptions = new HashMap<>();
-		this.fillDescriptions();
-		description = descriptions.get(name);
+	Weapon(int weight, String description) {
+		this.weight = weight;
+		this.description = description;
 	}
 
-	private final void fillDescriptions() {
-		descriptions.put("toothpick", "Might not look like much, but used the right way it is a magic tool.");
-		descriptions.put("banana peel", "Finally, someone else is at the receiving end of the \"slippery slope\"");
-		descriptions.put("piece of glass", "This must have been part of a beautiful vase in the past, but try not to step on it.");
+	public String getDescription() {
+		return description;
 	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public boolean isWeapon(String name) {
+		boolean isweapon = false;
+
+		for (Weapon weapon : Weapon.values()) {
+			if (weapon.name().equals(name)) { // check if the string value matches any possible food name
+				isweapon = true;
+			}
+		}
+		return isweapon;
+	}
+
 }

@@ -52,9 +52,7 @@ public class Game {
 		Room outside, theater, pub, lab, office, basement;
 		
 		Food banana, apple, starfruit;
-		Weapon toothpick, bananapeel, glass;
-		Valuable book;
-		
+		Weapon toothpick, nail, sword;
 
 		// create the rooms
 		outside = new Room("outside the main entrance of the university");
@@ -64,19 +62,17 @@ public class Game {
 		office = new Room("in the computing admin office");
 		basement = new Room("down in the spooky basement");
 		
-		//create the items
-		banana = new Food("banana");
-		apple = new Food("apple");
-		starfruit = new Food("starfruit");
+		// create the items
+		banana = Food.BANANA;
+		apple = Food.APPLE;
+		starfruit = Food.STARFRUIT;
 		
-		toothpick = new Weapon("toothpick");
-		bananapeel = new Weapon("banana peel");
-		glass = new Weapon("piece of glass");
-	
-		book = new Valuable("old book");
+		toothpick = Weapon.TOOTHPICK;
+		nail = Weapon.NAIL;
+		sword = Weapon.SWORD;
 		
 
-		// initialise room exits
+		// initialize room exits
 		outside.setExit("east", theater);
 		outside.setExit("south", lab);
 		outside.setExit("west", pub);
@@ -101,11 +97,13 @@ public class Game {
 		office.createNPC("dead plant");
 		basement.createNPC("baseball cap");
 		
-		//initialize food
-		outside.fillItemList(book);
-		theater.fillItemList(apple, toothpick);
-		lab.fillItemList(banana, starfruit);
+		// add items
+		outside.addFood(starfruit);
+		theater.addFood(banana, apple);
+		lab.addFood(banana);
 		
+		theater.addWeapons(toothpick, sword);
+		lab.addWeapons(sword, nail);
 
 		currentRoom = outside; // start game outside
 	}
@@ -216,29 +214,37 @@ public class Game {
 	 * @param command
 	 */
 	
-	public void eat(Command command) {
+	public boolean eat(Command command) {
 		String secondword = command.getSecondWord();
-		Food food = new Food(secondword);
-		
-		if (food.isFood()) {
-		
-		if (!command.hasSecondWord()) { // check if user specified item to eat
+		Food food;
+
+		if (secondword == null) { // check if user specified item to eat
 			System.out.println("Eat what?");
-		} else if (currentRoom.containsItem(food)){ // if item in room, eat it
+			return false;
+		}
+
+		try {
+			food = Food.valueOf(secondword.toUpperCase());
 			
-			currentRoom.useItem(food);
+		} catch (IllegalArgumentException e) { // check if this String can be a food
+			
+			System.out.println("You cannot eat this!");
+			return false;
+		}
+
+		if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
+			currentRoom.eat(food);
 			player.addFood();
-			
+			return true;
+
 		} else { // if item is not in room, go to inventory
-			
+
 			// check if item is in inventory
 			player.eat();
-		}
-		} else {
-			System.out.println("You cannot eat this.");
+			return true;
 		}
 	}
-	
+
 	private void hint(Command command) {
 		System.out.println(currentRoom.getNpcHint("old book"));
 	}

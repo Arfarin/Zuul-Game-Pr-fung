@@ -1,35 +1,39 @@
 package ZuulBad;
 
-import java.util.HashMap;
+enum Valuable {
 
-public class Valuable extends Items {
+	BOOK(5, "Oh look, here is recipe for a love potion. Do you believe in that sort of thing?"),
+	CANDLE(3, "Lavender always makes me so sleepy..."),
+	SOCK(2, "This must have been useful to someone at some point."),
+	PHONE(6, "Sadly you don't know the PIN. Also, what is this doing in an old castle?"),
+	PLANT(5, "Try to get this to the owner ASAP, maybe they can still save it."),
+	HAT(3, "Quite fashionable if you are into that sort of thing.");
 	
-	int weight = 5;
+	private int weight;
+	private String description;
 
-	public Valuable(String name) {
-		this.name = name;
-		descriptions = new HashMap<>();
-		fillDescriptions();
-		description = descriptions.get(name);
+	Valuable(int weight, String description) {
+		this.weight = weight;
+		this.description = description;
 	}
 
-	private final void fillDescriptions() {
-		descriptions.put("old book", "Oh look, here is recipe for a love potion. Do you believe in that sort of thing?");
-		descriptions.put("nice smelling candle", "Lavender always makes me so sleepy...");
-		descriptions.put("sock", "This must have been useful to someone at some point.");
-		descriptions.put("phone", "Sadly you don't know the PIN. Also, what is this doing in an old castle?");
-		descriptions.put("dead plant", "Try to get this to the owner ASAP, maybe they can still save it.");
-		descriptions.put("baseball cap", "Quite fashionable if you are into that sort of thing.");
+	public String getDescription() {
+		return description;
 	}
-	
-	public boolean isValuable() {
-		
-		if (descriptions.containsKey(name)) {
-			return true;
-		} else {
-		System.out.println("This item is not a valuable!");
-		return false;
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public boolean isValuable(String name) {
+		boolean isvaluable = false;
+
+		for (Valuable valuable : Valuable.values()) {
+			if (valuable.name().equals(name)) { // check if the string value matches any possible food name
+				isvaluable = true;
+			}
 		}
+		return isvaluable;
 	}
 
 }

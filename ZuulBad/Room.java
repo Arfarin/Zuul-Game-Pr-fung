@@ -1,7 +1,6 @@
 package ZuulBad;
 
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -24,7 +23,7 @@ public class Room
     private HashMap<String, Room> exits;        // stores exits of this room.
     
     private NonPlayerCharacter npc;
-    private ArrayList<Items> itemlist= new ArrayList<>();
+    private Items itemlist;
 	
 	private int roomentries;
 
@@ -38,8 +37,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<>();
-        itemlist = new ArrayList<>();
-        
+        itemlist = new Items();
         roomentries = 0;
 
     }
@@ -54,17 +52,28 @@ public class Room
     	 npc = new NonPlayerCharacter(itemforhint);
     }
     
-    /**
-     * Creates an item list for the room
-     * 
-     * @param items List of items to be added to the room
-     */
-    
-    public void fillItemList(Items...items) {
-    	for (Items individualitem : items) {
-    		itemlist.add(individualitem);
-    	}
-    }
+	public void addFood(Food... fooditems) {
+		for (Food item : fooditems) {
+			itemlist.addFood(item);
+		}
+	}
+	
+	public void addWeapons(Weapon...weapons) {
+		for (Weapon weapon : weapons) {
+			itemlist.addWeapon(weapon);
+		}
+	}
+	
+	/**
+	 * Checks if the specified item is in the room.
+	 * 
+	 * @return boolean whether item is in room or not
+	 */
+
+	public boolean containsItem(String specificitem) {
+		
+		return itemlist.contains(specificitem);
+	}
 
     /**
      * Converts the list with items into a String.
@@ -73,60 +82,16 @@ public class Room
      */
     
 	public String getItemList() {
-		String itemstring;
-		if (itemlist.isEmpty()) {
-			itemstring = "There are no items in this room.";
-		} else {
-			StringBuilder itemsinroom = new StringBuilder();
-
-			for (Items item : itemlist) {
-				itemsinroom.append(item.getName() + " ");
-			}
-			itemstring = itemsinroom.toString();
-		}
-		return itemstring;
-	}
-	
-
-	/**
-	 * Causes a deletion of the item from the room's item list.
-	 * 
-	 * @param selecteditem Item to be used
-	 * @return boolean whether item was removed
-	 */
-	
-	public boolean useItem(Items specificitem) {
-
-		for (Items item : itemlist) { // for all items in room check if name is the same as the user input
-			if (specificitem.getName().equals(item.getName())) { 
-				itemlist.remove(item);
-				System.out.println(specificitem.getName() + " was used.");
-				return true; 
-				// this return statement has the function of terminating the loop when value is found
-			}
-		}
-		return false;
+		String items = itemlist.getItemList();
+		return items;
 	}
 	
 	
-	/**
-	 * Checks if the specified item is in the room.
-	 * 
-	 * @param specificitem Item to be checked
-	 * @return boolean whether item is in room or not
-	 */
-
-	public boolean containsItem(Items specificitem) {
-		
-		boolean contains = false;
-		
-		for (Items item : itemlist) { // for all items in room check if name is the same as the user input
-			if (specificitem.getName().equals(item.getName())) { 
-				contains = true;
-			}
-		}
-		return contains;
+	public void eat(Food food) {
+		itemlist.removeFood(food);
 	}
+	
+	
 
     /**
      * Define an exit from this room.
@@ -193,14 +158,16 @@ public class Room
      */
     
 	public String getNpcMessage() {
-		String message;
-		if (roomentries == 0) {
-			message = npc.getMessage();
+		
+		if (npc == null) {
+			return "";
+		} else if (roomentries > 0) {
+			return "You have already entered this room.";
 		} else {
-			message = "You have already entered this room.";
+			addRoomEntry();
+			return npc.getMessage();
 		}
-		addRoomEntry();
-		return message;
+
 	}
     
     /**
@@ -210,7 +177,11 @@ public class Room
 	 * @return Hint from NPC
 	 */
 	public String getNpcHint(String item) {
+		if (npc != null) {
 		return npc.getHint(item);
+		} else {
+			return "There is nobody to give you a hint";
+		}
 	}
 
     /**
