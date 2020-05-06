@@ -51,7 +51,7 @@ public class Items {
 			StringBuilder itemsinroom = new StringBuilder();
 
 			if (isEmpty()) {
-				return "There are no items in this room";
+				return "There are no items in here.";
 			} else {
 				if (!foodlist.isEmpty()) {
 					for (Food food : foodlist) {

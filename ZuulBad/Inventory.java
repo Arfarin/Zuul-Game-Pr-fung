@@ -12,6 +12,12 @@ public class Inventory {
 	 * specifies the current weight of the inventory
 	 */
 	private int currentWeight;
+	
+	
+	/**
+	 * the current content of the inventory
+	 */
+	 private Items content;
 
 	/**
 	 * stores the amount (as value) and the name/kind (as key) of the items in the
@@ -23,6 +29,7 @@ public class Inventory {
 	public Inventory() {
 		contents = new HashMap<String, Integer>();
 		makeSettings();
+		content = new Items();
 	}
 
 	/**

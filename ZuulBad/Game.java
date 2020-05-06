@@ -33,7 +33,7 @@ public class Game {
 	private int time;
 
 	/**
-	 * Create the game and initialize its internal map.
+	 * Create the game. Select a Level of Difficulty, initialize the rooms with their content and set the time-limit.
 	 */
 	public Game() {
 		parser = new Parser();
@@ -97,7 +97,7 @@ public class Game {
 		office.createNPC("dead plant");
 		basement.createNPC("baseball cap");
 		
-		// add items
+		// add items to rooms
 		outside.addFood(starfruit);
 		theater.addFood(banana, apple);
 		lab.addFood(banana);
@@ -167,7 +167,7 @@ public class Game {
 	
 
 	/**
-	 * Try to in to one direction. If there is an exit, enter the new room,
+	 * Try to move into one direction. If there is an exit, enter the new room,
 	 * otherwise print an error message.
 	 */
 	private void goRoom(Command command) {
@@ -189,7 +189,6 @@ public class Game {
 			System.out.println(currentRoom.getLongDescription());
 			time--;
 			printer.printRemainingTime(time);
-//			System.out.println(checkLevel(time));
 		}
 	}
 
@@ -264,6 +263,7 @@ public class Game {
 		}
 	}
 	
+//// Check status of lifeBar, time or foodBar 		
 //	private String checkLevel(int feature) {
 //		if (feature <= 5) {
 //			System.out.println("Almost over. Status of "+ feature);

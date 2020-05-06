@@ -13,7 +13,6 @@ public class NonPlayerCharacter {
 
 	private static HashMap<String, String> messages;
 	private static HashMap<String, String> hints;
-	
 	private String wanteditem;
 	
 	public NonPlayerCharacter(String wanteditem) {
