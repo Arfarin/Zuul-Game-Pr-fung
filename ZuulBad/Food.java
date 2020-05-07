@@ -7,7 +7,7 @@ package ZuulBad;
  *
  */
 
-enum Food {
+enum Food  {
 	BANANA(5, "This is a yummy banana"),
 	APPLE(5, "This is a yummy apple"),
 	STARFRUIT(5, "This is a yummy starfruit");
