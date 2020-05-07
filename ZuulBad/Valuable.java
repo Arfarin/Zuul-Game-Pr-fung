@@ -26,8 +26,9 @@ enum Valuable {
 		return weight;
 	}
 
-	public boolean isValuable(String name) {
+	public static boolean isValuable(String name) {
 		boolean isvaluable = false;
+		name = name.toUpperCase().trim();
 
 		for (Valuable valuable : Valuable.values()) {
 			if (valuable.name().equals(name)) { // check if the string value matches any possible food name

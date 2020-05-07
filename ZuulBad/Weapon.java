@@ -22,8 +22,9 @@ enum Weapon {
 		return weight;
 	}
 
-	public boolean isWeapon(String name) {
+	public static boolean isWeapon(String name) {
 		boolean isweapon = false;
+		name = name.toUpperCase().trim();
 
 		for (Weapon weapon : Weapon.values()) {
 			if (weapon.name().equals(name)) { // check if the string value matches any possible food name

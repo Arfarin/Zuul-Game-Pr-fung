@@ -22,16 +22,17 @@ public class Game {
 	private Room currentRoom;
 	private Player player;
 	private Printer printer;
-	
+
 	private static Level difficultyLevel;
-	
+
 	/**
 	 * how much time the game should last
 	 */
 	private int time;
 
 	/**
-	 * Create the game. Select a Level of Difficulty, initialize the rooms with their content and set the time-limit.
+	 * Create the game. Select a Level of Difficulty, initialize the rooms with
+	 * their content and set the time-limit.
 	 */
 	public Game() {
 		parser = new Parser();
@@ -48,7 +49,7 @@ public class Game {
 	 */
 	private void createRooms() {
 		Room outside, theater, pub, lab, office, basement;
-		
+
 		Food banana, apple, starfruit;
 		Weapon toothpick, nail, sword;
 
@@ -59,16 +60,15 @@ public class Game {
 		lab = Room.LAB;
 		office = Room.OFFICE;
 		basement = Room.BASEMENT;
-		
+
 		// create the items
 		banana = Food.BANANA;
 		apple = Food.APPLE;
 		starfruit = Food.STARFRUIT;
-		
+
 		toothpick = Weapon.TOOTHPICK;
 		nail = Weapon.NAIL;
 		sword = Weapon.SWORD;
-		
 
 		// initialize room exits
 		outside.setExit("east", theater);
@@ -86,23 +86,23 @@ public class Game {
 		office.setExit("west", lab);
 
 		basement.setExit("up", pub);
-		
-		//initialize NPC
+
+		// initialize NPC
 		outside.createNPC("old book");
 		theater.createNPC("nice smelling candle");
 		pub.createNPC("sock");
 		lab.createNPC("phone");
 		office.createNPC("dead plant");
 		basement.createNPC("baseball cap");
-		
+
 		// add items to rooms
 		outside.addFood(starfruit);
 		theater.addFood(banana, apple);
 		lab.addFood(banana);
-		
+
 		theater.addWeapons(toothpick, sword);
 		lab.addWeapons(sword, nail);
-		
+
 		// set up Monsters and locked status
 		office.lockRoom();
 
@@ -133,7 +133,7 @@ public class Game {
 	 * @param command The command to be processed.
 	 * @return true If the command ends the game, false otherwise.
 	 */
-	
+
 	private boolean processCommand(Command command) {
 		boolean wantToQuit = false;
 
@@ -143,29 +143,36 @@ public class Game {
 		}
 
 		CommandWords commandWord = command.getCommandWord();
-		
-		switch(commandWord) {
-		case HELP: 
-			printer.printHelp(parser);break;
-		case GO: 
-			goRoom(command); break;
+
+		switch (commandWord) {
+		case HELP:
+			printer.printHelp(parser);
+			break;
+		case GO:
+			goRoom(command);
+			break;
 		case QUIT:
-			wantToQuit = quit(command); break;
+			wantToQuit = quit(command);
+			break;
 		case LOOK:
-			player.lookAround(currentRoom); break;
+			player.lookAround(currentRoom);
+			break;
 		case EAT:
-			eat(command); break;
+			eat(command);
+			break;
 		case HINT:
-			hint(command); break;
+			hint(command);
+			break;
+		case STORE:
+			store(command);
 		}
-		
-		if(timeOver(time)) {
+
+		if (timeOver(time)) {
 			wantToQuit = true;
 		}
 
 		return wantToQuit;
 	}
-	
 
 	/**
 	 * Try to move into one direction. If there is an exit, enter the new room,
@@ -182,18 +189,21 @@ public class Game {
 
 		// Try to leave current room.
 		Room nextRoom = currentRoom.getExit(direction);
-		
+
 		if (nextRoom == null) {
 			System.out.println("There is no door!");
-			
+
 		} else if (nextRoom.isLocked()) {
-				System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
-		
+			System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
+
 		} else {
 			currentRoom = nextRoom;
 			System.out.println(currentRoom.getLongDescription());
 			time--;
+			player.getHungry();
+			player.increaseLifeBar();
 			printer.printRemainingTime(time);
+			
 		}
 	}
 
@@ -211,13 +221,14 @@ public class Game {
 			return true; // signal that we want to quit
 		}
 	}
-	
+
 	/**
-	 * Eat a food item. The food item is either picked up from the room or retrieved from the
-	 * inventory if not available in the room.
+	 * Eat a food item. The food item is either picked up from the room or retrieved
+	 * from the inventory if not available in the room.
+	 * 
 	 * @param command
 	 */
-	
+
 	public boolean eat(Command command) {
 		String secondword = command.getSecondWord();
 		Food food;
@@ -229,45 +240,89 @@ public class Game {
 
 		try {
 			food = Food.valueOf(secondword.toUpperCase());
-			
+
 		} catch (IllegalArgumentException e) { // check if this String can be a food
-			
-			System.out.println("You cannot eat this!");
+
+			System.out.println("You can not eat '" + secondword + "'.");
 			return false;
 		}
 
 		if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
-			currentRoom.eat(food);
-			player.addFood();
+			currentRoom.removeItem(food);
+			player.increaseFoodBar();
 			return true;
-
 		} else { // if item is not in room, go to inventory
-
-			// check if item is in inventory
-			player.eat();
-			return true;
+			if (player.backpackContainsItem(food.toString())) {
+				player.eat(food);
+				return true;
+			} else {
+				System.out.println("This food is not available at the moment.");
+				System.out.println(printer.getFoodHint());
+				return false;
+			}
 		}
+
 	}
 
 	private void hint(Command command) {
 		System.out.println(currentRoom.getNpcHint("old book"));
 	}
 
+	private boolean store(Command command) {
+		String secondWord = command.getSecondWord();
+		Object object;
+		boolean isStorable = false;
+
+		if (secondWord == null) { // check if user specified item to store
+			System.out.println("Store what?");
+			return false;
+		}
+
+//	else if (Food.isFood(secondWord) || Weapon.isWeapon(secondWord) || Valuable.isValuable(secondWord)) {
+		try {
+			object = Food.valueOf(secondWord.toUpperCase());
+		} catch (IllegalArgumentException e) {
+
+			try {
+				object = Weapon.valueOf(secondWord.toUpperCase());
+			} catch (IllegalArgumentException f) {
+
+				try {
+					object = Valuable.valueOf(secondWord.toUpperCase());
+				} catch (IllegalArgumentException g) {
+					System.out.println("You can not store that.");
+					return false;
+
+				}
+			}
+		}
+		if (currentRoom.containsItem(object.toString())) { // if item is in current room, store it
+			currentRoom.removeItem(object);
+			player.putItemIntoBackpack(object);
+			System.out.println(secondWord.toUpperCase() + " successfully stored");
+			return true;
+
+		} else {
+			System.out.println("This item is not available at the moment.");
+			System.out.println(printer.getItemHint());
+			return false;
+		}
+	}
+
 	private void setTime() {
 		time = Level.setValue(30, -5);
 		printer.printRemainingTime(time);
 	}
-	
-	private boolean timeOver (int time){
-		if (time<1) {
+
+	private boolean timeOver(int time) {
+		if (time < 1) {
 			System.out.println("Time is over.");
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
-	
+
 //// Check status of lifeBar, time or foodBar 		
 //	private String checkLevel(int feature) {
 //		if (feature <= 5) {
@@ -283,17 +338,17 @@ public class Game {
 		try {
 			difficultyLevel = Level.valueOf(input);
 			System.out.println("Thank you. Level of difficulty is set to: " + input);
-		} 
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			System.out.println(input + " ist ungültig!");
 			System.out.println();
 			chooseLevelOfDifficulty();
 		}
 	}
-	
-	
+
 	/**
-	 * Getter for the level of difficulty. For the classes player and monster to set the maximum weight of backpack and the damage of one attack 
+	 * Getter for the level of difficulty. For the classes player and monster to set
+	 * the maximum weight of backpack and the damage of one attack
+	 * 
 	 * @return the level of difficulty set by the user at the beginning of the Game
 	 */
 	public static Level getLevel() {

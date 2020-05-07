@@ -117,11 +117,21 @@ enum Room{
 		return items;
 	}
 	
-	
-	public void eat(Food food) {
-		itemlist.removeFood(food);
-	}
-	
+	public void removeItem(Object object) {
+		if (object instanceof Food){
+			itemlist.removeFood((Food)object);
+		}
+		else if (object instanceof Weapon) {
+			itemlist.removeWeapon((Weapon)object);
+		}
+		else if (object instanceof Valuable) {
+			itemlist.removeValuable((Valuable)object);
+		}
+		else {
+			System.out.println(object + " is not in this room.");
+		}
+}
+
 	
     /**
      * @return The short description of the room

@@ -46,4 +46,11 @@ public class Printer {
 	public void printRemainingTime(int time) {
 		System.out.println("You can change room for " +time+ " times. Afterwards the game is over if you had not reached the goal until that time.");
 	}
+	
+	public String getFoodHint(){
+		return "You can only eat food which lies in the room you are in or which is stored in your backpack.";
+	}
+	public String getItemHint() {
+		return "You can only store portable things you find in the room you're in.";
+	}
 }
