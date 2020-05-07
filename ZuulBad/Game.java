@@ -1,7 +1,5 @@
 package ZuulBad;
 
-import java.util.Scanner;
-
 /**
  * This class is the main class of the "World of Zuul" application. "World of
  * Zuul" is a very simple, text based adventure game. Users can walk around some
@@ -55,12 +53,12 @@ public class Game {
 		Weapon toothpick, nail, sword;
 
 		// create the rooms
-		outside = new Room("outside the main entrance of the university");
-		theater = new Room("in a lecture theater");
-		pub = new Room("in the campus pub");
-		lab = new Room("in a computing lab");
-		office = new Room("in the computing admin office");
-		basement = new Room("down in the spooky basement");
+		outside = Room.OUTSIDE;
+		theater = Room.THEATER;
+		pub = Room.PUB;
+		lab = Room.LAB;
+		office = Room.OFFICE;
+		basement = Room.BASEMENT;
 		
 		// create the items
 		banana = Food.BANANA;
@@ -104,6 +102,9 @@ public class Game {
 		
 		theater.addWeapons(toothpick, sword);
 		lab.addWeapons(sword, nail);
+		
+		// set up Monsters and locked status
+		office.lockRoom();
 
 		currentRoom = outside; // start game outside
 	}
@@ -181,9 +182,13 @@ public class Game {
 
 		// Try to leave current room.
 		Room nextRoom = currentRoom.getExit(direction);
-
+		
 		if (nextRoom == null) {
 			System.out.println("There is no door!");
+			
+		} else if (nextRoom.isLocked()) {
+				System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
+		
 		} else {
 			currentRoom = nextRoom;
 			System.out.println(currentRoom.getLongDescription());

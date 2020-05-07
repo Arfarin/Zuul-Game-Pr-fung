@@ -1,6 +1,5 @@
 package ZuulBad;
 
-import java.util.Set;
 import java.util.HashMap;
 
 /**
@@ -17,8 +16,15 @@ import java.util.HashMap;
  * @version 2016.02.29
  */
 
-public class Room 
-{
+enum Room{
+	
+	OUTSIDE("outside the main entrance of the university"),
+	THEATER("in a lecture theater"),
+	PUB("in the campus pub"),
+	LAB("in a computing lab"),
+	OFFICE("in the computing admin office"),
+	BASEMENT("down in the spooky basement");
+	
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
     
@@ -26,6 +32,7 @@ public class Room
     private Items itemlist;
 	
 	private int roomentries;
+	private boolean locked;
 
     /**
      * Create a room described "description". Initially, it has
@@ -33,13 +40,37 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    Room(String description) 
     {
         this.description = description;
         exits = new HashMap<>();
         itemlist = new Items();
+        
         roomentries = 0;
-
+        locked = false;
+    }
+ 
+    
+    /**
+     * Define an exit from this room.
+     * @param direction The direction of the exit.
+     * @param neighbor  The room to which the exit leads.
+     */
+    public void setExit(String direction, Room neighbor) 
+    {
+        exits.put(direction, neighbor);
+    }
+    
+    public void lockRoom() {
+    	locked = true;
+    }
+    
+    public void unlockRoom() {
+    	locked = false;
+    }
+    
+    public boolean isLocked() {
+    	return locked;
     }
     
     /**
@@ -92,17 +123,6 @@ public class Room
 	}
 	
 	
-
-    /**
-     * Define an exit from this room.
-     * @param direction The direction of the exit.
-     * @param neighbor  The room to which the exit leads.
-     */
-    public void setExit(String direction, Room neighbor) 
-    {
-        exits.put(direction, neighbor);
-    }
-
     /**
      * @return The short description of the room
      * (the one that was defined in the constructor).
@@ -133,8 +153,8 @@ public class Room
     private String getExitString()
     {
         String returnString = "Exits:";
-        Set<String> keys = exits.keySet();
-        for(String exit : keys) {
+
+        for(String exit : exits.keySet()) {
             returnString += " " + exit;
         }
         return returnString;
@@ -183,6 +203,7 @@ public class Room
 			return "There is nobody to give you a hint";
 		}
 	}
+	
 
     /**
      * Counts times the room has been entered.
