@@ -36,14 +36,21 @@ public class Printer {
 	}
 	
 	public static String weightTooHighError() {
-		return "Your backpack is full. You can't put another item into it";
+		return "Your backpack is full. You can't put another item into it.";
 	}
 
-	public static String printFoodHint() {
-		return "You can't put food in your backpack. Eat it instead.";
+	public static String notForBackpackError() {
+		return "You can't put this into your backpack. It is stationary.";
 	}
 	
 	public void printRemainingTime(int time) {
 		System.out.println("You can change room for " +time+ " times. Afterwards the game is over if you had not reached the goal until that time.");
+	}
+	
+	public String getFoodHint(){
+		return "You can only eat food which lies in the room you are in or which is stored in your backpack.";
+	}
+	public String getItemHint() {
+		return "You can only store portable things you find in the room you're in.";
 	}
 }

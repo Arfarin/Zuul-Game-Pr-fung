@@ -7,7 +7,7 @@ package ZuulBad;
  *
  */
 
-enum Food {
+enum Food  {
 	BANANA(5, "This is a yummy banana"),
 	APPLE(5, "This is a yummy apple"),
 	STARFRUIT(5, "This is a yummy starfruit");
@@ -29,8 +29,9 @@ enum Food {
 		return weight;
 	}
 	
-	public boolean isFood(String name) {
+	public static boolean isFood(String name) {
 		boolean isfood = false;
+		name = name.toUpperCase().trim();
 		
 		for (Food food : Food.values()) {
 			if (food.name().equals(name)) { // check if the string value matches any possible food name
