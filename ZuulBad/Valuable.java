@@ -26,7 +26,7 @@ enum Valuable {
 		return weight;
 	}
 
-	public static boolean isValuable(String name) {
+	public boolean isValuable(String name) {
 		boolean isvaluable = false;
 		name = name.toUpperCase().trim();
 

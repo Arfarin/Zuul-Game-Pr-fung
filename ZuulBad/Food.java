@@ -10,7 +10,8 @@ package ZuulBad;
 enum Food  {
 	BANANA(5, "This is a yummy banana"),
 	APPLE(5, "This is a yummy apple"),
-	STARFRUIT(5, "This is a yummy starfruit");
+	STARFRUIT(5, "This is a yummy starfruit"),
+	MUFFIN(5, "This is a muffin made according to a special secret recipe of the castle");
 	
 	private int weight;
 	private String description;
@@ -19,6 +20,14 @@ enum Food  {
 		this.weight = weight;
 		this.description = description;
 
+	}
+	
+	
+	public boolean isMuffin () {
+		if (this.equals(Food.MUFFIN) ) {
+			return true;
+		}
+		return false;
 	}
 
 	public String getDescription() {
@@ -29,7 +38,7 @@ enum Food  {
 		return weight;
 	}
 	
-	public static boolean isFood(String name) {
+	public boolean isFood(String name) {
 		boolean isfood = false;
 		name = name.toUpperCase().trim();
 		

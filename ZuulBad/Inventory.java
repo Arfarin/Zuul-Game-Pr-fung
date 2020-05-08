@@ -35,15 +35,18 @@ public class Inventory {
 		for (Object object : o) {
 			if (object instanceof Food){
 				content.addFood((Food)object);
+				currentWeight += ((Food)object).getWeight();
 			}
 			else if (object instanceof Weapon) {
 				content.addWeapon((Weapon)object);
+				currentWeight += ((Weapon)object).getWeight();
 			}
 			else if (object instanceof Valuable) {
 				content.addValuable((Valuable)object);
+				currentWeight += ((Valuable)object).getWeight();
 			}
 			else {
-				System.out.println("You can not put that into your" + this);
+				System.out.println("You can not put that into your backpack." );
 			}
 		}
 	}
@@ -60,7 +63,7 @@ public class Inventory {
 				content.removeValuable((Valuable)object);
 			}
 			else {
-				System.out.println(object + " is not in your" + this);
+				System.out.println(object.toString() + " is not in your backpack.");
 			}
 	}
 	
@@ -81,13 +84,10 @@ public class Inventory {
 						+ maxWeight + " kilo.");
 	}
 
-	private void setMaxWeight(int maxWeight) {
+	public void setMaxWeight(int maxWeight) {
 		this.maxWeight = maxWeight;
 	}
 
-//	public HashMap<String, Integer> getInventory() {
-//		return contents;
-//	}
 
 	public boolean checkIfFull() {
 		if (currentWeight > maxWeight) {
@@ -96,14 +96,5 @@ public class Inventory {
 			return false;
 		}
 
-//	public void storeItem(Item item){ 
-//		     if (checkIfFull() == false) {
-//		                 currentWeight += item.getWeight();
-//		} 
-//		     else{
-//		    	 System.out.println(Printer.weightTooHighError());
-//		     }
-//			
-//		}
 	}
 }

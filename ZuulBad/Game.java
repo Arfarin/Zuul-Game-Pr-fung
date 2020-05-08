@@ -246,14 +246,18 @@ public class Game {
 			System.out.println("You can not eat '" + secondword + "'.");
 			return false;
 		}
-
+		if ((food.isMuffin()) &&(currentRoom.containsItem(food.toString())||player.backpackContainsItem(food.toString()))) {
+			player.eatMuffin();
+		}
+		
 		if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
 			currentRoom.removeItem(food);
 			player.increaseFoodBar();
 			return true;
-		} else { // if item is not in room, go to inventory
+		} 
+		else { // if item is not in room, go to inventory
 			if (player.backpackContainsItem(food.toString())) {
-				player.eat(food);
+				player.eatFoodFromBackpack(food);
 				return true;
 			} else {
 				System.out.println("This food is not available at the moment.");
@@ -263,6 +267,7 @@ public class Game {
 		}
 
 	}
+
 
 	private void hint(Command command) {
 		System.out.println(currentRoom.getNpcHint("old book"));
