@@ -33,6 +33,8 @@ enum Room{
 	
 	private int roomentries;
 	private boolean locked;
+	private boolean teleports;
+	private boolean monster;
 
     /**
      * Create a room described "description". Initially, it has
@@ -48,6 +50,8 @@ enum Room{
         
         roomentries = 0;
         locked = false;
+        teleports = false;
+        monster = false;
     }
  
     
@@ -72,6 +76,27 @@ enum Room{
     public boolean isLocked() {
     	return locked;
     }
+    
+    public void makeTeleporterRoom() {
+    	teleports = true;
+    }
+    
+    public boolean isTeleporterRoom() {
+    	return teleports;
+    }
+    
+    public void putMonster() {
+    	monster = true;
+    }
+    
+    public void killMonster() {
+    	monster = false;
+    }
+    
+    public boolean hasMonster() {
+    	return monster;
+    }
+    
     
     /**
      * Creates a Non Player Character in the room

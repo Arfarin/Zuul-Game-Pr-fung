@@ -1,5 +1,7 @@
 package ZuulBad;
 
+import java.util.Random;
+
 /**
  * This class is the main class of the "World of Zuul" application. "World of
  * Zuul" is a very simple, text based adventure game. Users can walk around some
@@ -22,6 +24,7 @@ public class Game {
 	private Room currentRoom;
 	private Player player;
 	private Printer printer;
+	private Random random;
 
 	private static Level difficultyLevel;
 
@@ -48,51 +51,46 @@ public class Game {
 	 * Create all the rooms and link their exits together.
 	 */
 	private void createRooms() {
-		Room outside, theater, pub, lab, office, basement;
-
-		// create the rooms
-		outside = Room.OUTSIDE;
-		theater = Room.THEATER;
-		pub = Room.PUB;
-		lab = Room.LAB;
-		office = Room.OFFICE;
-		basement = Room.BASEMENT;
 
 		// initialize room exits
-		outside.setExit("east", theater);
-		outside.setExit("south", lab);
-		outside.setExit("west", pub);
+		Room.OUTSIDE.setExit("east", Room.THEATER);
+		Room.OUTSIDE.setExit("south", Room.LAB);
+		Room.OUTSIDE.setExit("west", Room.PUB);
 
-		theater.setExit("west", outside);
+		Room.THEATER.setExit("west", Room.OUTSIDE);
 
-		pub.setExit("east", outside);
-		pub.setExit("down", basement);
+		Room.PUB.setExit("east", Room.OUTSIDE);
+		Room.PUB.setExit("down", Room.BASEMENT);
 
-		lab.setExit("north", outside);
-		lab.setExit("east", office);
+		Room.LAB.setExit("north", Room.OUTSIDE);
+		Room.LAB.setExit("east", Room.OFFICE);
 
-		office.setExit("west", lab);
+		Room.OFFICE.setExit("west", Room.LAB);
 
-		basement.setExit("up", pub);
+		Room.BASEMENT.setExit("up", Room.PUB);
 
 		// initialize NPC
-		outside.createNPC("old book");
-		theater.createNPC("nice smelling candle");
-		pub.createNPC("sock");
-		lab.createNPC("phone");
-		office.createNPC("dead plant");
-		basement.createNPC("baseball cap");
+		Room.OUTSIDE.createNPC("old book");
+		Room.THEATER.createNPC("nice smelling candle");
+		Room.PUB.createNPC("sock");
+		Room.LAB.createNPC("phone");
+		Room.OFFICE.createNPC("dead plant");
+		Room.BASEMENT.createNPC("baseball cap");
 
 		// add items to rooms
-		outside.addItem(Food.STARFRUIT, Valuable.KEY);
-		theater.addItem(Food.BANANA, Food.APPLE, Weapon.NAIL, Weapon.SWORD);
-		lab.addItem(Food.BANANA, Weapon.TOOTHPICK);
+		Room.OUTSIDE.addItem(Food.STARFRUIT, Valuable.KEY);
+		Room.THEATER.addItem(Food.BANANA, Food.APPLE, 
+							Weapon.NAIL, Weapon.SWORD);
+		Room.LAB.addItem(Food.BANANA, 
+					Weapon.TOOTHPICK);
 
 
-		// set up Monsters and locked status
-		office.lockRoom();
+		// set up Monsters, locked status, and teleporter room
+		Room.OFFICE.lockRoom();
+		Room.PUB.makeTeleporterRoom();
+		Room.THEATER.putMonster();
 
-		currentRoom = outside; // start game outside
+		currentRoom = Room.OUTSIDE; // start game outside
 	}
 
 	/**
@@ -188,16 +186,42 @@ public class Game {
 				return;
 			}
 			System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
+			
+		} else if(nextRoom.isTeleporterRoom()) {
+			System.out.println("You were randomly teleported." + "\n");
+			currentRoom = getRandomRoom();
+			
+		} else if(nextRoom.hasMonster()) {
+			if (killedMonster()) {
+				currentRoom = nextRoom;
+			}
 
 		} else {
 			currentRoom = nextRoom;
-			System.out.println(currentRoom.getLongDescription());
-			time--;
-			player.getHungry();
-			player.increaseLifeBar();
-			printer.printRemainingTime(time);
 
 		}
+		
+		System.out.println(currentRoom.getLongDescription());
+		time--;
+		player.getHungry();
+		player.increaseLifeBar();
+		printer.printRemainingTime(time);
+	}
+	
+	private boolean killedMonster() {
+		
+		for (Weapon weapon : Weapon.values()) {
+			if (player.backpackContainsItem(weapon.toString())) {
+				currentRoom.killMonster();
+				// needs Method removeItemFromBackpack
+				System.out.println("You killed the monster in the room.\n");
+				return true;
+			}
+		}
+		int damage = 5; // needs to be set based on difficulty
+		player.reduceLifeBar(damage);
+		System.out.println("The Monster hurt you. You have to flee back to the previous room.\n");
+		return false;
 	}
 
 	/**
@@ -348,6 +372,15 @@ public class Game {
 			return false;
 		}
 	}
+	
+	private Room getRandomRoom() {
+		random = new Random();
+		
+		int randomnumber = random.nextInt(Room.values().length);
+		Room randomroom = Room.values()[randomnumber];
+		
+		return randomroom;
+	}
 
 //// Check status of lifeBar, time or foodBar 		
 //	private String checkLevel(int feature) {
@@ -370,6 +403,7 @@ public class Game {
 			chooseLevelOfDifficulty();
 		}
 	}
+	
 
 	/**
 	 * Getter for the level of difficulty. For the classes player and monster to set
