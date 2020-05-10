@@ -239,35 +239,43 @@ public class Game {
 			System.out.println("You can not eat '" + secondword + "'.");
 			return false;
 		}
+
+		if (eatMuffin(food) == true) {
+		return true;
+		}
+		else {
+
+			if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
+				currentRoom.removeItem(food);
+				player.increaseFoodBar();
+				return true;
+			} else { // if item is not in room, go to inventory
+				if (player.backpackContainsItem(food.toString())) {
+					player.eatFoodFromBackpack(food);
+					return true;
+				} else {
+					System.out.println("This food is not available at the moment.");
+					System.out.println(printer.getFoodHint());
+					return false;
+				}
+			}
+
+		}
+	}
+
+	private boolean eatMuffin(Food food) {
 		if ((food.isMuffin()) && (currentRoom.containsItem(food.toString()))) {
 			System.out.println(player.eatMuffin(food));
 			currentRoom.removeItem(food);
 			return true;
-			
+
 		} else if (food.isMuffin() && !((currentRoom.containsItem(food.toString())))
 				&& player.backpackContainsItem(food.toString())) {
-				System.out.println(player.eatMuffin(food));
-				return true;
-					
-				}
-			
-		
-
-		if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
-			currentRoom.removeItem(food);
-			player.increaseFoodBar();
+			System.out.println(player.eatMuffin(food));
 			return true;
-		} else { // if item is not in room, go to inventory
-			if (player.backpackContainsItem(food.toString())) {
-				player.eatFoodFromBackpack(food);
-				return true;
-			} else {
-				System.out.println("This food is not available at the moment.");
-				System.out.println(printer.getFoodHint());
-				return false;
-			}
+		} else {
+			return false;
 		}
-
 	}
 
 	private void hint(Command command) {
