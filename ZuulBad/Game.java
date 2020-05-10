@@ -182,6 +182,8 @@ public class Game {
 		} else if (nextRoom.isLocked()) {
 			if (player.backpackContainsItem("key")) {
 				nextRoom.unlockRoom();
+				// this still needs a method that deletes key from inventory (in Player)
+				System.out.println(nextRoom + " was unlocked.");
 				goRoom(command);
 				return;
 			}
