@@ -80,7 +80,7 @@ public class Items {
 			// The parameter is String so that it can be used for all Item types
 			boolean contains = false;
 			
-			if (getItemList().contains(name)) { //check if name of item is in item list
+			if (getItemList().contains(name.toUpperCase())) { //check if name of item is in item list
 				contains = true;
 			}
 			
