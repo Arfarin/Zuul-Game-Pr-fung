@@ -19,21 +19,33 @@ public class Player {
 	}
 
 	public boolean backpackContainsItem(String specificitem) {
-
 		return backpack.contains(specificitem);
 	}
 
-	public void eat(Food food) {
-		removeItemFromBackpack(food);
+	public void eatFoodFromBackpack(Food food) {
+		if (backpack.removeItem(food)== true) {
+		increaseFoodBar();
+		System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
+	}}
+
+	public String eatMuffin() {
+		backpack.setMaxWeight(1000000000);
+		return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
 	}
 
 	public void putItemIntoBackpack(Object o) {
-		backpack.addItem(o);
+		if (backpack.checkIfFull() == false && o != null) {
+			backpack.addItem(o);
+		} else {
+			System.out.println(Printer.weightTooHighError());
+		}
+
 	}
 
 	private void removeItemFromBackpack(Object o) {
 		backpack.removeItem(o);
-	}
+		}
+	
 
 	public void useWeapon() {
 
@@ -47,7 +59,8 @@ public class Player {
 	}
 
 	/**
-	 *reduces foodBar of player. Simulates that over time player gets hungry (used after every entry in a room).
+	 * reduces foodBar of player. Simulates that over time player gets hungry (used
+	 * after every entry in a room).
 	 */
 	public void getHungry() {
 		foodBar--;

@@ -22,7 +22,7 @@ enum Weapon {
 		return weight;
 	}
 
-	public static boolean isWeapon(String name) {
+	public boolean isWeapon(String name) {
 		boolean isweapon = false;
 		name = name.toUpperCase().trim();
 

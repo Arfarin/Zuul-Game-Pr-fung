@@ -196,7 +196,7 @@ public class Game {
 			player.getHungry();
 			player.increaseLifeBar();
 			printer.printRemainingTime(time);
-			
+
 		}
 	}
 
@@ -239,6 +239,10 @@ public class Game {
 			System.out.println("You can not eat '" + secondword + "'.");
 			return false;
 		}
+		if ((food.isMuffin())
+				&& (currentRoom.containsItem(food.toString()) || player.backpackContainsItem(food.toString()))) {
+			player.eatMuffin();
+		}
 
 		if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
 			currentRoom.removeItem(food);
@@ -246,7 +250,7 @@ public class Game {
 			return true;
 		} else { // if item is not in room, go to inventory
 			if (player.backpackContainsItem(food.toString())) {
-				player.eat(food);
+				player.eatFoodFromBackpack(food);
 				return true;
 			} else {
 				System.out.println("This food is not available at the moment.");
@@ -263,8 +267,9 @@ public class Game {
 
 	private boolean store(Command command) {
 		String secondWord = command.getSecondWord();
-		Object object;
-		boolean isStorable = false;
+		Food food = null;
+		Weapon weapon = null;
+		Valuable valuable = null;
 
 		if (secondWord == null) { // check if user specified item to store
 			System.out.println("Store what?");
@@ -273,15 +278,16 @@ public class Game {
 
 //	else if (Food.isFood(secondWord) || Weapon.isWeapon(secondWord) || Valuable.isValuable(secondWord)) {
 		try {
-			object = Food.valueOf(secondWord.toUpperCase());
+			food = Food.valueOf(secondWord.toUpperCase());
+	
 		} catch (IllegalArgumentException e) {
 
 			try {
-				object = Weapon.valueOf(secondWord.toUpperCase());
+				weapon = Weapon.valueOf(secondWord.toUpperCase());
 			} catch (IllegalArgumentException f) {
 
 				try {
-					object = Valuable.valueOf(secondWord.toUpperCase());
+					valuable = Valuable.valueOf(secondWord.toUpperCase());
 				} catch (IllegalArgumentException g) {
 					System.out.println("You can not store that.");
 					return false;
@@ -289,17 +295,44 @@ public class Game {
 				}
 			}
 		}
-		if (currentRoom.containsItem(object.toString())) { // if item is in current room, store it
-			currentRoom.removeItem(object);
-			player.putItemIntoBackpack(object);
-			System.out.println(secondWord.toUpperCase() + " successfully stored");
-			return true;
-
-		} else {
-			System.out.println("This item is not available at the moment.");
-			System.out.println(printer.getItemHint());
-			return false;
+		try {
+			if (currentRoom.containsItem(food.toString())) { // if item is in current room, store it
+				currentRoom.removeItem(food);
+				player.putItemIntoBackpack(food);
+				System.out.println(secondWord.toUpperCase() + " successfully stored");
+				return true;
+			}
+		}	
+		catch (NullPointerException h) {
 		}
+		
+		try { 
+			if (currentRoom.containsItem(weapon.toString())) {
+				currentRoom.removeItem(weapon);
+				player.putItemIntoBackpack(weapon);
+				System.out.println(secondWord.toUpperCase() + " successfully stored");
+				return true;
+			}
+		} 
+		catch (NullPointerException h) {
+		}
+		
+		try {
+			if (currentRoom.containsItem(valuable.toString())) {
+				currentRoom.removeItem(valuable);
+				player.putItemIntoBackpack(valuable);
+				System.out.println(secondWord.toUpperCase() + " successfully stored");
+				return true;
+			}
+		} 
+		catch (NullPointerException h){
+		}
+		
+	
+		System.out.println("This item is not available at the moment.");
+		System.out.println(printer.getItemHint());
+		return false;
+		
 	}
 
 	private void setTime() {

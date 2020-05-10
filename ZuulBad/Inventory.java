@@ -18,54 +18,52 @@ public class Inventory {
 	 */
 	private Items content;
 
-//	/**
-//	 * stores the amount (as value) and the name/kind (as key) of the items in the
-//	 * inventory
-//	 */
-//	private HashMap<String, Integer> contents;
-
-	// Konstruktor
 	public Inventory() {
 //		contents = new HashMap<String, Integer>();
 		makeSettings();
 		content = new Items();
 	}
 
-	public void addItem(Object ...o) {
+	public void addItem(Object... o) {
 		for (Object object : o) {
-			if (object instanceof Food){
-				content.addFood((Food)object);
-			}
-			else if (object instanceof Weapon) {
-				content.addWeapon((Weapon)object);
-			}
-			else if (object instanceof Valuable) {
-				content.addValuable((Valuable)object);
-			}
-			else {
-				System.out.println("You can not put that into your" + this);
+			if (object instanceof Food) {
+				content.addFood((Food) object);
+				currentWeight += ((Food) object).getWeight();
+			} else if (object instanceof Weapon) {
+				content.addWeapon((Weapon) object);
+				currentWeight += ((Weapon) object).getWeight();
+			} else if (object instanceof Valuable) {
+				content.addValuable((Valuable) object);
+				currentWeight += ((Valuable) object).getWeight();
+			} else {
+				System.out.println("You can not put that into your backpack.");
 			}
 		}
 	}
-	
 
-	public void removeItem(Object object) {
-			if (object instanceof Food){
-				content.removeFood((Food)object);
+	public boolean removeItem(Object object) {
+		boolean removed = true;
+		if (contains(object.toString())) {
+			if (object instanceof Food) {
+				content.removeFood((Food) object);
+			} else if (object instanceof Weapon) {
+				content.removeWeapon((Weapon) object);
+			} else if (object instanceof Valuable) {
+				content.removeValuable((Valuable) object);
+			} else {
+				System.out.println(object.toString() + " is not a storable thing.");
+				removed = false;
 			}
-			else if (object instanceof Weapon) {
-				content.removeWeapon((Weapon)object);
-			}
-			else if (object instanceof Valuable) {
-				content.removeValuable((Valuable)object);
-			}
-			else {
-				System.out.println(object + " is not in your" + this);
-			}
+		} else {
+			System.out.println("Sorry, your backpack doesn't contain that.");
+			removed = false;
+		}
+		return removed;
+
 	}
-	
-	public boolean contains(String specificitem){
-		
+
+	public boolean contains(String specificitem) {
+
 		return content.contains(specificitem);
 	}
 
@@ -81,13 +79,9 @@ public class Inventory {
 						+ maxWeight + " kilo.");
 	}
 
-	private void setMaxWeight(int maxWeight) {
+	public void setMaxWeight(int maxWeight) {
 		this.maxWeight = maxWeight;
 	}
-
-//	public HashMap<String, Integer> getInventory() {
-//		return contents;
-//	}
 
 	public boolean checkIfFull() {
 		if (currentWeight > maxWeight) {
@@ -96,14 +90,5 @@ public class Inventory {
 			return false;
 		}
 
-//	public void storeItem(Item item){ 
-//		     if (checkIfFull() == false) {
-//		                 currentWeight += item.getWeight();
-//		} 
-//		     else{
-//		    	 System.out.println(Printer.weightTooHighError());
-//		     }
-//			
-//		}
 	}
 }
