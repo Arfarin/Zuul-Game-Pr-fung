@@ -274,11 +274,9 @@ public class Game {
 
 	private boolean store(Command command) {
 		String secondWord = command.getSecondWord();
-		Object object = null;
 		Food food = null;
 		Weapon weapon = null;
 		Valuable valuable = null;
-		boolean isStorable = false;
 
 		if (secondWord == null) { // check if user specified item to store
 			System.out.println("Store what?");
@@ -288,18 +286,15 @@ public class Game {
 //	else if (Food.isFood(secondWord) || Weapon.isWeapon(secondWord) || Valuable.isValuable(secondWord)) {
 		try {
 			food = Food.valueOf(secondWord.toUpperCase());
-			object = Food.valueOf(secondWord.toUpperCase());
 	
 		} catch (IllegalArgumentException e) {
 
 			try {
 				weapon = Weapon.valueOf(secondWord.toUpperCase());
-				object = Weapon.valueOf(secondWord.toUpperCase());
 			} catch (IllegalArgumentException f) {
 
 				try {
 					valuable = Valuable.valueOf(secondWord.toUpperCase());
-					object = Weapon.valueOf(secondWord.toUpperCase());
 				} catch (IllegalArgumentException g) {
 					System.out.println("You can not store that.");
 					return false;
