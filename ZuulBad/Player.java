@@ -19,13 +19,13 @@ public class Player {
 	}
 
 	public boolean backpackContainsItem(String specificitem) {
-
 		return backpack.contains(specificitem);
 	}
 
 	public void eatFoodFromBackpack(Food food) {
-		if (removeItemFromBackpack(food)== true) {
+		if (backpack.removeItem(food)== true) {
 		increaseFoodBar();
+		System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
 	}}
 
 	public String eatMuffin() {
@@ -34,7 +34,7 @@ public class Player {
 	}
 
 	public void putItemIntoBackpack(Object o) {
-		if (backpack.checkIfFull() == false) {
+		if (backpack.checkIfFull() == false && o != null) {
 			backpack.addItem(o);
 		} else {
 			System.out.println(Printer.weightTooHighError());
@@ -42,15 +42,10 @@ public class Player {
 
 	}
 
-	private boolean removeItemFromBackpack(Object o) {
-		if (backpack.contains(o.toString())) {
+	private void removeItemFromBackpack(Object o) {
 		backpack.removeItem(o);
-		return true;
 		}
-		else {
-		System.out.println("Sorry, your backpack doesn't contain that.");
-		return false;
-	}}
+	
 
 	public void useWeapon() {
 
