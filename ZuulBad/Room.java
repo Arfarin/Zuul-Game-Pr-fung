@@ -95,7 +95,7 @@ enum Room{
 				itemlist.addValuable((Valuable)object);
 			}
 			else {
-				System.out.println("You can not put " + o + " into " + this);
+				System.out.println("You can not put " + o.toString() + " into " + this + ".");
 			}
 		}
 	}

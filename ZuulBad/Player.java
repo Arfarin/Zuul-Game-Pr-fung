@@ -28,11 +28,16 @@ public class Player {
 		System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
 	}}
 
-	public String eatMuffin() {
-		backpack.setMaxWeight(1000000000);
+	public String eatMuffin(Food food) {
+	//	if (backpack.removeItem(food)== true) {
+			increaseFoodBar();
+			backpack.setMaxWeight(Integer.MAX_VALUE);
 		return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
+//	}
+	//else {
+		//return "Eating Muffin wasn't successful";
+			//	}
 	}
-
 	public void putItemIntoBackpack(Object o) {
 		if (backpack.checkIfFull() == false && o != null) {
 			backpack.addItem(o);

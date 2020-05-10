@@ -87,7 +87,7 @@ public class Game {
 		outside.addItem(Food.STARFRUIT, Valuable.KEY);
 		theater.addItem(Food.BANANA, Food.APPLE, Weapon.NAIL, Weapon.SWORD);
 		lab.addItem(Food.BANANA, Weapon.TOOTHPICK);
-
+		theater.addItem(Food.MUFFIN);
 
 		// set up Monsters and locked status
 		office.lockRoom();
@@ -239,10 +239,19 @@ public class Game {
 			System.out.println("You can not eat '" + secondword + "'.");
 			return false;
 		}
-		if ((food.isMuffin())
-				&& (currentRoom.containsItem(food.toString()) || player.backpackContainsItem(food.toString()))) {
-			player.eatMuffin();
-		}
+		if ((food.isMuffin()) && (currentRoom.containsItem(food.toString()))) {
+			System.out.println(player.eatMuffin(food));
+			currentRoom.removeItem(food);
+			return true;
+			
+		} else if (food.isMuffin() && !((currentRoom.containsItem(food.toString())))
+				&& player.backpackContainsItem(food.toString())) {
+				System.out.println(player.eatMuffin(food));
+				return true;
+					
+				}
+			
+		
 
 		if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
 			currentRoom.removeItem(food);
@@ -265,6 +274,16 @@ public class Game {
 		System.out.println(currentRoom.getNpcHint("old book"));
 	}
 
+	/**
+	 * Put a portable item lying in the current room into the inventory. The item
+	 * can be fetched later when needed. To use the function the user has to type in
+	 * the command word "store" an the name of the specified item which should be
+	 * stored.
+	 * 
+	 * @param command the second word of the user's input
+	 * @return true when storing was successful
+	 */
+
 	private boolean store(Command command) {
 		String secondWord = command.getSecondWord();
 		Food food = null;
@@ -279,7 +298,7 @@ public class Game {
 //	else if (Food.isFood(secondWord) || Weapon.isWeapon(secondWord) || Valuable.isValuable(secondWord)) {
 		try {
 			food = Food.valueOf(secondWord.toUpperCase());
-	
+
 		} catch (IllegalArgumentException e) {
 
 			try {
@@ -302,21 +321,19 @@ public class Game {
 				System.out.println(secondWord.toUpperCase() + " successfully stored");
 				return true;
 			}
-		}	
-		catch (NullPointerException h) {
+		} catch (NullPointerException h) {
 		}
-		
-		try { 
+
+		try {
 			if (currentRoom.containsItem(weapon.toString())) {
 				currentRoom.removeItem(weapon);
 				player.putItemIntoBackpack(weapon);
 				System.out.println(secondWord.toUpperCase() + " successfully stored");
 				return true;
 			}
-		} 
-		catch (NullPointerException h) {
+		} catch (NullPointerException h) {
 		}
-		
+
 		try {
 			if (currentRoom.containsItem(valuable.toString())) {
 				currentRoom.removeItem(valuable);
@@ -324,15 +341,13 @@ public class Game {
 				System.out.println(secondWord.toUpperCase() + " successfully stored");
 				return true;
 			}
-		} 
-		catch (NullPointerException h){
+		} catch (NullPointerException h) {
 		}
-		
-	
+
 		System.out.println("This item is not available at the moment.");
 		System.out.println(printer.getItemHint());
 		return false;
-		
+
 	}
 
 	private void setTime() {
