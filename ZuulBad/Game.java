@@ -50,9 +50,6 @@ public class Game {
 	private void createRooms() {
 		Room outside, theater, pub, lab, office, basement;
 
-		Food banana, apple, starfruit;
-		Weapon toothpick, nail, sword;
-
 		// create the rooms
 		outside = Room.OUTSIDE;
 		theater = Room.THEATER;
@@ -60,15 +57,6 @@ public class Game {
 		lab = Room.LAB;
 		office = Room.OFFICE;
 		basement = Room.BASEMENT;
-
-		// create the items
-		banana = Food.BANANA;
-		apple = Food.APPLE;
-		starfruit = Food.STARFRUIT;
-
-		toothpick = Weapon.TOOTHPICK;
-		nail = Weapon.NAIL;
-		sword = Weapon.SWORD;
 
 		// initialize room exits
 		outside.setExit("east", theater);
@@ -96,14 +84,10 @@ public class Game {
 		basement.createNPC("baseball cap");
 
 		// add items to rooms
-		outside.addFood(starfruit);
-		theater.addFood(banana, apple);
-		lab.addFood(banana);
+		outside.addItem(Food.STARFRUIT, Valuable.KEY);
+		theater.addItem(Food.BANANA, Food.APPLE, Weapon.NAIL, Weapon.SWORD);
+		lab.addItem(Food.BANANA, Weapon.TOOTHPICK);
 
-		theater.addWeapons(toothpick, sword);
-		lab.addWeapons(sword, nail);
-		
-		outside.addValuables(Valuable.KEY);
 
 		// set up Monsters and locked status
 		office.lockRoom();

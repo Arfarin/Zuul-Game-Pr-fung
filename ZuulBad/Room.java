@@ -83,21 +83,20 @@ enum Room{
     	 npc = new NonPlayerCharacter(itemforhint);
     }
     
-	public void addFood(Food... fooditems) {
-		for (Food item : fooditems) {
-			itemlist.addFood(item);
-		}
-	}
-	
-	public void addWeapons(Weapon...weapons) {
-		for (Weapon weapon : weapons) {
-			itemlist.addWeapon(weapon);
-		}
-	}
-	
-	public void addValuables(Valuable...valuables) {
-		for (Valuable valuable : valuables) {
-			itemlist.addValuable(valuable);
+	public void addItem(Object ...o) {
+		for (Object object : o) {
+			if (object instanceof Food){
+				itemlist.addFood((Food)object);
+			}
+			else if (object instanceof Weapon) {
+				itemlist.addWeapon((Weapon)object);
+			}
+			else if (object instanceof Valuable) {
+				itemlist.addValuable((Valuable)object);
+			}
+			else {
+				System.out.println("You can not put " + o + " into " + this);
+			}
 		}
 	}
 	
