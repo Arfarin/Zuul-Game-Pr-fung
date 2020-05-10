@@ -95,6 +95,12 @@ enum Room{
 		}
 	}
 	
+	public void addValuables(Valuable...valuables) {
+		for (Valuable valuable : valuables) {
+			itemlist.addValuable(valuable);
+		}
+	}
+	
 	/**
 	 * Checks if the specified item is in the room.
 	 * 

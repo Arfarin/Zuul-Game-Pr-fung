@@ -102,6 +102,8 @@ public class Game {
 
 		theater.addWeapons(toothpick, sword);
 		lab.addWeapons(sword, nail);
+		
+		outside.addValuables(Valuable.KEY);
 
 		// set up Monsters and locked status
 		office.lockRoom();
@@ -194,6 +196,11 @@ public class Game {
 			System.out.println("There is no door!");
 
 		} else if (nextRoom.isLocked()) {
+			if (player.backpackContainsItem("key")) {
+				nextRoom.unlockRoom();
+				goRoom(command);
+				return;
+			}
 			System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
 
 		} else {
