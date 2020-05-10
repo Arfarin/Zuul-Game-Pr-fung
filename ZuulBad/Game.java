@@ -15,7 +15,7 @@ import java.util.Random;
  * creates the parser and starts the game. It also evaluates and executes the
  * commands that the parser returns.
  * 
- * @author Michael Kölling and David J. Barnes
+ * @author Michael KÃ¶lling and David J. Barnes
  * @version 2016.02.29
  */
 
@@ -79,11 +79,10 @@ public class Game {
 
 		// add items to rooms
 		Room.OUTSIDE.addItem(Food.STARFRUIT, Valuable.KEY);
-		Room.THEATER.addItem(Food.BANANA, Food.APPLE, 
+		Room.THEATER.addItem(Food.BANANA, Food.APPLE, Food.MUFFIN,
 							Weapon.NAIL, Weapon.SWORD);
 		Room.LAB.addItem(Food.BANANA, 
 					Weapon.TOOTHPICK);
-
 
 		// set up Monsters, locked status, and teleporter room
 		Room.OFFICE.lockRoom();
@@ -263,31 +262,58 @@ public class Game {
 			System.out.println("You can not eat '" + secondword + "'.");
 			return false;
 		}
-		if ((food.isMuffin())
-				&& (currentRoom.containsItem(food.toString()) || player.backpackContainsItem(food.toString()))) {
-			player.eatMuffin();
-		}
 
-		if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
-			currentRoom.removeItem(food);
-			player.increaseFoodBar();
-			return true;
-		} else { // if item is not in room, go to inventory
-			if (player.backpackContainsItem(food.toString())) {
-				player.eatFoodFromBackpack(food);
+		if (eatMuffin(food) == true) {
+		return true;
+		}
+		else {
+
+			if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
+				currentRoom.removeItem(food);
+				player.increaseFoodBar();
 				return true;
-			} else {
-				System.out.println("This food is not available at the moment.");
-				System.out.println(printer.getFoodHint());
-				return false;
+			} else { // if item is not in room, go to inventory
+				if (player.backpackContainsItem(food.toString())) {
+					player.eatFoodFromBackpack(food);
+					return true;
+				} else {
+					System.out.println("This food is not available at the moment.");
+					System.out.println(printer.getFoodHint());
+					return false;
+				}
 			}
-		}
 
+		}
+	}
+
+	private boolean eatMuffin(Food food) {
+		if ((food.isMuffin()) && (currentRoom.containsItem(food.toString()))) {
+			System.out.println(player.eatMuffin(food));
+			currentRoom.removeItem(food);
+			return true;
+
+		} else if (food.isMuffin() && !((currentRoom.containsItem(food.toString())))
+				&& player.backpackContainsItem(food.toString())) {
+			System.out.println(player.eatMuffin(food));
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private void hint(Command command) {
 		System.out.println(currentRoom.getNpcHint("old book"));
 	}
+
+	/**
+	 * Put a portable item lying in the current room into the inventory. The item
+	 * can be fetched later when needed. To use the function the user has to type in
+	 * the command word "store" an the name of the specified item which should be
+	 * stored.
+	 * 
+	 * @param command the second word of the user's input
+	 * @return true when storing was successful
+	 */
 
 	private boolean store(Command command) {
 		String secondWord = command.getSecondWord();
@@ -303,7 +329,7 @@ public class Game {
 //	else if (Food.isFood(secondWord) || Weapon.isWeapon(secondWord) || Valuable.isValuable(secondWord)) {
 		try {
 			food = Food.valueOf(secondWord.toUpperCase());
-	
+
 		} catch (IllegalArgumentException e) {
 
 			try {
@@ -326,21 +352,19 @@ public class Game {
 				System.out.println(secondWord.toUpperCase() + " successfully stored");
 				return true;
 			}
-		}	
-		catch (NullPointerException h) {
+		} catch (NullPointerException h) {
 		}
-		
-		try { 
+
+		try {
 			if (currentRoom.containsItem(weapon.toString())) {
 				currentRoom.removeItem(weapon);
 				player.putItemIntoBackpack(weapon);
 				System.out.println(secondWord.toUpperCase() + " successfully stored");
 				return true;
 			}
-		} 
-		catch (NullPointerException h) {
+		} catch (NullPointerException h) {
 		}
-		
+
 		try {
 			if (currentRoom.containsItem(valuable.toString())) {
 				currentRoom.removeItem(valuable);
@@ -348,15 +372,13 @@ public class Game {
 				System.out.println(secondWord.toUpperCase() + " successfully stored");
 				return true;
 			}
-		} 
-		catch (NullPointerException h){
+		} catch (NullPointerException h) {
 		}
-		
-	
+
 		System.out.println("This item is not available at the moment.");
 		System.out.println(printer.getItemHint());
 		return false;
-		
+
 	}
 
 	private void setTime() {
@@ -398,7 +420,7 @@ public class Game {
 			difficultyLevel = Level.valueOf(input);
 			System.out.println("Thank you. Level of difficulty is set to: " + input);
 		} catch (IllegalArgumentException e) {
-			System.out.println(input + " ist ung�ltig!");
+			System.out.println(input + " ist ungültig!");
 			System.out.println();
 			chooseLevelOfDifficulty();
 		}
