@@ -15,13 +15,14 @@ import java.util.Random;
  * creates the parser and starts the game. It also evaluates and executes the
  * commands that the parser returns.
  * 
- * @author Michael KÃ¶lling and David J. Barnes
+ * @author Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
 
 public class Game {
 	private Parser parser;
 	private Room currentRoom;
+	private Environment environment;
 	private Player player;
 	private Printer printer;
 	private Random random;
@@ -41,56 +42,15 @@ public class Game {
 		parser = new Parser();
 		printer = new Printer();
 		chooseLevelOfDifficulty();
-		createRooms();
 		player = new Player();
+		environment = new Environment();
+		
+		
 		setTime();
 
+		currentRoom = environment.getFirstRoom(); // start game outside
 	}
 
-	/**
-	 * Create all the rooms and link their exits together.
-	 */
-	private void createRooms() {
-
-		// initialize room exits
-		Room.OUTSIDE.setExit("east", Room.THEATER);
-		Room.OUTSIDE.setExit("south", Room.LAB);
-		Room.OUTSIDE.setExit("west", Room.PUB);
-
-		Room.THEATER.setExit("west", Room.OUTSIDE);
-
-		Room.PUB.setExit("east", Room.OUTSIDE);
-		Room.PUB.setExit("down", Room.BASEMENT);
-
-		Room.LAB.setExit("north", Room.OUTSIDE);
-		Room.LAB.setExit("east", Room.OFFICE);
-
-		Room.OFFICE.setExit("west", Room.LAB);
-
-		Room.BASEMENT.setExit("up", Room.PUB);
-
-		// initialize NPC
-		Room.OUTSIDE.createNPC("old book");
-		Room.THEATER.createNPC("nice smelling candle");
-		Room.PUB.createNPC("sock");
-		Room.LAB.createNPC("phone");
-		Room.OFFICE.createNPC("dead plant");
-		Room.BASEMENT.createNPC("baseball cap");
-
-		// add items to rooms
-		Room.OUTSIDE.addItem(Food.STARFRUIT, Valuable.KEY);
-		Room.THEATER.addItem(Food.BANANA, Food.APPLE, Food.MUFFIN,
-							Weapon.NAIL, Weapon.SWORD);
-		Room.LAB.addItem(Food.BANANA, 
-					Weapon.TOOTHPICK);
-
-		// set up Monsters, locked status, and teleporter room
-		Room.OFFICE.lockRoom();
-		Room.PUB.makeTeleporterRoom();
-		Room.THEATER.putMonster();
-
-		currentRoom = Room.OUTSIDE; // start game outside
-	}
 
 	/**
 	 * Main play routine. Loops until end of play.
@@ -288,13 +248,13 @@ public class Game {
 
 	private boolean eatMuffin(Food food) {
 		if ((food.isMuffin()) && (currentRoom.containsItem(food.toString()))) {
-			System.out.println(player.eatMuffin(food));
+			System.out.println(player.eatMuffin());
 			currentRoom.removeItem(food);
 			return true;
 
 		} else if (food.isMuffin() && !((currentRoom.containsItem(food.toString())))
 				&& player.backpackContainsItem(food.toString())) {
-			System.out.println(player.eatMuffin(food));
+			System.out.println(player.eatMuffin());
 			return true;
 		} else {
 			return false;
@@ -302,7 +262,19 @@ public class Game {
 	}
 
 	private void hint(Command command) {
-		System.out.println(currentRoom.getNpcHint("old book"));
+
+		System.out.println("Do you have the item I want?");
+		String item = parser.getUserInput();
+
+		String response = currentRoom.getNpcHint(item);
+
+		if (response != null) {
+			System.out.println(response);
+
+		} else {
+			System.out.println("This is not what I want");
+		}
+
 	}
 
 	/**
@@ -420,7 +392,7 @@ public class Game {
 			difficultyLevel = Level.valueOf(input);
 			System.out.println("Thank you. Level of difficulty is set to: " + input);
 		} catch (IllegalArgumentException e) {
-			System.out.println(input + " ist ungültig!");
+			System.out.println(input + " ist not valid!");
 			System.out.println();
 			chooseLevelOfDifficulty();
 		}

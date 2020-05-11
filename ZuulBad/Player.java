@@ -28,7 +28,8 @@ public class Player {
 		System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
 	}}
 
-	public String eatMuffin(Food food) {
+	public String eatMuffin() {
+
 			increaseFoodBar();
 			backpack.setMaxWeight(Integer.MAX_VALUE);
 		return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
