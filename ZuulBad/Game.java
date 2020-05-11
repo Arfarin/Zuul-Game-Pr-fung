@@ -47,8 +47,6 @@ public class Game {
 		
 		
 		setTime();
-
-		currentRoom = environment.getFirstRoom(); // start game outside
 	}
 
 
@@ -57,6 +55,7 @@ public class Game {
 	 */
 	public void play() {
 		printer.printWelcome();
+		currentRoom = environment.getFirstRoom(); // start game outside
 		System.out.println(currentRoom.getLongDescription());
 
 		// Enter the main command loop. Here we repeatedly read commands and
