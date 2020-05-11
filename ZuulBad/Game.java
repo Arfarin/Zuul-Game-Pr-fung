@@ -398,7 +398,6 @@ public class Game {
 		}
 	}
 	
-
 	/**
 	 * Getter for the level of difficulty. For the classes player and monster to set
 	 * the maximum weight of backpack and the damage of one attack
