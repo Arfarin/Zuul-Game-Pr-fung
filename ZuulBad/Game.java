@@ -45,10 +45,8 @@ public class Game {
 		player = new Player();
 		environment = new Environment();
 		
-		
-		setTime();
-
 		currentRoom = environment.getFirstRoom(); // start game outside
+		setTime();
 	}
 
 
