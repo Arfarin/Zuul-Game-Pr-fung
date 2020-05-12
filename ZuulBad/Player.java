@@ -44,7 +44,7 @@ public class Player {
 
 	}
 
-	private void removeItemFromBackpack(Object o) {
+	public void removeItemFromBackpack(Object o) {
 		backpack.removeItem(o);
 		}
 	

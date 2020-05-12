@@ -268,6 +268,7 @@ public class Game {
 
 		if (response != null) {
 			System.out.println(response);
+			//needs a method remove item from inventory
 
 		} else {
 			System.out.println("This is not what I want");
