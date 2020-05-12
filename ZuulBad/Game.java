@@ -174,7 +174,7 @@ public class Game {
 				return true;
 			}
 		}
-		int damage = 5; // needs to be set based on difficulty
+		int damage = Level.setValue(1, 1);
 		player.reduceLifeBar(damage);
 		System.out.println("The Monster hurt you. You have to flee back to the previous room.\n");
 		return false;
