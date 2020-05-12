@@ -105,6 +105,10 @@ public class Game {
 			break;
 		case STORE:
 			store(command);
+			break;
+		case BAGGAGE:
+			System.out.println("Backpack contains: " + player.getBackpackContent());
+			break;
 		}
 
 		if (timeOver(time)) {
@@ -187,11 +191,12 @@ public class Game {
 	 * @return true, if this command quits the game, false otherwise.
 	 */
 	private boolean quit(Command command) {
-		if (command.hasSecondWord()) {
+		if (command.hasSecondWord() && command.getSecondWord().trim().toLowerCase().equals("game")) {
+			return true; // signal that we want to quit
+
+		} else {//  when user doesn't type in "quit game" (e.g. only "quit") we are not shure if he really wants to quit and make a call back
 			System.out.println("Quit what?");
 			return false;
-		} else {
-			return true; // signal that we want to quit
 		}
 	}
 
@@ -268,7 +273,7 @@ public class Game {
 		try {
 			wantedItem = Valuable.valueOf(item.toUpperCase());
 		} catch (IllegalArgumentException e) {
-			System.out.println("Sorry, '" + item + "' is not a valid item.");
+			System.out.println("Sorry, '" + item + "' is not a valid item to deliver.");
 			return;
 		}
 		if (player.backpackContainsItem(item.toUpperCase())) {

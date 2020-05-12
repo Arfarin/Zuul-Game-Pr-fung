@@ -65,7 +65,10 @@ public class Inventory {
 
 		return content.contains(specificitem);
 	}
-
+	
+	public String getListOfContent(){
+		return content.getItemList();
+	}
 
 	public void setMaxWeight(int maxWeight) {
 		this.maxWeight = maxWeight;
