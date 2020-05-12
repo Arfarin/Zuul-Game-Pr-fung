@@ -12,18 +12,34 @@ import java.util.HashMap;
  * connected to other rooms via exits.  For each existing exit, the room 
  * stores a reference to the neighboring room.
  * 
- * @author  Michael Kölling and David J. Barnes
+ * @author  Michael KÃ¶lling and David J. Barnes
  * @version 2016.02.29
  */
 
 enum Room{
 	
-	OUTSIDE("outside the main entrance of the university"),
-	THEATER("in a lecture theater"),
-	PUB("in the campus pub"),
-	LAB("in a computing lab"),
-	OFFICE("in the computing admin office"),
-	BASEMENT("down in the spooky basement");
+	CastleCourtyard("Starting point: You are in front of a very old castle."),
+	CastleGarden("You enter the castle's magnificent garden."),
+	FlowerGarden("You are now surrounded by beautiful flowers."),
+	KingsChamber("You reach the holy chambers of the royal family."),
+	EntryHall("You enter a breathtakingly big hall."),
+	TowerStaircases("You find staircases which will take you to the tower."),
+	DestroyedTower("Unfortunatelly, the tower is already destroyed."),
+	DiningRoom("You enter a huge dining area yet it's empty."),
+	Kitchen("This kitchen is massive."),
+	Pastry("Here are all the yummie desserts. Enjoy!"),
+	Pantry("There is still some cooked food here."),
+	Warehouse("You reach a room full of boxes and stuff."),
+	DesertedWineStorage("Oh yes. Here are hundreds of bottles of wine."),
+	BasementEntry("You are now in a spooky basement."),
+	Armoury("This room is full of armour and knight statues."),
+	TreasureChamber("WOW! You enter a treasure chamber full of gold and jewels."),
+	UndergroundHallway("Where does this strange and empty hallway lead to?"),
+	HiddenPath("This path looks like nobody has seen it before."),
+	MistyRoom("This room has a weird feeling to it. You can hear noises..."),
+	BattleZone("It resembles a huge underground fighting pit"),
+	Dungeon("Nobody wants so be hold captive in this cold dungeon."),
+	TeleporterRoom("Everything is moving... What is happening?");
 	
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
@@ -180,7 +196,7 @@ enum Room{
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString() + "\n\n" +
+        return description + ".\n" + getExitString() + "\n\n" +
         "These are the items in the room:" + "\n" +
 		getItemList() + "\n\n"+ getNpcMessage();
     }
