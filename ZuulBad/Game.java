@@ -44,11 +44,10 @@ public class Game {
 		chooseLevelOfDifficulty();
 		player = new Player();
 		environment = new Environment();
-		
+
 		currentRoom = environment.getFirstRoom(); // start game outside
 		setTime();
 	}
-
 
 	/**
 	 * Main play routine. Loops until end of play.
@@ -137,18 +136,18 @@ public class Game {
 		} else if (nextRoom.isLocked()) {
 			if (player.backpackContainsItem("key")) {
 				nextRoom.unlockRoom();
-				// this still needs a method that deletes key from inventory (in Player)
+				player.removeItemFromBackpack(Valuable.KEY);
 				System.out.println(nextRoom + " was unlocked.");
 				goRoom(command);
 				return;
 			}
 			System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
-			
-		} else if(nextRoom.isTeleporterRoom()) {
+
+		} else if (nextRoom.isTeleporterRoom()) {
 			System.out.println("You were randomly teleported." + "\n");
 			currentRoom = getRandomRoom();
-			
-		} else if(nextRoom.hasMonster()) {
+
+		} else if (nextRoom.hasMonster()) {
 			if (killedMonster()) {
 				currentRoom = nextRoom;
 			}
@@ -157,20 +156,20 @@ public class Game {
 			currentRoom = nextRoom;
 
 		}
-		
+
 		System.out.println(currentRoom.getLongDescription());
 		time--;
 		player.getHungry();
 		player.increaseLifeBar();
 		printer.printRemainingTime(time);
 	}
-	
+
 	private boolean killedMonster() {
-		
+
 		for (Weapon weapon : Weapon.values()) {
 			if (player.backpackContainsItem(weapon.toString())) {
 				currentRoom.killMonster();
-				// needs Method removeItemFromBackpack
+				player.removeItemFromBackpack(weapon);
 				System.out.println("You killed the monster in the room.\n");
 				return true;
 			}
@@ -222,9 +221,8 @@ public class Game {
 		}
 
 		if (eatMuffin(food) == true) {
-		return true;
-		}
-		else {
+			return true;
+		} else {
 
 			if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
 				currentRoom.removeItem(food);
@@ -262,16 +260,28 @@ public class Game {
 	private void hint(Command command) {
 
 		System.out.println("Do you have the item I want?");
-		String item = parser.getUserInput();
+		String item = parser.getUserInput().trim().toLowerCase();
 
 		String response = currentRoom.getNpcHint(item);
+		Valuable wantedItem;
 
-		if (response != null) {
-			System.out.println(response);
-			//needs a method remove item from inventory
+		try {
+			wantedItem = Valuable.valueOf(item.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			System.out.println("Sorry, '" + item + "' is not a valid item.");
+			return;
+		}
+		if (player.backpackContainsItem(item.toUpperCase())) {
 
+			if (response != null) {
+				System.out.println(response);
+				player.removeItemFromBackpack(wantedItem);
+
+			} else {
+				System.out.println("This is not what I want");
+			}
 		} else {
-			System.out.println("This is not what I want");
+			System.out.println("Your backpack doesn't contain '" + item + "' so you can't deliver that to anyone.");
 		}
 
 	}
@@ -365,13 +375,13 @@ public class Game {
 			return false;
 		}
 	}
-	
+
 	private Room getRandomRoom() {
 		random = new Random();
-		
+
 		int randomnumber = random.nextInt(Room.values().length);
 		Room randomroom = Room.values()[randomnumber];
-		
+
 		return randomroom;
 	}
 
@@ -396,7 +406,7 @@ public class Game {
 			chooseLevelOfDifficulty();
 		}
 	}
-	
+
 	/**
 	 * Getter for the level of difficulty. For the classes player and monster to set
 	 * the maximum weight of backpack and the damage of one attack

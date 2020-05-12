@@ -28,11 +28,11 @@ public class Printer {
 	public void printDifficultyChoices() {
 		System.out.println();
 		System.out.println(
-				"Let's see how much you withstand.. You can choose between the following three levels of difficulty: ");
+				"Please choose between the following three levels of difficulty: ");
 		System.out.println("Level 1: EASY - nice to start with");
-		System.out.println("Level 2: MEAN - don't underrate it");
+		System.out.println("Level 2: MEDIUM - don't underrate it");
 		System.out.println("Level 3: HEAVY - for tough guys and ladies");
-		System.out.println("Please type in EASY, MEAN or HEAVY");
+		System.out.println("Please type in EASY, MEDIUM or HEAVY");
 	}
 	
 	public static String weightTooHighError() {

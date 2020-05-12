@@ -19,9 +19,7 @@ public class Inventory {
 	private Items content;
 
 	public Inventory() {
-//		contents = new HashMap<String, Integer>();
 		setMaxWeight(Level.setValue(20, -5));
-//		makeSettings();
 		content = new Items();
 	}
 
@@ -68,17 +66,6 @@ public class Inventory {
 		return content.contains(specificitem);
 	}
 
-//	/**
-//	 * sets the maximum weight of the inventory depending on the value set by the
-//	 * user at the very beginning of the game.
-//	 */
-//	private void makeSettings() {
-//
-//		setMaxWeight(Level.setValue(20, -5));
-//		System.out.println(
-//				"Here you get a backback. You can put things you find into it witch you will need later. It's maximum portable weight is "
-//						+ maxWeight + " kilo.");
-//	}
 
 	public void setMaxWeight(int maxWeight) {
 		this.maxWeight = maxWeight;
