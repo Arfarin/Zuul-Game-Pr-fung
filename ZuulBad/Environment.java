@@ -103,7 +103,7 @@ public class Environment {
 		Room.DesertedWineStorage.addItem();
 		Room.BasementEntry.addItem();
 		Room.Armoury.addItem();
-		Room.TreasureChamber.addItem(Weapon.DRAGONGLASS);
+		Room.TreasureChamber.addItem(Valuable.DRAGONGLASS);
 		Room.UndergroundHallway.addItem(Valuable.KEY, Weapon.AXE);
 		Room.HiddenPath.addItem();
 		Room.MistyRoom.addItem(Weapon.SWORD);
@@ -126,6 +126,8 @@ public class Environment {
 		Room.HiddenPath.putMonster();
 		Room.BattleZone.putMonster();
 		
+		Room.Dungeon.makeFinalRoom();
+		
 	}
 	
 	private void createNPC() {
@@ -137,7 +139,10 @@ public class Environment {
 
 	}
 	
+	
 	public Room getFirstRoom() {
 		return Room.CastleCourtyard;
 	}
+	
+	
 }

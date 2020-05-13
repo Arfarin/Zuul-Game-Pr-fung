@@ -116,7 +116,13 @@ enum Room{
     	return monster;
     }
     
+    public void makeFinalRoom() {
+    	finalroom = true;
+    }
     
+    public boolean isFinalRoom() {
+    	return finalroom;
+    }
     
     /**
      * Creates a Non Player Character in the room

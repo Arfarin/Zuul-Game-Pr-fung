@@ -136,16 +136,18 @@ public class Game {
 
 		if (nextRoom == null) {
 			System.out.println("There is no door!");
+			return;
 
 		} else if (nextRoom.isLocked()) {
 			if (player.backpackContainsItem("key")) {
 				nextRoom.unlockRoom();
 				player.removeItemFromBackpack(Valuable.KEY);
 				System.out.println(nextRoom + " was unlocked.");
-				goRoom(command);
-				return;
-			}
+				currentRoom = nextRoom;
+			} else {
 			System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
+			return;
+			}
 
 		} else if (nextRoom.isTeleporterRoom()) {
 			System.out.println("You were randomly teleported." + "\n");
@@ -155,8 +157,12 @@ public class Game {
 			if (killedMonster()) {
 				nextRoom.killMonster();
 				currentRoom = nextRoom;
-			} 
+			} else if (nextRoom.isFinalRoom()) {
+				rescuedPrincess();
+			}
 
+		} else {
+			currentRoom = nextRoom;
 		}
 
 		System.out.println(currentRoom.getLongDescription());
@@ -169,9 +175,9 @@ public class Game {
 	private boolean killedMonster() {
 
 		for (Weapon weapon : Weapon.values()) {
+			
 			if (player.backpackContainsItem(weapon.toString())) {
 
-				currentRoom.killMonster();
 				player.removeItemFromBackpack(weapon);
 
 				System.out.println("You killed the monster in the room.\n");
@@ -194,7 +200,7 @@ public class Game {
 		if (command.hasSecondWord() && command.getSecondWord().trim().toLowerCase().equals("game")) {
 			return true; // signal that we want to quit
 
-		} else {//  when user doesn't type in "quit game" (e.g. only "quit") we are not shure if he really wants to quit and make a call back
+		} else {//  when user doesn't type in "quit game" (e.g. only "quit") we are not sure if he really wants to quit and make a call back
 			System.out.println("Quit what?");
 			return false;
 		}
@@ -388,6 +394,27 @@ public class Game {
 		Room randomroom = Room.values()[randomnumber];
 
 		return randomroom;
+	}
+	
+	private boolean rescuedPrincess() {
+		boolean won = false;
+
+			if (player.backpackContainsItem(Valuable.DRAGONGLASS.toString())) {
+
+				player.removeItemFromBackpack(Valuable.DRAGONGLASS);
+
+				System.out.println("You killed the monster in the room.\n"
+						+ "Princess: Thanks for saving me.Here's a kiss on the cheek for that.\n"
+						+ "I have wanted to be independent for so long, but because of this monster I was stuck here.\n"
+						+ "But now I can go to college and become a Data Scientist. Bye!");
+				won = true;
+			}
+			
+		int damage = Level.setValue(1, 1) * 2;
+		player.reduceLifeBar(damage);
+		System.out.println("The Monster hurt you badly. You have to flee back to the previous room.\n");
+
+		return won;
 	}
 
 //// Check status of lifeBar, time or foodBar 		
