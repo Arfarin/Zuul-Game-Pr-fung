@@ -150,11 +150,9 @@ public class Game {
 			
 		} else if(nextRoom.hasMonster()) {
 			if (killedMonster()) {
+				nextRoom.killMonster();
 				currentRoom = nextRoom;
-			}
-
-		} else {
-			currentRoom = nextRoom;
+			} 
 
 		}
 		
@@ -169,7 +167,6 @@ public class Game {
 		
 		for (Weapon weapon : Weapon.values()) {
 			if (player.backpackContainsItem(weapon.toString())) {
-				currentRoom.killMonster();
 				// needs Method removeItemFromBackpack
 				System.out.println("You killed the monster in the room.\n");
 				return true;
