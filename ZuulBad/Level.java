@@ -13,7 +13,7 @@ package ZuulBad;
  */
 
 public enum Level {
-	EASY, MEAN, HEAVY;
+	EASY, MEDIUM, HEAVY;
 
 	/**
 	 * sets the values of time, damage and maximum portable weight of inventory at the beginning of the game. 
