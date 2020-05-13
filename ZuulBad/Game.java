@@ -44,11 +44,10 @@ public class Game {
 		chooseLevelOfDifficulty();
 		player = new Player();
 		environment = new Environment();
-		
+
 		currentRoom = environment.getFirstRoom(); // start game outside
 		setTime();
 	}
-
 
 	/**
 	 * Main play routine. Loops until end of play.
@@ -106,6 +105,10 @@ public class Game {
 			break;
 		case STORE:
 			store(command);
+			break;
+		case BAGGAGE:
+			System.out.println("Backpack contains: " + player.getBackpackContent());
+			break;
 		}
 
 		if (timeOver(time)) {
@@ -137,18 +140,18 @@ public class Game {
 		} else if (nextRoom.isLocked()) {
 			if (player.backpackContainsItem("key")) {
 				nextRoom.unlockRoom();
-				// this still needs a method that deletes key from inventory (in Player)
+				player.removeItemFromBackpack(Valuable.KEY);
 				System.out.println(nextRoom + " was unlocked.");
 				goRoom(command);
 				return;
 			}
 			System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
-			
-		} else if(nextRoom.isTeleporterRoom()) {
+
+		} else if (nextRoom.isTeleporterRoom()) {
 			System.out.println("You were randomly teleported." + "\n");
 			currentRoom = getRandomRoom();
-			
-		} else if(nextRoom.hasMonster()) {
+
+		} else if (nextRoom.hasMonster()) {
 			if (killedMonster()) {
 				currentRoom = nextRoom;
 			}
@@ -157,25 +160,25 @@ public class Game {
 			currentRoom = nextRoom;
 
 		}
-		
+
 		System.out.println(currentRoom.getLongDescription());
 		time--;
 		player.getHungry();
 		player.increaseLifeBar();
 		printer.printRemainingTime(time);
 	}
-	
+
 	private boolean killedMonster() {
-		
+
 		for (Weapon weapon : Weapon.values()) {
 			if (player.backpackContainsItem(weapon.toString())) {
 				currentRoom.killMonster();
-				// needs Method removeItemFromBackpack
+				player.removeItemFromBackpack(weapon);
 				System.out.println("You killed the monster in the room.\n");
 				return true;
 			}
 		}
-		int damage = 5; // needs to be set based on difficulty
+		int damage = Level.setValue(1, 1);
 		player.reduceLifeBar(damage);
 		System.out.println("The Monster hurt you. You have to flee back to the previous room.\n");
 		return false;
@@ -188,11 +191,12 @@ public class Game {
 	 * @return true, if this command quits the game, false otherwise.
 	 */
 	private boolean quit(Command command) {
-		if (command.hasSecondWord()) {
+		if (command.hasSecondWord() && command.getSecondWord().trim().toLowerCase().equals("game")) {
+			return true; // signal that we want to quit
+
+		} else {//  when user doesn't type in "quit game" (e.g. only "quit") we are not shure if he really wants to quit and make a call back
 			System.out.println("Quit what?");
 			return false;
-		} else {
-			return true; // signal that we want to quit
 		}
 	}
 
@@ -222,9 +226,8 @@ public class Game {
 		}
 
 		if (eatMuffin(food) == true) {
-		return true;
-		}
-		else {
+			return true;
+		} else {
 
 			if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
 				currentRoom.removeItem(food);
@@ -262,16 +265,28 @@ public class Game {
 	private void hint(Command command) {
 
 		System.out.println("Do you have the item I want?");
-		String item = parser.getUserInput();
+		String item = parser.getUserInput().trim().toLowerCase();
 
 		String response = currentRoom.getNpcHint(item);
+		Valuable wantedItem;
 
-		if (response != null) {
-			System.out.println(response);
-			//needs a method remove item from inventory
+		try {
+			wantedItem = Valuable.valueOf(item.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			System.out.println("Sorry, '" + item + "' is not a valid item to deliver.");
+			return;
+		}
+		if (player.backpackContainsItem(item.toUpperCase())) {
 
+			if (response != null) {
+				System.out.println(response);
+				player.removeItemFromBackpack(wantedItem);
+
+			} else {
+				System.out.println("This is not what I want");
+			}
 		} else {
-			System.out.println("This is not what I want");
+			System.out.println("Your backpack doesn't contain '" + item + "' so you can't deliver that to anyone.");
 		}
 
 	}
@@ -365,13 +380,13 @@ public class Game {
 			return false;
 		}
 	}
-	
+
 	private Room getRandomRoom() {
 		random = new Random();
-		
+
 		int randomnumber = random.nextInt(Room.values().length);
 		Room randomroom = Room.values()[randomnumber];
-		
+
 		return randomroom;
 	}
 
@@ -396,7 +411,6 @@ public class Game {
 			chooseLevelOfDifficulty();
 		}
 	}
-	
 
 	/**
 	 * Getter for the level of difficulty. For the classes player and monster to set

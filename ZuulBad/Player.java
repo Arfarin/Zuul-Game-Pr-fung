@@ -49,8 +49,8 @@ public class Player {
 		}
 	
 
-	public void useWeapon() {
-
+	public String getBackpackContent(){
+		return backpack.getListOfContent();
 	}
 
 	/**
