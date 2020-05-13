@@ -145,8 +145,8 @@ public class Game {
 				System.out.println(nextRoom + " was unlocked.");
 				currentRoom = nextRoom;
 			} else {
-			System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
-			return;
+				System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
+				return;
 			}
 
 		} else if (nextRoom.isTeleporterRoom()) {
@@ -157,9 +157,10 @@ public class Game {
 			if (killedMonster()) {
 				nextRoom.killMonster();
 				currentRoom = nextRoom;
-			} else if (nextRoom.isFinalRoom()) {
-				rescuedPrincess();
 			}
+		} else if (nextRoom.isFinalRoom()) {
+			rescuedPrincess();
+			return;
 
 		} else {
 			currentRoom = nextRoom;
@@ -397,7 +398,6 @@ public class Game {
 	}
 	
 	private boolean rescuedPrincess() {
-		boolean won = false;
 
 			if (player.backpackContainsItem(Valuable.DRAGONGLASS.toString())) {
 
@@ -407,14 +407,14 @@ public class Game {
 						+ "Princess: Thanks for saving me.Here's a kiss on the cheek for that.\n"
 						+ "I have wanted to be independent for so long, but because of this monster I was stuck here.\n"
 						+ "But now I can go to college and become a Data Scientist. Bye!");
-				won = true;
+				return true;
 			}
 			
 		int damage = Level.setValue(1, 1) * 2;
 		player.reduceLifeBar(damage);
 		System.out.println("The Monster hurt you badly. You have to flee back to the previous room.\n");
 
-		return won;
+		return false;
 	}
 
 //// Check status of lifeBar, time or foodBar 		
