@@ -21,50 +21,123 @@ public class Environment {
 	
 	private void setRoomExits() {
 
-		Room.OUTSIDE.setExit("east", Room.THEATER);
-		Room.OUTSIDE.setExit("south", Room.LAB);
-		Room.OUTSIDE.setExit("west", Room.PUB);
+		Room.CastleCourtyard.setExit("north", Room.EntryHall);
+		Room.CastleCourtyard.setExit("east", Room.CastleGarden);
+		Room.CastleCourtyard.setExit("south", Room.DesertedWineStorage);
+		Room.CastleCourtyard.setExit("west", Room.Warehouse);
 
-		Room.THEATER.setExit("west", Room.OUTSIDE);
+		Room.CastleGarden.setExit("south", Room.FlowerGarden);
+		Room.CastleGarden.setExit("west", Room.CastleCourtyard);
+		
+		Room.FlowerGarden.setExit("north", Room.CastleGarden);
+		Room.FlowerGarden.setExit("east", Room.KingsChamber);
 
-		Room.PUB.setExit("east", Room.OUTSIDE);
-		Room.PUB.setExit("down", Room.BASEMENT);
-
-		Room.LAB.setExit("north", Room.OUTSIDE);
-		Room.LAB.setExit("east", Room.OFFICE);
-
-		Room.OFFICE.setExit("west", Room.LAB);
-
-		Room.BASEMENT.setExit("up", Room.PUB);
+		Room.KingsChamber.setExit("west", Room.FlowerGarden);
+		
+		Room.EntryHall.setExit("north", Room.TowerStaircases);
+		Room.EntryHall.setExit("south", Room.CastleCourtyard);
+		Room.EntryHall.setExit("west", Room.DiningRoom);
+		
+		Room.DestroyedTower.setExit("east", Room.TeleporterRoom);
+		Room.DestroyedTower.setExit("west", Room.TowerStaircases);
+		
+		Room.DiningRoom.setExit("east", Room.EntryHall);
+		Room.DiningRoom.setExit("south", Room.Kitchen);
+		
+		Room.Kitchen.setExit("north", Room.Pastry);
+		Room.Kitchen.setExit("east", Room.DiningRoom);
+		Room.Kitchen.setExit("south", Room.Pantry);
+		
+		Room.Pastry.setExit("south", Room.Kitchen);
+		
+		Room.Pantry.setExit("north", Room.Kitchen);
+		Room.Pantry.setExit("east", Room.Warehouse);
+		
+		Room.Warehouse.setExit("east", Room.Pantry);
+		Room.Warehouse.setExit("west", Room.CastleCourtyard);
+		
+		Room.TowerStaircases.setExit("east", Room.DestroyedTower);
+		Room.TowerStaircases.setExit("south", Room.EntryHall);
+		
+		Room.DesertedWineStorage.setExit("down", Room.BasementEntry);
+		Room.DesertedWineStorage.setExit("north", Room.CastleCourtyard);
+		
+		Room.BasementEntry.setExit("south", Room.Armoury);
+		
+		Room.Armoury.setExit("north", Room.BasementEntry);
+		Room.Armoury.setExit("east", Room.UndergroundHallway);
+		Room.Armoury.setExit("west", Room.TreasureChamber);
+		
+		Room.TreasureChamber.setExit("east", Room.Armoury);
+		
+		Room.UndergroundHallway.setExit("east", Room.HiddenPath);
+		Room.UndergroundHallway.setExit("west", Room.Armoury);
+		
+		Room.HiddenPath.setExit("east", Room.MistyRoom);
+		Room.HiddenPath.setExit("west", Room.HiddenPath);
+		
+		Room.MistyRoom.setExit("north", Room.BattleZone);
+		Room.MistyRoom.setExit("west", Room.HiddenPath);
+		
+		Room.BattleZone.setExit("south", Room.MistyRoom);
+		Room.BattleZone.setExit("west", Room.Dungeon);
+		
+		Room.Dungeon.setExit("up", Room.KingsChamber);
+		Room.Dungeon.setExit("east", Room.BattleZone);
 	}
 	
 	private void addRoomItems() {
 
-		Room.OUTSIDE.addItem(Food.STARFRUIT, Valuable.KEY, Valuable.PHONE);
-		Room.PUB.addItem(Food.BANANA, Weapon.TOOTHPICK);
-		Room.THEATER.addItem(Food.BANANA, Food.APPLE, Food.MUFFIN,
-							Weapon.NAIL, Weapon.SWORD);
-		Room.LAB.addItem(Food.BANANA, 
-					Weapon.TOOTHPICK);
+		Room.CastleCourtyard.addItem(Food.STARFRUIT);
+		Room.CastleGarden.addItem(Food.APPLE, Weapon.KNIFE);
+		Room.FlowerGarden.addItem();
+		Room.KingsChamber.addItem(Weapon.HAIRBRUSH);
+		Room.EntryHall.addItem(Food.BANANA, Weapon.TOOTHPICK);
+		Room.TowerStaircases.addItem();
+		Room.DestroyedTower.addItem(Food.BANANA, Weapon.NAIL, Valuable.KEY);
+		Room.DiningRoom.addItem(Valuable.KEY);
+		Room.Kitchen.addItem();
+		Room.Pastry.addItem(Food.MUFFIN);
+		Room.Warehouse.addItem(Weapon.DAGGER);
+		Room.Pantry.addItem();
+		Room.DesertedWineStorage.addItem();
+		Room.BasementEntry.addItem();
+		Room.Armoury.addItem();
+		Room.TreasureChamber.addItem(Weapon.DRAGONGLASS);
+		Room.UndergroundHallway.addItem(Valuable.KEY, Weapon.AXE);
+		Room.HiddenPath.addItem();
+		Room.MistyRoom.addItem(Weapon.SWORD);
+		Room.Dungeon.addItem();
+		
 	}
 
 	private void addRoomConditions() {
 		// set up Monsters, locked status, and teleporter room
-		Room.OFFICE.lockRoom();
-		Room.PUB.makeTeleporterRoom();
-		Room.THEATER.putMonster();
+		Room.Pastry.lockRoom();
+		Room.DesertedWineStorage.lockRoom();
+		Room.TreasureChamber.lockRoom();
+		
+		Room.TeleporterRoom.makeTeleporterRoom();
+		
+		Room.TowerStaircases.putMonster();
+		Room.Kitchen.putMonster();
+		Room.FlowerGarden.putMonster();
+		Room.Armoury.putMonster();
+		Room.HiddenPath.putMonster();
+		Room.BattleZone.putMonster();
+		
 	}
 	
 	private void createNPC() {
-		Room.OUTSIDE.createNPC("book");
-		Room.THEATER.createNPC("candle");
-		Room.PUB.createNPC("sock");
-		Room.LAB.createNPC("phone");
-		Room.OFFICE.createNPC("plant");
-		Room.BASEMENT.createNPC("cap");
+		Room.CastleCourtyard.createNPC("old book");
+		Room.Pantry.createNPC("nice smelling candle");
+		Room.KingsChamber.createNPC("sock");
+		Room.BasementEntry.createNPC("old bottle of wine");
+		Room.DiningRoom.createNPC("spoon");
+
 	}
 	
 	public Room getFirstRoom() {
-		return Room.OUTSIDE;
+		return Room.CastleCourtyard;
 	}
 }
