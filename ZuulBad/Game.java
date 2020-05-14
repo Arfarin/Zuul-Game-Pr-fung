@@ -201,6 +201,7 @@ public class Game {
 		if (command.hasSecondWord() && command.getSecondWord().trim().toLowerCase().equals("game")) {
 			return true; // signal that we want to quit
 
+
 		} else {//  when user doesn't type in "quit game" (e.g. only "quit") we are not sure if he really wants to quit and make a call back
 			System.out.println("Quit what?");
 			return false;
@@ -339,33 +340,49 @@ public class Game {
 			}
 		}
 		try {
-			if (currentRoom.containsItem(food.toString())) { // if item is in current room, store it
-				currentRoom.removeItem(food);
-				player.putItemIntoBackpack(food);
-				System.out.println(secondWord.toUpperCase() + " successfully stored");
-				return true;
-			}
-		} catch (NullPointerException h) {
-		}
+			if (!player.cantCarryMore(food.getWeight())) {
 
-		try {
-			if (currentRoom.containsItem(weapon.toString())) {
-				currentRoom.removeItem(weapon);
-				player.putItemIntoBackpack(weapon);
-				System.out.println(secondWord.toUpperCase() + " successfully stored");
-				return true;
+				if (currentRoom.containsItem(food.toString())) { // if item is in current room, store it
+					currentRoom.removeItem(food);
+					player.putItemIntoBackpack(food);
+//					System.out.println(secondWord.toUpperCase() + " successfully stored");
+					return true;
+				}
+			} else {
+				System.out.println(printer.weightTooHighError());
+				return false;
 			}
 		} catch (NullPointerException h) {
-		}
 
-		try {
-			if (currentRoom.containsItem(valuable.toString())) {
-				currentRoom.removeItem(valuable);
-				player.putItemIntoBackpack(valuable);
-				System.out.println(secondWord.toUpperCase() + " successfully stored");
-				return true;
+			try {
+				if (!player.cantCarryMore(weapon.getWeight())) {
+					if (currentRoom.containsItem(weapon.toString())) {
+						currentRoom.removeItem(weapon);
+						player.putItemIntoBackpack(weapon);
+//						System.out.println(secondWord.toUpperCase() + " successfully stored");
+						return true;
+					}
+				} else {
+					System.out.println(printer.weightTooHighError());
+					return false;
+				}
+			} catch (NullPointerException i) {
+
+				try {
+					if (!player.cantCarryMore(valuable.getWeight())) {
+						if (currentRoom.containsItem(valuable.toString())) {
+							currentRoom.removeItem(valuable);
+							player.putItemIntoBackpack(valuable);
+//							System.out.println(secondWord.toUpperCase() + " successfully stored");
+							return true;
+						}
+					} else {
+						System.out.println(printer.weightTooHighError());
+						return false;
+					}
+				} catch (NullPointerException j) {
+				}
 			}
-		} catch (NullPointerException h) {
 		}
 
 		System.out.println("This item is not available at the moment.");

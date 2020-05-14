@@ -5,11 +5,13 @@ public class Player {
 	Inventory backpack;
 	private int lifeBar;
 	private int foodBar;
+	private Printer printer;
 
 	public Player() {
 		backpack = new Inventory();
 		lifeBar = 5;
 		foodBar = 5;
+		printer = new Printer();
 	}
 
 	public void lookAround(Room currentRoom) {
@@ -23,34 +25,59 @@ public class Player {
 	}
 
 	public void eatFoodFromBackpack(Food food) {
-		if (backpack.removeItem(food)== true) {
-		increaseFoodBar();
-		System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
-	}}
+		if (backpack.removeItem(food) == true) {
+			increaseFoodBar();
+			System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
+		}
+	}
 
 	public String eatMuffin() {
 
-			increaseFoodBar();
-			backpack.setMaxWeight(Integer.MAX_VALUE);
-		return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
+		increaseFoodBar();
+		backpack.setMaxWeight(Integer.MAX_VALUE);
+		return printer.eatMagicMuffin();
 
 	}
-	public void putItemIntoBackpack(Object o) {
-		if (backpack.checkIfFull() == false && o != null) {
-			backpack.addItem(o);
-		} else {
-			System.out.println(Printer.weightTooHighError());
+
+	public boolean putItemIntoBackpack(Object object) {
+		boolean stored = false;
+		int itemWeight = 0;
+		try {
+			itemWeight = ((Food) object).getWeight();
+		} catch (ClassCastException e) {
+			try {
+				itemWeight = ((Weapon) object).getWeight();
+			} catch (ClassCastException f) {
+				try {
+					itemWeight = ((Valuable) object).getWeight();
+				} catch (ClassCastException g) {
+				}
+			}
 		}
+
+		if (backpack.checkIfFull(itemWeight) == false && object != null && itemWeight != 0) {
+			backpack.addItem(object);
+			System.out.println("Item successfully stored.");
+			stored = true;
+
+		} else if (backpack.checkIfFull(itemWeight) == true) {
+			System.out.println(printer.weightTooHighError());
+			stored = false;
+		}
+		return stored;
 
 	}
 
 	public void removeItemFromBackpack(Object o) {
 		backpack.removeItem(o);
-		}
-	
+	}
 
-	public String getBackpackContent(){
+	public String getBackpackContent() {
 		return backpack.getListOfContent();
+	}
+
+	public boolean cantCarryMore(int itemWeight) {
+		return backpack.checkIfFull(itemWeight);
 	}
 
 	/**
