@@ -45,10 +45,13 @@ public class Inventory {
 		if (contains(object.toString())) {
 			if (object instanceof Food) {
 				content.removeFood((Food) object);
+				currentWeight -= ((Food) object).getWeight();
 			} else if (object instanceof Weapon) {
 				content.removeWeapon((Weapon) object);
+				currentWeight -= ((Weapon) object).getWeight();
 			} else if (object instanceof Valuable) {
 				content.removeValuable((Valuable) object);
+				currentWeight -= ((Valuable) object).getWeight();
 			} else {
 				System.out.println(object.toString() + " is not a storable thing.");
 				removed = false;
@@ -57,6 +60,7 @@ public class Inventory {
 			System.out.println("Sorry, your backpack doesn't contain that.");
 			removed = false;
 		}
+	
 		return removed;
 
 	}
@@ -74,8 +78,8 @@ public class Inventory {
 		this.maxWeight = maxWeight;
 	}
 
-	public boolean checkIfFull() {
-		if (currentWeight > maxWeight) {
+	public boolean checkIfFull(int itemWeight) {
+		if (currentWeight + itemWeight > maxWeight) {
 			return true;
 		} else {
 			return false;

@@ -35,8 +35,8 @@ public class Printer {
 		System.out.println("Please type in EASY, MEDIUM or HEAVY");
 	}
 	
-	public static String weightTooHighError() {
-		return "Your backpack is full. You can't put another item into it.";
+	public String weightTooHighError() {
+		return "Sorry, you can't put that it into your backpack because it would exceed the maximum portable weight you can carry.";
 	}
 
 	public static String notForBackpackError() {
@@ -50,6 +50,10 @@ public class Printer {
 	public String getFoodHint(){
 		return "You can only eat food which lies in the room you are in or which is stored in your backpack.";
 	}
+	public String eatMagicMuffin() {
+	return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
+	}
+	
 	public String getItemHint() {
 		return "You can only store portable things you find in the room you're in.";
 	}
