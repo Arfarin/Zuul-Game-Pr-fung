@@ -42,7 +42,7 @@ public class Environment {
 		Room.DestroyedTower.setExit("west", Room.TowerStaircases);
 		
 		Room.DiningRoom.setExit("east", Room.EntryHall);
-		Room.DiningRoom.setExit("south", Room.Kitchen);
+		Room.DiningRoom.setExit("west", Room.Kitchen);
 		
 		Room.Kitchen.setExit("north", Room.Pastry);
 		Room.Kitchen.setExit("east", Room.DiningRoom);
@@ -53,8 +53,8 @@ public class Environment {
 		Room.Pantry.setExit("north", Room.Kitchen);
 		Room.Pantry.setExit("east", Room.Warehouse);
 		
-		Room.Warehouse.setExit("east", Room.Pantry);
-		Room.Warehouse.setExit("west", Room.CastleCourtyard);
+		Room.Warehouse.setExit("west", Room.Pantry);
+		Room.Warehouse.setExit("east", Room.CastleCourtyard);
 		
 		Room.TowerStaircases.setExit("east", Room.DestroyedTower);
 		Room.TowerStaircases.setExit("south", Room.EntryHall);
