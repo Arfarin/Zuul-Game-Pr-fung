@@ -7,7 +7,6 @@ enum Weapon {
 	NAIL(4, "Old and rusty, but could be useful in the future."),
 	KNIFE(5, "A knife is always good to protect yourself."),
 	DAGGER(6, "Its short, double-edged blade could come in handy at some point..."),
-	DRAGONGLASS(11, "WOW! This looks like it could even kill dragons."),
 	AXE(9, "You could chop a tree with that axe."),
 	SWORD(10, "This must have belonged to a strong man and mighty soldier.");
 	

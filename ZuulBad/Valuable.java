@@ -8,7 +8,9 @@ enum Valuable {
 	PHONE(6, "Sadly you don't know the PIN. Also, what is this doing in an old castle?"),
 	PLANT(5, "Try to get this to the owner ASAP, maybe they can still save it."),
 	HAT(3, "Quite fashionable if you are into that sort of thing."),
-	KEY(4, "Don't loose this one.");
+	
+	KEY(4, "Don't loose this one."),
+	DRAGONGLASS(7, "WOW! This looks like it could even kill dragons.");
 	
 	private int weight;
 	private String description;

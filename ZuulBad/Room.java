@@ -48,9 +48,11 @@ enum Room{
     private Items itemlist;
 	
 	private int roomentries;
+	
 	private boolean locked;
 	private boolean teleports;
 	private boolean monster;
+	private boolean finalroom;
 
     /**
      * Create a room described "description". Initially, it has
@@ -68,6 +70,7 @@ enum Room{
         locked = false;
         teleports = false;
         monster = false;
+        finalroom = false;
     }
  
     
@@ -113,6 +116,13 @@ enum Room{
     	return monster;
     }
     
+    public void makeFinalRoom() {
+    	finalroom = true;
+    }
+    
+    public boolean isFinalRoom() {
+    	return finalroom;
+    }
     
     /**
      * Creates a Non Player Character in the room
