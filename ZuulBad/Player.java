@@ -18,23 +18,25 @@ public class Player {
 
 	}
 
-	public boolean backpackContainsItem(String specificitem) {
+	public boolean backpackContainsItem(Object specificitem) {
 		return backpack.contains(specificitem);
 	}
 
 	public void eatFoodFromBackpack(Food food) {
-		if (backpack.removeItem(food)== true) {
-		increaseFoodBar();
-		System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
-	}}
+		if (backpack.removeItem(food) == true) {
+			increaseFoodBar();
+			System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
+		}
+	}
 
 	public String eatMuffin() {
 
-			increaseFoodBar();
-			backpack.setMaxWeight(Integer.MAX_VALUE);
+		increaseFoodBar();
+		backpack.setMaxWeight(Integer.MAX_VALUE);
 		return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
 
 	}
+
 	public void putItemIntoBackpack(Object o) {
 		if (backpack.checkIfFull() == false && o != null) {
 			backpack.addItem(o);
@@ -46,10 +48,9 @@ public class Player {
 
 	public void removeItemFromBackpack(Object o) {
 		backpack.removeItem(o);
-		}
-	
+	}
 
-	public String getBackpackContent(){
+	public String getBackpackContent() {
 		return backpack.getListOfContent();
 	}
 

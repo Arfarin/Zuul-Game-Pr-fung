@@ -25,48 +25,28 @@ public class Inventory {
 
 	public void addItem(Object... o) {
 		for (Object object : o) {
-			if (object instanceof Food) {
-				content.addFood((Food) object);
-				currentWeight += ((Food) object).getWeight();
-			} else if (object instanceof Weapon) {
-				content.addWeapon((Weapon) object);
-				currentWeight += ((Weapon) object).getWeight();
-			} else if (object instanceof Valuable) {
-				content.addValuable((Valuable) object);
-				currentWeight += ((Valuable) object).getWeight();
-			} else {
-				System.out.println("You can not put that into your backpack.");
-			}
+			content.addItem(object);
 		}
 	}
 
 	public boolean removeItem(Object object) {
 		boolean removed = true;
-		if (contains(object.toString())) {
-			if (object instanceof Food) {
-				content.removeFood((Food) object);
-			} else if (object instanceof Weapon) {
-				content.removeWeapon((Weapon) object);
-			} else if (object instanceof Valuable) {
-				content.removeValuable((Valuable) object);
-			} else {
-				System.out.println(object.toString() + " is not a storable thing.");
-				removed = false;
-			}
+		if (contains(object)) {
+			content.removeItem(object);
+
 		} else {
 			System.out.println("Sorry, your backpack doesn't contain that.");
 			removed = false;
 		}
 		return removed;
-
 	}
 
-	public boolean contains(String specificitem) {
+	public boolean contains(Object specificitem) {
 
 		return content.contains(specificitem);
 	}
-	
-	public String getListOfContent(){
+
+	public String getListOfContent() {
 		return content.getItemList();
 	}
 

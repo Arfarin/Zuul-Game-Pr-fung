@@ -109,6 +109,9 @@ public class Game {
 		case BAGGAGE:
 			System.out.println("Backpack contains: " + player.getBackpackContent());
 			break;
+		case DROP:
+			drop(command);
+			break;
 		}
 
 		if (timeOver(time)) {
@@ -139,7 +142,7 @@ public class Game {
 			return;
 
 		} else if (nextRoom.isLocked()) {
-			if (player.backpackContainsItem("key")) {
+			if (player.backpackContainsItem(Valuable.KEY)) {
 				nextRoom.unlockRoom();
 				player.removeItemFromBackpack(Valuable.KEY);
 				System.out.println(nextRoom + " was unlocked.");
@@ -176,7 +179,7 @@ public class Game {
 	private boolean killedMonster() {
 
 		for (Weapon weapon : Weapon.values()) {
-			
+
 			if (player.backpackContainsItem(weapon.toString())) {
 
 				player.removeItemFromBackpack(weapon);
@@ -201,7 +204,8 @@ public class Game {
 		if (command.hasSecondWord() && command.getSecondWord().trim().toLowerCase().equals("game")) {
 			return true; // signal that we want to quit
 
-		} else {//  when user doesn't type in "quit game" (e.g. only "quit") we are not sure if he really wants to quit and make a call back
+		} else {// when user doesn't type in "quit game" (e.g. only "quit") we are not sure if
+				// he really wants to quit and make a call back
 			System.out.println("Quit what?");
 			return false;
 		}
@@ -310,68 +314,48 @@ public class Game {
 
 	private boolean store(Command command) {
 		String secondWord = command.getSecondWord();
-		Food food = null;
-		Weapon weapon = null;
-		Valuable valuable = null;
+		Items item = new Items();
 
 		if (secondWord == null) { // check if user specified item to store
 			System.out.println("Store what?");
 			return false;
 		}
 
-//	else if (Food.isFood(secondWord) || Weapon.isWeapon(secondWord) || Valuable.isValuable(secondWord)) {
-		try {
-			food = Food.valueOf(secondWord.toUpperCase());
+		Object itemobject = item.toItsType(secondWord);
 
-		} catch (IllegalArgumentException e) {
+		if (currentRoom.containsItem(itemobject)) { // if item is in current room, store it
 
-			try {
-				weapon = Weapon.valueOf(secondWord.toUpperCase());
-			} catch (IllegalArgumentException f) {
+			currentRoom.removeItem(itemobject);
+			player.putItemIntoBackpack(itemobject);
+			System.out.println(secondWord.toUpperCase() + " successfully stored");
+			return true;
+		} else {
 
-				try {
-					valuable = Valuable.valueOf(secondWord.toUpperCase());
-				} catch (IllegalArgumentException g) {
-					System.out.println("You can not store that.");
-					return false;
-
-				}
-			}
-		}
-		try {
-			if (currentRoom.containsItem(food.toString())) { // if item is in current room, store it
-				currentRoom.removeItem(food);
-				player.putItemIntoBackpack(food);
-				System.out.println(secondWord.toUpperCase() + " successfully stored");
-				return true;
-			}
-		} catch (NullPointerException h) {
+			System.out.println("This item is not available at the moment.");
+			System.out.println(printer.getItemHint());
+			return false;
 		}
 
-		try {
-			if (currentRoom.containsItem(weapon.toString())) {
-				currentRoom.removeItem(weapon);
-				player.putItemIntoBackpack(weapon);
-				System.out.println(secondWord.toUpperCase() + " successfully stored");
-				return true;
+	}
+
+	public void drop(Command command) {
+		Items item = new Items();
+
+		String secondWord = command.getSecondWord();
+
+		if (secondWord == null) { // check if user specified item to store
+			System.out.println("Drop what?");
+			return;
+		} else {
+
+			if (player.backpackContainsItem(item.toItsType(secondWord))) {
+				player.removeItemFromBackpack(item.toItsType(secondWord));
+				currentRoom.addItem(item.toItsType(secondWord));
+				System.out.println("You have dropped " + secondWord);
+			} else {
+				System.out.println("You cannot drop that.");
 			}
-		} catch (NullPointerException h) {
 		}
-
-		try {
-			if (currentRoom.containsItem(valuable.toString())) {
-				currentRoom.removeItem(valuable);
-				player.putItemIntoBackpack(valuable);
-				System.out.println(secondWord.toUpperCase() + " successfully stored");
-				return true;
-			}
-		} catch (NullPointerException h) {
-		}
-
-		System.out.println("This item is not available at the moment.");
-		System.out.println(printer.getItemHint());
-		return false;
-
 	}
 
 	private void setTime() {
@@ -396,20 +380,20 @@ public class Game {
 
 		return randomroom;
 	}
-	
+
 	private boolean rescuedPrincess() {
 
-			if (player.backpackContainsItem(Valuable.DRAGONGLASS.toString())) {
+		if (player.backpackContainsItem(Valuable.DRAGONGLASS)) {
 
-				player.removeItemFromBackpack(Valuable.DRAGONGLASS);
+			player.removeItemFromBackpack(Valuable.DRAGONGLASS);
 
-				System.out.println("You killed the monster in the room.\n"
-						+ "Princess: Thanks for saving me.Here's a kiss on the cheek for that.\n"
-						+ "I have wanted to be independent for so long, but because of this monster I was stuck here.\n"
-						+ "But now I can go to college and become a Data Scientist. Bye!");
-				return true;
-			}
-			
+			System.out.println("You killed the monster in the room.\n"
+					+ "Princess: Thanks for saving me.Here's a kiss on the cheek for that.\n"
+					+ "I have wanted to be independent for so long, but because of this monster I was stuck here.\n"
+					+ "But now I can go to college and become a Data Scientist. Bye!");
+			return true;
+		}
+
 		int damage = Level.setValue(1, 1) * 2;
 		player.reduceLifeBar(damage);
 		System.out.println("The Monster hurt you badly. You have to flee back to the previous room.\n");
