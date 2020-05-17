@@ -31,13 +31,16 @@ public class Inventory {
 
 	public boolean removeItem(Object object) {
 		boolean removed = true;
+
 		if (contains(object)) {
 			content.removeItem(object);
+
 
 		} else {
 			System.out.println("Sorry, your backpack doesn't contain that.");
 			removed = false;
 		}
+	
 		return removed;
 	}
 
@@ -54,8 +57,8 @@ public class Inventory {
 		this.maxWeight = maxWeight;
 	}
 
-	public boolean checkIfFull() {
-		if (currentWeight > maxWeight) {
+	public boolean isFull(int itemWeight) {
+		if (currentWeight + itemWeight > maxWeight) {
 			return true;
 		} else {
 			return false;

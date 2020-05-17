@@ -5,11 +5,13 @@ public class Player {
 	Inventory backpack;
 	private int lifeBar;
 	private int foodBar;
+	private Printer printer;
 
 	public Player() {
 		backpack = new Inventory();
 		lifeBar = 5;
 		foodBar = 5;
+		printer = new Printer();
 	}
 
 	public void lookAround(Room currentRoom) {
@@ -33,16 +35,44 @@ public class Player {
 
 		increaseFoodBar();
 		backpack.setMaxWeight(Integer.MAX_VALUE);
+
 		return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
 
 	}
 
-	public void putItemIntoBackpack(Object o) {
-		if (backpack.checkIfFull() == false && o != null) {
-			backpack.addItem(o);
-		} else {
-			System.out.println(Printer.weightTooHighError());
+	public boolean putItemIntoBackpack(Object object) {
+		Items item = new Items();
+		boolean stored = false;
+		int itemWeight = 0;
+		String itemname = object.toString();
+		
+		try {
+		
+		if (item.toItsType(itemname) instanceof Food) {
+			itemWeight = Food.valueOf(itemname).getWeight();
 		}
+		else if (item.toItsType(itemname) instanceof Weapon) {
+			itemWeight = Weapon.valueOf(itemname).getWeight();
+		}
+		else if (item.toItsType(itemname) instanceof Valuable) {
+			itemWeight = Valuable.valueOf(itemname).getWeight();
+		} }
+		
+		catch (IllegalArgumentException e) {
+			System.out.println("You cannot put that in your backpack.");
+			return false;
+		}
+		
+		if (backpack.isFull(itemWeight)) {
+			System.out.println(printer.weightTooHighError());
+			stored = false;
+			
+		} else {
+			backpack.addItem(object);
+			System.out.println("Item successfully stored.");
+			stored = true;
+		}
+		return stored;
 
 	}
 
@@ -52,6 +82,10 @@ public class Player {
 
 	public String getBackpackContent() {
 		return backpack.getListOfContent();
+	}
+
+	public boolean cantCarryMore(int itemWeight) {
+		return backpack.isFull(itemWeight);
 	}
 
 	/**

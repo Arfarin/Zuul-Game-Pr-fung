@@ -206,6 +206,7 @@ public class Game {
 
 		} else {// when user doesn't type in "quit game" (e.g. only "quit") we are not sure if
 				// he really wants to quit and make a call back
+
 			System.out.println("Quit what?");
 			return false;
 		}
@@ -236,36 +237,35 @@ public class Game {
 			return false;
 		}
 
-		if (eatMuffin(food) == true) {
+		if (eatMuffin(food)) {
 			return true;
 		} else {
 
-			if (currentRoom.containsItem(food.toString())) { // if item is in room, eat it
+			if (currentRoom.containsItem(food)) { // if item is in room, eat it
 				currentRoom.removeItem(food);
 				player.increaseFoodBar();
 				return true;
-			} else { // if item is not in room, go to inventory
-				if (player.backpackContainsItem(food.toString())) {
-					player.eatFoodFromBackpack(food);
-					return true;
-				} else {
-					System.out.println("This food is not available at the moment.");
-					System.out.println(printer.getFoodHint());
-					return false;
-				}
-			}
+			} else if (player.backpackContainsItem(food)) { // if item is not in room, go to inventory
+				player.eatFoodFromBackpack(food);
+				return true;
 
+			} else {
+				System.out.println("This food is not available at the moment.");
+				System.out.println(printer.getFoodHint());
+				return false;
+			}
 		}
+
 	}
 
 	private boolean eatMuffin(Food food) {
-		if ((food.isMuffin()) && (currentRoom.containsItem(food.toString()))) {
+		if ((food.isMuffin()) && (currentRoom.containsItem(food))) {
 			System.out.println(player.eatMuffin());
 			currentRoom.removeItem(food);
 			return true;
 
-		} else if (food.isMuffin() && !((currentRoom.containsItem(food.toString())))
-				&& player.backpackContainsItem(food.toString())) {
+		} else if (food.isMuffin() && !(currentRoom.containsItem(food))
+				&& player.backpackContainsItem(food)) {
 			System.out.println(player.eatMuffin());
 			return true;
 		} else {
@@ -327,7 +327,7 @@ public class Game {
 
 			currentRoom.removeItem(itemobject);
 			player.putItemIntoBackpack(itemobject);
-			System.out.println(secondWord.toUpperCase() + " successfully stored");
+			
 			return true;
 		} else {
 
@@ -335,8 +335,8 @@ public class Game {
 			System.out.println(printer.getItemHint());
 			return false;
 		}
-
 	}
+
 
 	public void drop(Command command) {
 		Items item = new Items();
@@ -354,8 +354,10 @@ public class Game {
 				System.out.println("You have dropped " + secondWord);
 			} else {
 				System.out.println("You cannot drop that.");
+
 			}
 		}
+
 	}
 
 	private void setTime() {
