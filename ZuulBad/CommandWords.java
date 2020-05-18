@@ -14,7 +14,7 @@ package ZuulBad;
 
 public enum CommandWords
 {
-	GO, QUIT, HELP, LOOK, EAT, HINT, STORE, BAGGAGE;
+	GO, QUIT, HELP, LOOK, EAT, HINT, STORE, BAGGAGE, DROP;
 
     /**
      * Constructor - initialise the command words.

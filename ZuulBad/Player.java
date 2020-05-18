@@ -20,7 +20,7 @@ public class Player {
 
 	}
 
-	public boolean backpackContainsItem(String specificitem) {
+	public boolean backpackContainsItem(Object specificitem) {
 		return backpack.contains(specificitem);
 	}
 
@@ -35,34 +35,42 @@ public class Player {
 
 		increaseFoodBar();
 		backpack.setMaxWeight(Integer.MAX_VALUE);
-		return printer.eatMagicMuffin();
+
+		return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
 
 	}
 
 	public boolean putItemIntoBackpack(Object object) {
+		Items item = new Items();
 		boolean stored = false;
 		int itemWeight = 0;
+		String itemname = object.toString();
+		
 		try {
-			itemWeight = ((Food) object).getWeight();
-		} catch (ClassCastException e) {
-			try {
-				itemWeight = ((Weapon) object).getWeight();
-			} catch (ClassCastException f) {
-				try {
-					itemWeight = ((Valuable) object).getWeight();
-				} catch (ClassCastException g) {
-				}
-			}
+		
+		if (item.toItsType(itemname) instanceof Food) {
+			itemWeight = Food.valueOf(itemname).getWeight();
 		}
-
-		if (backpack.checkIfFull(itemWeight) == false && object != null && itemWeight != 0) {
+		else if (item.toItsType(itemname) instanceof Weapon) {
+			itemWeight = Weapon.valueOf(itemname).getWeight();
+		}
+		else if (item.toItsType(itemname) instanceof Valuable) {
+			itemWeight = Valuable.valueOf(itemname).getWeight();
+		} }
+		
+		catch (IllegalArgumentException e) {
+			System.out.println("You cannot put that in your backpack.");
+			return false;
+		}
+		
+		if (backpack.isFull(itemWeight)) {
+			System.out.println(printer.weightTooHighError());
+			stored = false;
+			
+		} else {
 			backpack.addItem(object);
 			System.out.println("Item successfully stored.");
 			stored = true;
-
-		} else if (backpack.checkIfFull(itemWeight) == true) {
-			System.out.println(printer.weightTooHighError());
-			stored = false;
 		}
 		return stored;
 
@@ -77,7 +85,7 @@ public class Player {
 	}
 
 	public boolean cantCarryMore(int itemWeight) {
-		return backpack.checkIfFull(itemWeight);
+		return backpack.isFull(itemWeight);
 	}
 
 	/**

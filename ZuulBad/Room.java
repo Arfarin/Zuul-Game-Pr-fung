@@ -136,18 +136,7 @@ enum Room{
     
 	public void addItem(Object ...o) {
 		for (Object object : o) {
-			if (object instanceof Food){
-				itemlist.addFood((Food)object);
-			}
-			else if (object instanceof Weapon) {
-				itemlist.addWeapon((Weapon)object);
-			}
-			else if (object instanceof Valuable) {
-				itemlist.addValuable((Valuable)object);
-			}
-			else {
-				System.out.println("You can not put " + o.toString() + " into " + this + ".");
-			}
+			itemlist.addItem(object);
 		}
 	}
 	
@@ -157,7 +146,7 @@ enum Room{
 	 * @return boolean whether item is in room or not
 	 */
 
-	public boolean containsItem(String specificitem) {
+	public boolean containsItem(Object specificitem) {
 		
 		return itemlist.contains(specificitem);
 	}
@@ -174,18 +163,7 @@ enum Room{
 	}
 	
 	public void removeItem(Object object) {
-		if (object instanceof Food){
-			itemlist.removeFood((Food)object);
-		}
-		else if (object instanceof Weapon) {
-			itemlist.removeWeapon((Weapon)object);
-		}
-		else if (object instanceof Valuable) {
-			itemlist.removeValuable((Valuable)object);
-		}
-		else {
-			System.out.println(object + " is not in this room.");
-		}
+		itemlist.removeItem(object);
 }
 
 	
