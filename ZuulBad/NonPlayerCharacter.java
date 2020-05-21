@@ -25,21 +25,17 @@ public class NonPlayerCharacter {
 	}
 	
 	private final void fillMessages() {
-		messages.put("book", "Welcome to the castle!");
-		messages.put("candle", "Ugh, why do they always let me deal with the lost people?");
-		messages.put("sock", "Hey there! Make yourself feel at home.");
-		messages.put("phone", "Omg be careful, you almost stepped on my dog!");
-		messages.put("plant", "empty string");
-		messages.put("cap", "empty string");
+		messages.put("glasses", "Old Lady: Hi there, welcome to the castle. I'm looking for my glasses. Have you seen them?");
+		messages.put("tiara", "Queen: Oh everything is so aweful... *crying noises*");
+		messages.put("spoon", "Hungry Man: Are you the brave hero this castle is looking for?");
+		messages.put("tupperware", "Maid: Hello. Do you know where I can store all the leftovers?");
 	}
 	
 	private final void fillHints() {
-		hints.put("book", "Oh thanks for finding this for me. Make sure you eat something every once in a while, hunger is deadly!");
-		hints.put("candle", "Oh let me tell you, everyone was stunned by the princess's beauty. But then she got kidnapped by a terrible monster.");
-		hints.put("sock", "The monsters might seem scary, but if you find something useful, they won't bother you.");
-		hints.put("phone", "empty string");
-		hints.put("plant", "empty string");
-		hints.put("cap", "empty string");
+		hints.put("glasses", "Old Lady: Thank you for finding my glasses. Beware, I saw a strong goblin in the castle but my husband doesn't believe me. He says that I always imagine silly things when I don't wear my glasses.");
+		hints.put("tiara", "Queen: Thank you! This belonged to my daughter. She was kidnapped by a strange creature and I don't know where she is...");
+		hints.put("spoon", "Hungry Man: Perfect! Now I can finally eat my soup. Don't forget to eat once in a while or you'll pass out.");
+		hints.put("tupperware", "Maid: Oh this tupperware is very helpful. Would be good to store the food in the basement under the wine storage but some people say that you cannot return once you are down there...");
 	}
 	
 	
@@ -53,7 +49,7 @@ public class NonPlayerCharacter {
 		if (itemname.equals(wanteditem)) {
 			return hints.get(wanteditem);
 		} else {
-			return "This is not the item I wanted.";
+			return "I don't know what I should do with this item.";
 		}
 	}
 }
