@@ -30,7 +30,8 @@ public class Game {
 	private static Level difficultyLevel;
 
 	/**
-	 * how much time the game should last
+	 * how much time the game should last. Measured by the number of how often the
+	 * player moves from one room to another
 	 */
 	private int time;
 
@@ -107,7 +108,8 @@ public class Game {
 			store(command);
 			break;
 		case BAGGAGE:
-			System.out.println("Backpack contains: " + player.getBackpackContent());
+			System.out.println("Backpack contains: " + player.getBackpackContent() + "\n" + "You can carry another "
+					+ player.getBackpacksWeight() + " kilo more.");
 			break;
 		case DROP:
 			drop(command);
@@ -115,6 +117,15 @@ public class Game {
 		}
 
 		if (timeOver(time)) {
+			wantToQuit = true;
+			System.out.println("Time is over.");
+		}
+		if (player.starvedToDeath() == true) {
+			System.out.println("You starved to death. Game over.");
+			wantToQuit = true;
+		}
+		if (player.beaten() == true) {
+			System.out.println("You are beaten. Game over.");
 			wantToQuit = true;
 		}
 
@@ -133,6 +144,7 @@ public class Game {
 		}
 
 		String direction = command.getSecondWord();
+		Valuable key = Environment.getValuable("key");
 
 		// Try to leave current room.
 		Room nextRoom = currentRoom.getExit(direction);
@@ -142,9 +154,9 @@ public class Game {
 			return;
 
 		} else if (nextRoom.isLocked()) {
-			if (player.backpackContainsItem(Valuable.KEY)) {
+			if (player.backpackContainsItem(key)) {
 				nextRoom.unlockRoom();
-				player.removeItemFromBackpack(Valuable.KEY);
+				player.removeItemFromBackpack(key);
 				System.out.println(nextRoom + " was unlocked.");
 				currentRoom = nextRoom;
 			} else {
@@ -178,15 +190,10 @@ public class Game {
 
 	private boolean killedMonster() {
 
-		for (Weapon weapon : Weapon.values()) {
-
-			if (player.backpackContainsItem(weapon.toString())) {
-
-				player.removeItemFromBackpack(weapon);
-
-				System.out.println("You killed the monster in the room.\n");
-				return true;
-			}
+		if (player.hasWeapon()) {
+			player.removeAWeaponFromBackpack();
+			System.out.println("You killed the monster in the room.\n");
+			return true;
 		}
 		int damage = Level.setValue(1, 1);
 		player.reduceLifeBar(damage);
@@ -220,53 +227,65 @@ public class Game {
 	 */
 
 	public boolean eat(Command command) {
-		String secondword = command.getSecondWord();
+		String secondWord;
+		String thirdWord;
 		Food food;
 
-		if (secondword == null) { // check if user specified item to eat
+		// check if user specified item to eat
+		if (command.hasSecondWord()) {
+			secondWord = command.getSecondWord().trim().toLowerCase();
+		} else {
 			System.out.println("Eat what?");
 			return false;
 		}
 
-		try {
-			food = Food.valueOf(secondword.toUpperCase());
+		// check if this food exists in the game and store food object in variable
+		food = Environment.getFood(secondWord);
+		if (food == null) {
 
-		} catch (IllegalArgumentException e) { // check if this String can be a food
+			// check if user wants to eat a magic muffin
+			if (secondWord.contains("magic") && command.hasThirdWord()) {
 
-			System.out.println("You can not eat '" + secondword + "'.");
+				try {
+					thirdWord = command.getThirdWord().trim().toLowerCase();
+				} catch (NullPointerException e) {
+					System.out.println("magic what?");
+					return false;
+				}
+				if (thirdWord.equals("muffin")) {
+					return eatMuffin(environment.getMuffin(secondWord + thirdWord));
+				}
+			} else
+				System.out.println("Sorry. This is not a food item of this game.");
 			return false;
 		}
 
-		if (eatMuffin(food)) {
+		if (currentRoom.containsFood(secondWord)) { // if item is in room, eat it
+			currentRoom.removeItem(food);
+			player.eatFood(food);
 			return true;
+		} else if (player.backpackContainsFood(secondWord)) { // if item is not in room, go to inventory
+			player.eatFoodFromBackpack(food);
+			return true;
+
 		} else {
-
-			if (currentRoom.containsItem(food)) { // if item is in room, eat it
-				currentRoom.removeItem(food);
-				player.increaseFoodBar();
-				return true;
-			} else if (player.backpackContainsItem(food)) { // if item is not in room, go to inventory
-				player.eatFoodFromBackpack(food);
-				return true;
-
-			} else {
-				System.out.println("This food is not available at the moment.");
-				System.out.println(printer.getFoodHint());
-				return false;
-			}
+			System.out.println("Sorry, that's not possible.");
+			System.out.println(printer.getFoodHint());
+			return false;
 		}
 
 	}
 
-	private boolean eatMuffin(Food food) {
-		if ((food.isMuffin()) && (currentRoom.containsItem(food))) {
-			System.out.println(player.eatMuffin());
-			currentRoom.removeItem(food);
+	private boolean eatMuffin(MagicMuffin muffin) {
+		if (currentRoom.containsMuffin()) {
+			player.eatFood(muffin);
+			System.out.println(player.getPowerFromMuffin());
+			currentRoom.removeItem(muffin);
 			return true;
 
-		} else if (food.isMuffin() && !(currentRoom.containsItem(food))
-				&& player.backpackContainsItem(food)) {
-			System.out.println(player.eatMuffin());
+		} else if (!(currentRoom.containsItem(muffin)) && player.backpackContainsItem(muffin)) {
+			player.eatFoodFromBackpack(muffin);
+			System.out.println(player.getPowerFromMuffin());
 			return true;
 		} else {
 			return false;
@@ -275,31 +294,30 @@ public class Game {
 
 	private void hint(Command command) {
 
-		System.out.println("Do you have the item I want?");
-		String item = parser.getUserInput().trim().toLowerCase();
+		if (currentRoom.getNpc() == null) {
+			System.out.println("Here is nobody to talk with.");
 
-		String response = currentRoom.getNpcHint(item);
-		Valuable wantedItem;
-
-		try {
-			wantedItem = Valuable.valueOf(item.toUpperCase());
-		} catch (IllegalArgumentException e) {
-			System.out.println("Sorry, '" + item + "' is not a valid item to deliver.");
-			return;
-		}
-		if (player.backpackContainsItem(item.toUpperCase())) {
-
-			if (response != null) {
-				System.out.println(response);
-				player.removeItemFromBackpack(wantedItem);
-
-			} else {
-				System.out.println("This is not what I want");
-			}
 		} else {
-			System.out.println("Your backpack doesn't contain '" + item + "' so you can't deliver that to anyone.");
-		}
+			System.out.println("Do you have the item I want?");
+			String specificValuable = parser.getUserInput().trim().toLowerCase();
+			Valuable valuable = Environment.getValuable(specificValuable);
 
+			String response = currentRoom.getNpcHint(specificValuable);
+
+			if (player.backpackContainsItem(valuable)) {
+
+				if (response != null) {
+					System.out.println(response);
+					player.removeItemFromBackpack(valuable);
+
+				} else {
+					System.out.println("This is not what I want");
+				}
+			} else {
+				System.out.println("Your backpack doesn't contain '" + specificValuable
+						+ "' so you can't deliver that to anyone.");
+			}
+		}
 	}
 
 	/**
@@ -313,54 +331,79 @@ public class Game {
 	 */
 
 	private boolean store(Command command) {
-		String secondWord = command.getSecondWord();
-		Items item = new Items();
+		String secondWord;
+		Item item;
 
-		if (secondWord == null) { // check if user specified item to store
-			System.out.println("Store what?");
+		if (command.hasSecondWord()) {
+			secondWord = command.getSecondWord().trim().toLowerCase();
+		} else {
+			System.out.println("Eat what?");
 			return false;
 		}
 
-		Object itemobject = item.toItsType(secondWord);
-
-		if (currentRoom.containsItem(itemobject)) { // if item is in current room, store it
-
-			currentRoom.removeItem(itemobject);
-			player.putItemIntoBackpack(itemobject);
-			
-			return true;
-		} else {
-
-			System.out.println("This item is not available at the moment.");
-			System.out.println(printer.getItemHint());
+		// check if this item exists in the game and store it in variable
+		item = environment.getItem(secondWord);
+		if (item == null) {
+			System.out.println("Sorry. This is not a food item of this game.");
 			return false;
 		}
-	}
 
+//		if (secondWord == null) { // check if user specified item to store
+//			System.out.println("Store what?");
+//			return false;
+//		}
 
-	public void drop(Command command) {
-		Items item = new Items();
-
-		String secondWord = command.getSecondWord();
-
-		if (secondWord == null) { // check if user specified item to store
-			System.out.println("Drop what?");
-			return;
+		// check if there is free capacity to store the item
+		if (player.cantCarryMore(item.getWeight()) == true) {
+			System.out.println(printer.weightTooHighError());
+			return false;
 		} else {
 
-			if (player.backpackContainsItem(item.toItsType(secondWord))) {
-				player.removeItemFromBackpack(item.toItsType(secondWord));
-				currentRoom.addItem(item.toItsType(secondWord));
-				System.out.println("You have dropped " + secondWord);
+			// if item is in current room, store it
+			if (currentRoom.containsItem(item)) {
+				currentRoom.removeItem(item);
+				player.putItemIntoBackpack(item);
+				return true;
 			} else {
-				System.out.println("You cannot drop that.");
-
+				System.out.println("This item is not available at the moment.");
+				System.out.println(printer.getItemHint());
+				return false;
 			}
 		}
-
 	}
 
-	private void setTime() {
+	public boolean drop(Command command) {
+		String secondWord;
+		Item item;
+
+		if (command.hasSecondWord()) {
+			secondWord = command.getSecondWord().trim().toLowerCase();
+		} else {
+			System.out.println("Drop what?");
+			return false;
+		}
+
+		item = environment.getItem(secondWord);
+		if (item == null) {
+			System.out.println("Sorry. This is not a food item of this game.");
+			return false;
+		}
+//		if (secondWord == null) { // check if user specified item to store
+//			System.out.println("Drop what?");
+//			return;
+
+		if (player.backpackContainsItem(item)) {
+			player.removeItemFromBackpack(item);
+			currentRoom.addItem(item);
+			System.out.println("You have dropped " + command.getSecondWord());
+			return true;
+		} else {
+			System.out.println("You cannot drop that. Your backpack doesn't contain it.");
+			return false;
+		}
+	}
+
+	private final void setTime() {
 		time = Level.setValue(30, -5);
 		printer.printRemainingTime(time);
 	}
@@ -385,12 +428,13 @@ public class Game {
 
 	private boolean rescuedPrincess() {
 
-		if (player.backpackContainsItem(Valuable.DRAGONGLASS)) {
+		Valuable dragonGlass = Environment.getValuable("dragonglass");
+		if (player.backpackContainsItem(dragonGlass)) {
 
-			player.removeItemFromBackpack(Valuable.DRAGONGLASS);
+			player.removeItemFromBackpack(dragonGlass);
 
 			System.out.println("You killed the monster in the room.\n"
-					+ "Princess: Thanks for saving me.Here's a kiss on the cheek for that.\n"
+					+ "Princess: Thanks for saving me. Here's a kiss on the cheek for that.\n"
 					+ "I have wanted to be independent for so long, but because of this monster I was stuck here.\n"
 					+ "But now I can go to college and become a Data Scientist. Bye!");
 			return true;
@@ -410,7 +454,7 @@ public class Game {
 //		}
 //	}
 
-	public void chooseLevelOfDifficulty() {
+	public final void chooseLevelOfDifficulty() {
 
 		printer.printDifficultyChoices();
 

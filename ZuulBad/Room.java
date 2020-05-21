@@ -13,6 +13,9 @@ import java.util.HashMap;
  * stores a reference to the neighboring room.
  * 
  * @author  Michael Kölling and David J. Barnes
+ * @author Daniel Birk
+ * @author Katerina Matysova
+ * @author Sarah Engelmayer
  * @version 2016.02.29
  */
 
@@ -127,15 +130,22 @@ enum Room{
      * 
      * @param itemforhint The item that the NPC wants in return for a hint
      */
+    public NonPlayerCharacter getNpc() {
+    	return npc;
+    }
     
     public void createNPC(String itemforhint) {
     	 npc = new NonPlayerCharacter(itemforhint);
     }
     
-	public void addItem(Object ...o) {
-		for (Object object : o) {
-			itemlist.addItem(object);
+	public void addItem(Item ...items) {
+		for (Item item : items) {
+			itemlist.addItem(item);
 		}
+	}
+	
+	public void addItem(String item) {
+			itemlist.addItem(item);
 	}
 	
 	/**
@@ -144,11 +154,23 @@ enum Room{
 	 * @return boolean whether item is in room or not
 	 */
 
-	public boolean containsItem(Object specificitem) {
+	public boolean containsItem(Item specificitem) {
 		
 		return itemlist.contains(specificitem);
 	}
+	
+	public boolean containsItem(String specificitem) {
+		return itemlist.contains(specificitem);
+	}
+	
+	public boolean containsFood(String specificFood) {
+		return itemlist.containsFood(specificFood);
+	}
 
+	public boolean containsMuffin(){
+		return itemlist.containsMuffin();
+	}
+	
     /**
      * Converts the list with items into a String.
      * 
@@ -160,10 +182,13 @@ enum Room{
 		return items;
 	}
 	
-	public void removeItem(Object object) {
-		itemlist.removeItem(object);
+	public void removeItem(Item item) {
+		itemlist.removeItem(item);
 }
 
+	public void removeItem(String item) {
+		itemlist.removeItem(item);
+	}
 	
     /**
      * @return The short description of the room
@@ -184,7 +209,7 @@ enum Room{
     {
         return description + ".\n" + getExitString() + "\n\n" +
         "These are the items in the room:" + "\n" +
-		getItemList() + "\n\n"+ getNpcMessage();
+        itemlist.getItemList() + "\n\n"+ getNpcMessage();
     }
 
     /**
