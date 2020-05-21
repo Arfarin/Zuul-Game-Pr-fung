@@ -45,14 +45,14 @@ public class Environment {
 		Room.FlowerGarden.setExit("east", Room.KingsChamber);
 
 		Room.KingsChamber.setExit("west", Room.FlowerGarden);
-		
+
 		Room.EntryHall.setExit("east", Room.TowerStaircases);
 		Room.EntryHall.setExit("south", Room.CastleCourtyard);
 		Room.EntryHall.setExit("west", Room.DiningRoom);
 
 		Room.DestroyedTower.setExit("east", Room.TeleporterRoom);
 		Room.DestroyedTower.setExit("down", Room.TowerStaircases);
-		
+
 		Room.DiningRoom.setExit("east", Room.EntryHall);
 		Room.DiningRoom.setExit("west", Room.Kitchen);
 
@@ -70,7 +70,7 @@ public class Environment {
 
 		Room.TowerStaircases.setExit("up", Room.DestroyedTower);
 		Room.TowerStaircases.setExit("west", Room.EntryHall);
-		
+
 		Room.DesertedWineStorage.setExit("down", Room.BasementEntry);
 		Room.DesertedWineStorage.setExit("north", Room.CastleCourtyard);
 
@@ -85,7 +85,6 @@ public class Environment {
 		Room.UndergroundHallway.setExit("east", Room.HiddenPath);
 		Room.UndergroundHallway.setExit("west", Room.Armoury);
 
-
 		Room.HiddenPath.setExit("north", Room.MistyRoom);
 		Room.HiddenPath.setExit("west", Room.HiddenPath);
 
@@ -95,11 +94,9 @@ public class Environment {
 		Room.BattleZone.setExit("south", Room.MistyRoom);
 		Room.BattleZone.setExit("west", Room.Dungeon);
 
-
 		Room.Dungeon.setExit("up", Room.KingsChamber);
 		Room.Dungeon.setExit("south", Room.UndergroundHallway);
 	}
-
 
 	private void createItemsInRooms() {
 
@@ -284,13 +281,14 @@ public class Environment {
 	}
 
 	public MagicMuffin getMuffin(String foodName) {
-		String possibleMuffin = foodName.toLowerCase().replaceAll(" ","");
+		String possibleMuffin = foodName.toLowerCase().replaceAll(" ", "");
 		for (MagicMuffin muffin : magicMuffinsOfGame) {
 //			String muffinString = 
 //			muffinString = muffinString.replaceAll(" ","");
-			if (possibleMuffin.equals(muffin.getName().toLowerCase().replaceAll(" ",""))) {
+			if (possibleMuffin.equals(muffin.getName().toLowerCase().replaceAll(" ", ""))) {
 				return muffin;
 			}
 		}
 		return null;
 	}
+}
