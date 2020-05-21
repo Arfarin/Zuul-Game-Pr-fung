@@ -2,15 +2,13 @@ package ZuulBad;
 
 enum Valuable {
 
-	BOOK(5, "Oh look, here is recipe for a love potion. Do you believe in that sort of thing?"),
-	CANDLE(3, "Lavender always makes me so sleepy..."),
-	SOCK(2, "This must have been useful to someone at some point."),
-	PHONE(6, "Sadly you don't know the PIN. Also, what is this doing in an old castle?"),
-	PLANT(5, "Try to get this to the owner ASAP, maybe they can still save it."),
-	HAT(3, "Quite fashionable if you are into that sort of thing."),
+	GLASSES(3, "Oh look there's a pair of glasses. The lenses are so thick... the person they belong to has to be blind without them."),
+	TIARA(5, "This is a very beautiful golden tiara."),
+	SPOON(2, "Just a dirty spoon. Probably a hungry person would still use it."),
+	TUPPERWARE(4, "This looks like your moms tupperware. I didn't know that tupperware already existed in this era."),
 	
-	KEY(4, "Don't loose this one."),
-	DRAGONGLASS(7, "WOW! This looks like it could even kill dragons.");
+	KEY(4, "Don't loose this one. You'll need it to unlock doors."),
+	DRAGONGLASS(7, "WOW! This looks like it could even kill the mightiest goblin!");
 	
 	private int weight;
 	private String description;
