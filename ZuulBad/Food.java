@@ -8,10 +8,14 @@ package ZuulBad;
  */
 
 enum Food  {
-	BANANA(5, "This is a yummy banana"),
-	APPLE(5, "This is a yummy apple"),
-	STARFRUIT(5, "This is a yummy starfruit"),
-	MUFFIN(5, "This is a muffin made according to a special secret recipe of the castle");
+	BANANA(2, "Bananas are always good to gain some energy."),
+	APPLE(3, "A healthy and good looking apple."),
+	STARFRUIT(3, "This fruit looks really cool but how does it taste...?"),
+	BREAD(5, "Old bread is better than nothing."),
+	BEANS(2, "Oh these beans look delicious."),
+	LEFTOVERS(6, "Mmmh there are some good looking leftovers."),
+	TOMATOES(2, "Juicy tomatoes are sooo good."),
+	MUFFIN(4, "This muffin has a magical appearance...It must be made with lots of love!");
 	
 	private int weight;
 	private String description;
