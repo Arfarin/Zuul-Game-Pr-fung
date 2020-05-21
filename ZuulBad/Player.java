@@ -15,69 +15,62 @@ public class Player {
 	}
 
 	public void lookAround(Room currentRoom) {
-
 		System.out.println(currentRoom.getLongDescription());
-
 	}
 
-	public boolean backpackContainsItem(Object specificitem) {
+	public boolean backpackContainsItem(Item specificitem) {
 		return backpack.contains(specificitem);
+	}
+	
+	public boolean backpackContainsFood(String specifiedFood) {
+		return backpack.containsFood(specifiedFood);
 	}
 
 	public void eatFoodFromBackpack(Food food) {
 		if (backpack.removeItem(food) == true) {
-			increaseFoodBar();
-			System.out.println("You ate the " + food.toString() + " that was stored in your backpack.");
+			eatFood(food);
+			System.out.println("It was stored in your backpack before.");
 		}
 	}
-
-	public String eatMuffin() {
-
+	
+	public void eatFood(Food food) {
 		increaseFoodBar();
-		backpack.setMaxWeight(Integer.MAX_VALUE);
-
-		return "You ate the magic muffin. Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
-
+		System.out.println("You ate the " + food.getName() + ".");
 	}
 
-	public boolean putItemIntoBackpack(Object object) {
-		Items item = new Items();
+	public String getPowerFromMuffin() {
+		backpack.setMaxWeight(Integer.MAX_VALUE);
+		return "Now you are so strong that you can carry an infinite weight and amount of things in your backpack.";
+	}
+
+	public boolean putItemIntoBackpack(Item item) {
 		boolean stored = false;
 		int itemWeight = 0;
-		String itemname = object.toString();
-		
-		try {
-		
-		if (item.toItsType(itemname) instanceof Food) {
-			itemWeight = Food.valueOf(itemname).getWeight();
-		}
-		else if (item.toItsType(itemname) instanceof Weapon) {
-			itemWeight = Weapon.valueOf(itemname).getWeight();
-		}
-		else if (item.toItsType(itemname) instanceof Valuable) {
-			itemWeight = Valuable.valueOf(itemname).getWeight();
-		} }
-		
-		catch (IllegalArgumentException e) {
-			System.out.println("You cannot put that in your backpack.");
-			return false;
-		}
-		
+
+
 		if (backpack.isFull(itemWeight)) {
 			System.out.println(printer.weightTooHighError());
 			stored = false;
-			
+
 		} else {
-			backpack.addItem(object);
+			backpack.addItemToBackpack(item);
 			System.out.println("Item successfully stored.");
 			stored = true;
 		}
 		return stored;
-
 	}
 
-	public void removeItemFromBackpack(Object o) {
-		backpack.removeItem(o);
+	public void removeItemFromBackpack(Item item) {
+		backpack.removeItem(item);
+	}
+
+
+	public boolean hasWeapon() {
+		return backpack.containsWeapon();
+	}
+
+	public void removeAWeaponFromBackpack() {
+		backpack.removeWeapon();
 	}
 
 	public String getBackpackContent() {
@@ -86,6 +79,10 @@ public class Player {
 
 	public boolean cantCarryMore(int itemWeight) {
 		return backpack.isFull(itemWeight);
+	}
+	
+	public int getBackpacksWeight() {
+		return backpack.getRemainingFreeWeight();
 	}
 
 	/**
@@ -101,6 +98,20 @@ public class Player {
 	 */
 	public void getHungry() {
 		foodBar--;
+	}
+	
+	public boolean starvedToDeath() {
+		if (foodBar <= 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean beaten() {
+		if (lifeBar <= 0) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

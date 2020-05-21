@@ -23,37 +23,53 @@ public class Inventory {
 		content = new Items();
 	}
 
-	public void addItem(Object... o) {
-		for (Object object : o) {
-			content.addItem(object);
+	
+	public void addItemToBackpack(Item ...items) {
+		for (Item item : items) {
+			content.addItem(item);
+			currentWeight =+ item.getWeight();
 		}
 	}
 
-	public boolean removeItem(Object object) {
+	public boolean removeItem(Item item) {
 		boolean removed = true;
 
-		if (contains(object)) {
-			content.removeItem(object);
-
-
+		if (content.contains(item)) {
+			content.removeItem(item);
+			currentWeight =- item.getWeight();
 		} else {
 			System.out.println("Sorry, your backpack doesn't contain that.");
 			removed = false;
 		}
-	
 		return removed;
 	}
 
-	public boolean contains(Object specificitem) {
+	public void removeWeapon(){
+		content.removeWeapon();
+	}
+	
 
+	public boolean contains(Item specificitem) {
 		return content.contains(specificitem);
+	}
+	
+	
+	public boolean containsFood(String foodName) {
+		return content.containsFood(foodName);
+	}
+	
+	public boolean containsWeapon() {
+		return content.containsAnyWeapon();
+	}
+	public boolean containsMuffin() {
+		return content.containsMuffin();
 	}
 
 	public String getListOfContent() {
 		return content.getItemList();
 	}
 
-	public void setMaxWeight(int maxWeight) {
+	public final void setMaxWeight(int maxWeight) {
 		this.maxWeight = maxWeight;
 	}
 
@@ -63,6 +79,9 @@ public class Inventory {
 		} else {
 			return false;
 		}
-
 	}
+	public int getRemainingFreeWeight() {
+		return maxWeight-currentWeight;
+	}
+	
 }

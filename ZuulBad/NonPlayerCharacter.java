@@ -44,7 +44,6 @@ public class NonPlayerCharacter {
 	
 	
 	public String getMessage() {
-
 		String message = messages.get(wanteditem);
 		return message;
 	}
