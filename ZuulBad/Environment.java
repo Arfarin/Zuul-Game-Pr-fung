@@ -88,15 +88,15 @@ public class Environment {
 	
 	private void addRoomItems() {
 
-		Room.CastleCourtyard.addItem(Food.STARFRUIT);
+		Room.CastleCourtyard.addItem(Food.STARFRUIT, Valuable.TIARA);
 		Room.CastleGarden.addItem(Food.APPLE, Weapon.KNIFE);
-		Room.FlowerGarden.addItem();
+		Room.FlowerGarden.addItem(Valuable.GLASSES);
 		Room.KingsChamber.addItem(Weapon.HAIRBRUSH);
 		Room.EntryHall.addItem(Food.BANANA, Weapon.TOOTHPICK);
-		Room.TowerStaircases.addItem();
+		Room.TowerStaircases.addItem(Valuable.SPOON);
 		Room.DestroyedTower.addItem(Food.BANANA, Weapon.NAIL, Valuable.KEY);
 		Room.DiningRoom.addItem(Valuable.KEY);
-		Room.Kitchen.addItem();
+		Room.Kitchen.addItem(Valuable.TUPPERWARE);
 		Room.Pastry.addItem(Food.MUFFIN);
 		Room.Warehouse.addItem(Weapon.DAGGER);
 		Room.Pantry.addItem();
@@ -131,10 +131,9 @@ public class Environment {
 	}
 	
 	private void createNPC() {
-		Room.CastleCourtyard.createNPC("old book");
-		Room.Pantry.createNPC("nice smelling candle");
-		Room.KingsChamber.createNPC("sock");
-		Room.BasementEntry.createNPC("old bottle of wine");
+		Room.CastleCourtyard.createNPC("glasses");
+		Room.Pantry.createNPC("tupperware");
+		Room.KingsChamber.createNPC("tiara");
 		Room.DiningRoom.createNPC("spoon");
 
 	}
