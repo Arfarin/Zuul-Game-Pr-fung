@@ -36,8 +36,6 @@ enum Room{
 	TreasureChamber("WOW! You enter a treasure chamber full of gold and jewels."),
 	UndergroundHallway("Where does this strange and empty hallway lead to?"),
 	HiddenPath("This path looks like nobody has seen it before."),
-	MistyRoom("This room has a weird feeling to it. You can hear noises..."),
-	BattleZone("It resembles a huge underground fighting pit"),
 	Dungeon("Nobody wants so be hold captive in this cold dungeon."),
 	TeleporterRoom("Everything is moving... What is happening?");
 	
