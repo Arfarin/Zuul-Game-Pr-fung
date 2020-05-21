@@ -32,7 +32,7 @@ public class Environment {
 	}
 
 	private void setRoomExits() {
-
+		// 3 different levels: Tower - Ground level - Basement
 		Room.CastleCourtyard.setExit("north", Room.EntryHall);
 		Room.CastleCourtyard.setExit("east", Room.CastleGarden);
 		Room.CastleCourtyard.setExit("south", Room.DesertedWineStorage);
@@ -45,14 +45,14 @@ public class Environment {
 		Room.FlowerGarden.setExit("east", Room.KingsChamber);
 
 		Room.KingsChamber.setExit("west", Room.FlowerGarden);
-
-		Room.EntryHall.setExit("north", Room.TowerStaircases);
+		
+		Room.EntryHall.setExit("east", Room.TowerStaircases);
 		Room.EntryHall.setExit("south", Room.CastleCourtyard);
 		Room.EntryHall.setExit("west", Room.DiningRoom);
 
 		Room.DestroyedTower.setExit("east", Room.TeleporterRoom);
-		Room.DestroyedTower.setExit("west", Room.TowerStaircases);
-
+		Room.DestroyedTower.setExit("down", Room.TowerStaircases);
+		
 		Room.DiningRoom.setExit("east", Room.EntryHall);
 		Room.DiningRoom.setExit("west", Room.Kitchen);
 
@@ -68,9 +68,9 @@ public class Environment {
 		Room.Warehouse.setExit("west", Room.Pantry);
 		Room.Warehouse.setExit("east", Room.CastleCourtyard);
 
-		Room.TowerStaircases.setExit("east", Room.DestroyedTower);
-		Room.TowerStaircases.setExit("south", Room.EntryHall);
-
+		Room.TowerStaircases.setExit("up", Room.DestroyedTower);
+		Room.TowerStaircases.setExit("west", Room.EntryHall);
+		
 		Room.DesertedWineStorage.setExit("down", Room.BasementEntry);
 		Room.DesertedWineStorage.setExit("north", Room.CastleCourtyard);
 
@@ -85,7 +85,8 @@ public class Environment {
 		Room.UndergroundHallway.setExit("east", Room.HiddenPath);
 		Room.UndergroundHallway.setExit("west", Room.Armoury);
 
-		Room.HiddenPath.setExit("east", Room.MistyRoom);
+
+		Room.HiddenPath.setExit("north", Room.MistyRoom);
 		Room.HiddenPath.setExit("west", Room.HiddenPath);
 
 		Room.MistyRoom.setExit("north", Room.BattleZone);
@@ -94,9 +95,11 @@ public class Environment {
 		Room.BattleZone.setExit("south", Room.MistyRoom);
 		Room.BattleZone.setExit("west", Room.Dungeon);
 
+
 		Room.Dungeon.setExit("up", Room.KingsChamber);
-		Room.Dungeon.setExit("east", Room.BattleZone);
+		Room.Dungeon.setExit("south", Room.UndergroundHallway);
 	}
+
 
 	private void createItemsInRooms() {
 
@@ -191,6 +194,7 @@ public class Environment {
 		Room.UndergroundHallway.addItem(key, axe);
 		Room.HiddenPath.addItem();
 		Room.MistyRoom.addItem(sword);
+
 		Room.Dungeon.addItem();
 
 	}
@@ -207,18 +211,17 @@ public class Environment {
 		Room.Kitchen.putMonster();
 		Room.FlowerGarden.putMonster();
 		Room.Armoury.putMonster();
+		Room.UndergroundHallway.putMonster();
 		Room.HiddenPath.putMonster();
-		Room.BattleZone.putMonster();
-
+		Room.Dungeon.putMonster();
 		Room.Dungeon.makeFinalRoom();
 
 	}
 
 	private void createNPC() {
-		Room.CastleCourtyard.createNPC("old book");
-		Room.Pantry.createNPC("nice smelling candle");
-		Room.KingsChamber.createNPC("sock");
-		Room.BasementEntry.createNPC("old bottle of wine");
+		Room.CastleCourtyard.createNPC("glasses");
+		Room.Pantry.createNPC("tupperware");
+		Room.KingsChamber.createNPC("tiara");
 		Room.DiningRoom.createNPC("spoon");
 
 	}
@@ -291,12 +294,3 @@ public class Environment {
 		}
 		return null;
 	}
-	
-//	public boolean gameContainsItem(Item item) {
-//		if (itemsOfGame.contains(item)) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-}

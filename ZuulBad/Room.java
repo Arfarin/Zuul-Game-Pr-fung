@@ -21,14 +21,14 @@ import java.util.HashMap;
 
 enum Room{
 	
-	CastleCourtyard("Starting point: You are in front of a very old castle."),
+	CastleCourtyard("starting point: You are in front of a very old castle."),
 	CastleGarden("You enter the castle's magnificent garden."),
 	FlowerGarden("You are now surrounded by beautiful flowers."),
 	KingsChamber("You reach the holy chambers of the royal family."),
 	EntryHall("You enter a breathtakingly big hall."),
 	TowerStaircases("You find staircases which will take you to the tower."),
-	DestroyedTower("Unfortunatelly, the tower is already destroyed."),
-	DiningRoom("You enter a huge dining area yet it's empty."),
+	DestroyedTower("Unfortunatelly, the tower is partly destroyed."),
+	DiningRoom("You enter a huge dining area."),
 	Kitchen("This kitchen is massive."),
 	Pastry("Here are all the yummie desserts. Enjoy!"),
 	Pantry("There is still some cooked food here."),
@@ -37,10 +37,8 @@ enum Room{
 	BasementEntry("You are now in a spooky basement."),
 	Armoury("This room is full of armour and knight statues."),
 	TreasureChamber("WOW! You enter a treasure chamber full of gold and jewels."),
-	UndergroundHallway("Where does this strange and empty hallway lead to?"),
+	UndergroundHallway("Where does this strange hallway lead to?"),
 	HiddenPath("This path looks like nobody has seen it before."),
-	MistyRoom("This room has a weird feeling to it. You can hear noises..."),
-	BattleZone("It resembles a huge underground fighting pit"),
 	Dungeon("Nobody wants so be hold captive in this cold dungeon."),
 	TeleporterRoom("Everything is moving... What is happening?");
 	

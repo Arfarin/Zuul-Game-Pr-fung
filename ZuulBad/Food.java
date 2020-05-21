@@ -7,6 +7,7 @@ package ZuulBad;
  *
  */
 
+
 public class Food extends Item {
 
 	public Food(String name, int weight, String description) {
