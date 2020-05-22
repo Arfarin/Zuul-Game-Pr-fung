@@ -85,14 +85,7 @@ public class Environment {
 		Room.UndergroundHallway.setExit("east", Room.HiddenPath);
 		Room.UndergroundHallway.setExit("west", Room.Armoury);
 
-		Room.HiddenPath.setExit("north", Room.MistyRoom);
 		Room.HiddenPath.setExit("west", Room.HiddenPath);
-
-		Room.MistyRoom.setExit("north", Room.BattleZone);
-		Room.MistyRoom.setExit("west", Room.HiddenPath);
-
-		Room.BattleZone.setExit("south", Room.MistyRoom);
-		Room.BattleZone.setExit("west", Room.Dungeon);
 
 		Room.Dungeon.setExit("up", Room.KingsChamber);
 		Room.Dungeon.setExit("south", Room.UndergroundHallway);
@@ -190,8 +183,6 @@ public class Environment {
 		Room.TreasureChamber.addItem(dragonglass);
 		Room.UndergroundHallway.addItem(key, axe);
 		Room.HiddenPath.addItem();
-		Room.MistyRoom.addItem(sword);
-
 		Room.Dungeon.addItem();
 
 	}
