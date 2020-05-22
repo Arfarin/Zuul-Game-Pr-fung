@@ -40,9 +40,7 @@ enum Room{
 	UndergroundHallway("Where does this strange hallway lead to?"),
 	HiddenPath("This path looks like nobody has seen it before."),
 	Dungeon("Nobody wants so be hold captive in this cold dungeon."),
-	TeleporterRoom("Everything is moving... What is happening?"),
-	MistyRoom("Description of misty room."),
-	BattleZone("Description of Battle Zone");
+	TeleporterRoom("Everything is moving... What is happening?");
 	
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
