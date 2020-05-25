@@ -263,11 +263,14 @@ enum Room{
 	 * @param Item that unlocks hint
 	 * @return Hint from NPC
 	 */
-	public String getNpcHint(String item) {
+	public boolean getNpcHint(String item) {
 		if (npc != null) {
 		return npc.getHint(item);
-		} else {
-			return "There is nobody to give you a hint";
+		} 
+		else {
+			System.out.println("There is nobody to give you a hint");
+			return false;
+			
 		}
 	}
 	
