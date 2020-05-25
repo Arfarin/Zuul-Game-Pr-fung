@@ -339,14 +339,9 @@ public class Game {
 		// check if this item exists in the game and store it in variable
 		item = environment.getItem(secondWord);
 		if (item == null) {
-			System.out.println("Sorry. This is not a food item of this game.");
+			System.out.println("Sorry. This is not an item of this game.");
 			return false;
 		}
-
-//		if (secondWord == null) { // check if user specified item to store
-//			System.out.println("Store what?");
-//			return false;
-//		}
 
 		// check if there is free capacity to store the item
 		if (player.cantCarryMore(item.getWeight()) == true) {
@@ -378,14 +373,12 @@ public class Game {
 			return false;
 		}
 
+		// check if this item exists in the game and store it in variable
 		item = environment.getItem(secondWord);
 		if (item == null) {
-			System.out.println("Sorry. This is not a food item of this game.");
+			System.out.println("Sorry. This is not an item of this game.");
 			return false;
 		}
-//		if (secondWord == null) { // check if user specified item to store
-//			System.out.println("Drop what?");
-//			return;
 
 		if (player.backpackContainsItem(item)) {
 			player.removeItemFromBackpack(item);

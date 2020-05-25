@@ -2,7 +2,7 @@ package ZuulBad;
 
 import java.util.ArrayList;
 
-public class Environment {
+public class Environment<T> {
 
 	private Items itemsOfGame;
 	private static ArrayList<Food> foodsOfGame;
@@ -248,6 +248,7 @@ public class Environment {
 		}
 		return null;
 	}
+	
 
 	public ArrayList<Weapon> getWeaponsOfGame() {
 		return weaponsOfGame;
