@@ -302,20 +302,15 @@ public class Game {
 			String specificValuable = parser.getUserInput().trim().toLowerCase();
 			Valuable valuable = Environment.getValuable(specificValuable);
 
-			String response = currentRoom.getNpcHint(specificValuable);
-
+//			String response = currentRoom.getNpcHint(specificValuable);
 			if (player.backpackContainsItem(valuable)) {
 
-				if (response != null) {
-					System.out.println(response);
+				if (currentRoom.getNpcHint(specificValuable) == true) {
+					// System.out.println(response);
 					player.removeItemFromBackpack(valuable);
-
-				} else {
-					System.out.println("This is not what I want");
 				}
 			} else {
-				System.out.println("Your backpack doesn't contain '" + specificValuable
-						+ "' so you can't deliver that to anyone.");
+				System.out.println("It's not possible to deliver " + specificValuable);
 			}
 		}
 	}
