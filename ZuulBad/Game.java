@@ -311,6 +311,7 @@ public class Game {
 				}
 			} else {
 				System.out.println("It's not possible to deliver " + specificValuable);
+				System.out.println(printer.printItemsForNPCsTip());
 			}
 		}
 	}
@@ -332,7 +333,7 @@ public class Game {
 		if (command.hasSecondWord()) {
 			secondWord = command.getSecondWord().trim().toLowerCase();
 		} else {
-			System.out.println("Eat what?");
+			System.out.println("Store what?");
 			return false;
 		}
 
@@ -341,24 +342,28 @@ public class Game {
 		if (item == null) {
 			System.out.println("Sorry. This is not an item of this game.");
 			return false;
-		}
+		} else if (item instanceof Transportable) {
 
-		// check if there is free capacity to store the item
-		if (player.cantCarryMore(item.getWeight()) == true) {
-			System.out.println(printer.weightTooHighError());
-			return false;
-		} else {
-
-			// if item is in current room, store it
-			if (currentRoom.containsItem(item)) {
-				currentRoom.removeItem(item);
-				player.putItemIntoBackpack(item);
-				return true;
-			} else {
-				System.out.println("This item is not available at the moment.");
-				System.out.println(printer.getItemHint());
+			// check if there is free capacity to store the item
+			if (player.cantCarryMore(item.getWeight()) == true) {
+				System.out.println(printer.weightTooHighError());
 				return false;
+			} else {
+
+				// if item is in current room, store it
+				if (currentRoom.containsItem(item)) {
+					currentRoom.removeItem(item);
+					player.putItemIntoBackpack(item);
+					return true;
+				} else {
+					System.out.println("This item is not available at the moment.");
+					System.out.println(printer.getItemHint());
+					return false;
+				}
 			}
+		} else {
+			System.out.println("This item is not transportable.");
+			return false;
 		}
 	}
 
@@ -408,7 +413,7 @@ public class Game {
 	private Room getRandomRoom() {
 		random = new Random();
 
-		int randomnumber = random.nextInt(Room.values().length);
+		int randomnumber = random.nextInt(Room.values().length - 1);
 		Room randomroom = Room.values()[randomnumber];
 
 		return randomroom;

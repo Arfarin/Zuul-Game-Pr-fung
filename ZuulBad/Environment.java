@@ -167,22 +167,22 @@ public class Environment<T> {
 		// put items into rooms
 		Room.CastleCourtyard.addItem(starfruit);
 		Room.CastleGarden.addItem(apple, knife);
-		Room.FlowerGarden.addItem();
+		Room.FlowerGarden.addItem(plant);
 		Room.KingsChamber.addItem(hairbrush);
 		Room.EntryHall.addItem(banana, toothpick);
-		Room.TowerStaircases.addItem();
+		Room.TowerStaircases.addItem(hat);
 		Room.DestroyedTower.addItem(banana, nail, key);
 		Room.DiningRoom.addItem(key);
-		Room.Kitchen.addItem();
+		Room.Kitchen.addItem(sock);
 		Room.Pastry.addItem(magicMuffin);
 		Room.Warehouse.addItem(dagger);
-		Room.Pantry.addItem();
-		Room.DesertedWineStorage.addItem();
-		Room.BasementEntry.addItem();
+		Room.Pantry.addItem(book);
+		Room.DesertedWineStorage.addItem(bottle);
+		Room.BasementEntry.addItem(phone);
 		Room.Armoury.addItem();
 		Room.TreasureChamber.addItem(dragonglass);
 		Room.UndergroundHallway.addItem(key, axe);
-		Room.HiddenPath.addItem();
+		Room.HiddenPath.addItem(candle);
 		Room.Dungeon.addItem();
 
 	}
