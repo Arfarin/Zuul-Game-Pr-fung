@@ -1,6 +1,6 @@
 package ZuulBad;
 
-public class Valuable extends Item  {
+public class Valuable extends Item implements Transportable  {
 
 
 	Valuable(String name, int weight, String description) {
