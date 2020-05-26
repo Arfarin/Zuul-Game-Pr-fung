@@ -57,4 +57,8 @@ public class Printer {
 	public String getItemHint() {
 		return "You can only store portable things you find in the room you're in.";
 	}
+	
+	public String printItemsForNPCsTip() {
+		return "You can only deliver items that are stored in your backpack. You can't deliver food or weapons to any persons.";
+	}
 }

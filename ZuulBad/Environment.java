@@ -2,7 +2,7 @@ package ZuulBad;
 
 import java.util.ArrayList;
 
-public class Environment {
+public class Environment<T> {
 
 	private Items itemsOfGame;
 	private static ArrayList<Food> foodsOfGame;
@@ -85,14 +85,7 @@ public class Environment {
 		Room.UndergroundHallway.setExit("east", Room.HiddenPath);
 		Room.UndergroundHallway.setExit("west", Room.Armoury);
 
-		Room.HiddenPath.setExit("north", Room.MistyRoom);
 		Room.HiddenPath.setExit("west", Room.HiddenPath);
-
-		Room.MistyRoom.setExit("north", Room.BattleZone);
-		Room.MistyRoom.setExit("west", Room.HiddenPath);
-
-		Room.BattleZone.setExit("south", Room.MistyRoom);
-		Room.BattleZone.setExit("west", Room.Dungeon);
 
 		Room.Dungeon.setExit("up", Room.KingsChamber);
 		Room.Dungeon.setExit("south", Room.UndergroundHallway);
@@ -174,24 +167,22 @@ public class Environment {
 		// put items into rooms
 		Room.CastleCourtyard.addItem(starfruit);
 		Room.CastleGarden.addItem(apple, knife);
-		Room.FlowerGarden.addItem();
+		Room.FlowerGarden.addItem(plant);
 		Room.KingsChamber.addItem(hairbrush);
 		Room.EntryHall.addItem(banana, toothpick);
-		Room.TowerStaircases.addItem();
+		Room.TowerStaircases.addItem(hat);
 		Room.DestroyedTower.addItem(banana, nail, key);
 		Room.DiningRoom.addItem(key);
-		Room.Kitchen.addItem();
+		Room.Kitchen.addItem(sock);
 		Room.Pastry.addItem(magicMuffin);
 		Room.Warehouse.addItem(dagger);
-		Room.Pantry.addItem();
-		Room.DesertedWineStorage.addItem();
-		Room.BasementEntry.addItem();
+		Room.Pantry.addItem(book);
+		Room.DesertedWineStorage.addItem(bottle);
+		Room.BasementEntry.addItem(phone);
 		Room.Armoury.addItem();
 		Room.TreasureChamber.addItem(dragonglass);
 		Room.UndergroundHallway.addItem(key, axe);
-		Room.HiddenPath.addItem();
-		Room.MistyRoom.addItem(sword);
-
+		Room.HiddenPath.addItem(candle);
 		Room.Dungeon.addItem();
 
 	}
@@ -257,6 +248,7 @@ public class Environment {
 		}
 		return null;
 	}
+	
 
 	public ArrayList<Weapon> getWeaponsOfGame() {
 		return weaponsOfGame;

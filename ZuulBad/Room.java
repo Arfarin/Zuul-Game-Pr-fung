@@ -40,9 +40,7 @@ enum Room{
 	UndergroundHallway("Where does this strange hallway lead to?"),
 	HiddenPath("This path looks like nobody has seen it before."),
 	Dungeon("Nobody wants so be hold captive in this cold dungeon."),
-	TeleporterRoom("Everything is moving... What is happening?"),
-	MistyRoom("Description of misty room."),
-	BattleZone("Description of Battle Zone");
+	TeleporterRoom("Everything is moving... What is happening?");
 	
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
@@ -269,11 +267,14 @@ enum Room{
 	 * @param Item that unlocks hint
 	 * @return Hint from NPC
 	 */
-	public String getNpcHint(String item) {
+	public boolean getNpcHint(String item) {
 		if (npc != null) {
 		return npc.getHint(item);
-		} else {
-			return "There is nobody to give you a hint";
+		} 
+		else {
+			System.out.println("There is nobody to give you a hint");
+			return false;
+			
 		}
 	}
 	
