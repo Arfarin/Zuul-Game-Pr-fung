@@ -136,6 +136,10 @@ enum Room{
     	return npc;
     }
     
+    public String getWantedNPCItem() {
+		return npc.getWantedItem();
+	}
+    
     public void createNPC(String itemforhint) {
     	 npc = new NonPlayerCharacter(itemforhint);
     }

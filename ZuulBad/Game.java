@@ -256,7 +256,7 @@ public class Game {
 					return eatMuffin(environment.getMuffin(secondWord + thirdWord));
 				}
 			} else
-				System.out.println("Sorry. This is not a food item of this game.");
+				System.out.println("Sorry. This is not an item of this game.");
 			return false;
 		}
 
@@ -298,7 +298,7 @@ public class Game {
 			System.out.println("Here is nobody to talk with.");
 
 		} else {
-			System.out.println("Do you have the item I want?");
+			System.out.println("Do you have " + currentRoom.getWantedNPCItem() +  " for me?");
 			String specificValuable = parser.getUserInput().trim().toLowerCase();
 			Valuable valuable = Environment.getValuable(specificValuable);
 
