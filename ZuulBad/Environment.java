@@ -85,80 +85,134 @@ public class Environment<T> {
 		Room.UndergroundHallway.setExit("east", Room.HiddenPath);
 		Room.UndergroundHallway.setExit("west", Room.Armoury);
 
-		Room.HiddenPath.setExit("west", Room.HiddenPath);
+		Room.HiddenPath.setExit("north", Room.Dungeon);
+		Room.HiddenPath.setExit("west", Room.UndergroundHallway);
 
 		Room.Dungeon.setExit("up", Room.KingsChamber);
-		Room.Dungeon.setExit("south", Room.UndergroundHallway);
+		Room.Dungeon.setExit("south", Room.HiddenPath);
 	}
 
 	private void createItemsInRooms() {
 
 		// create items
-		Food banana = new Food("banana", 5, "This is a yummy banana");
+		//Foods
+		Food banana = new Food("banana", 2, "Eat this banana and it will give you lots of energy.");
 		foodsOfGame.add(banana);
 		itemsOfGame.addItem(banana);
-		Food apple = new Food("apple", 5, "This is a yummy apple");
+		
+		Food beans = new Food("beans", 3, "Those beans are very healthy.");
+		foodsOfGame.add(beans);
+		itemsOfGame.addItem(beans);
+		
+		Food bread = new Food("bread", 4, "Just some old bread but it is better than nothing...");
+		foodsOfGame.add(bread);
+		itemsOfGame.addItem(bread);
+		
+		Food leftovers = new Food("leftovers", 5, "Leftovers are always a good snack.");
+		foodsOfGame.add(leftovers);
+		itemsOfGame.addItem(leftovers);
+		
+		Food tomatoes = new Food("tomatoes", 2, "These tomatoes look really tasty!");
+		foodsOfGame.add(tomatoes);
+		itemsOfGame.addItem(tomatoes);
+		
+		Food apple = new Food("apple", 3, "An apple is always good when you are hungry.");
 		foodsOfGame.add(apple);
 		itemsOfGame.addItem(apple);
-		Food starfruit = new Food("starfruit", 5, "This is a yummy starfruit");
+		
+		Food starfruit = new Food("starfruit", 3, "This fruit looks like it is from another planet.");
 		foodsOfGame.add(starfruit);
 		itemsOfGame.addItem(starfruit);
+		
+		//Magic muffin
 		MagicMuffin magicMuffin = new MagicMuffin("magic muffin", 5,
-				"This is a muffin made according to a special secret recipe of the castle");
+				"This magically looking muffin is made according to a special recipe of the castle.");
 		magicMuffinsOfGame.add(magicMuffin);
 		foodsOfGame.add(magicMuffin);
 		itemsOfGame.addItem(magicMuffin);
 
+		//Weapons
 		Weapon toothpick = new Weapon("toothpick", 2,
 				"It might not look like much, but used the right way it is a magic tool.");
 		weaponsOfGame.add(toothpick);
 		itemsOfGame.addItem(toothpick);
+		
 		Weapon hairbrush = new Weapon("hairbrush", 3, "Don't underestimate the hairbrush of a lady!.");
 		weaponsOfGame.add(hairbrush);
 		itemsOfGame.addItem(hairbrush);
+		
 		Weapon nail = new Weapon("nail", 4, "Old and rusty, but could be useful in the future.");
 		weaponsOfGame.add(nail);
 		itemsOfGame.addItem(nail);
+		
 		Weapon knife = new Weapon("knife", 5, "A knife is always good to protect yourself.");
 		weaponsOfGame.add(knife);
 		itemsOfGame.addItem(knife);
+		
 		Weapon dagger = new Weapon("dagger", 6, "Its short, double-edged blade could come in handy at some point...");
 		weaponsOfGame.add(dagger);
 		itemsOfGame.addItem(dagger);
+		
 		Weapon axe = new Weapon("axe", 9, "You could chop a tree with that axe.");
 		weaponsOfGame.add(axe);
 		itemsOfGame.addItem(axe);
+		
 		Weapon sword = new Weapon("sword", 10, "This must have belonged to a strong man and mighty soldier.");
 		weaponsOfGame.add(sword);
 		itemsOfGame.addItem(sword);
 
+		// Valuables
 		Valuable key = new Valuable("key", 4, "Don't loose this one.");
 		valuablesOfGame.add(key);
 		itemsOfGame.addItem(key);
+		
 		Valuable dragonglass = new Valuable("dragonglass", 7, "WOW! This looks like it could even kill dragons.");
 		valuablesOfGame.add(dragonglass);
 		itemsOfGame.addItem(dragonglass);
+		
+		Valuable tiara = new Valuable("tiara", 5, "This is a very beautiful golden tiara.");
+		valuablesOfGame.add(tiara);
+		itemsOfGame.addItem(tiara);
+		
+		Valuable glasses = new Valuable("glasses", 3, "Oh look there's a pair of glasses. The lenses are so thick... the person they belong to has to be blind without them.");
+		valuablesOfGame.add(glasses);
+		itemsOfGame.addItem(glasses);
+		
+		Valuable spoon = new Valuable("spoon", 2, "Just a dirty spoon. Probably a hungry person would still use it.");
+		valuablesOfGame.add(spoon);
+		itemsOfGame.addItem(spoon);
+		
+		Valuable tupperware = new Valuable("tupperware", 4, "This looks like your moms tupperware. I didn't know that tupperware already existed in this era.");
+		valuablesOfGame.add(tupperware);
+		itemsOfGame.addItem(tupperware);
+		
 		Valuable hat = new Valuable("medieval hat", 3, "Quite fashionable if you are into that sort of thing.");
 		valuablesOfGame.add(hat);
 		itemsOfGame.addItem(hat);
+		
 		Valuable plant = new Valuable("avocado plant", 5,
 				"Try to get this to the owner ASAP, maybe they can still save it.");
 		valuablesOfGame.add(plant);
 		itemsOfGame.addItem(plant);
+		
 		Valuable phone = new Valuable("phone", 6,
 				"Sadly you don't know the PIN. Also, what is this doing in an old castle?");
 		valuablesOfGame.add(phone);
 		itemsOfGame.addItem(phone);
+		
 		Valuable sock = new Valuable("green sock", 2, "This must have been useful to someone at some point.");
 		valuablesOfGame.add(sock);
 		itemsOfGame.addItem(sock);
+		
 		Valuable candle = new Valuable("nice smelling candle", 3, "Lavender always makes me so sleepy...");
 		valuablesOfGame.add(candle);
 		itemsOfGame.addItem(candle);
+		
 		Valuable book = new Valuable("old book", 5,
 				"Oh look, here is recipe for a love potion. Do you believe in that sort of thing?");
 		valuablesOfGame.add(book);
 		itemsOfGame.addItem(book);
+		
 		Valuable bottle = new Valuable("old bottle of wine", 5,
 				"This must be a very old vintage. Alas, it looks unenjoyable.");
 		valuablesOfGame.add(bottle);
@@ -171,18 +225,18 @@ public class Environment<T> {
 		Room.KingsChamber.addItem(hairbrush);
 		Room.EntryHall.addItem(banana, toothpick);
 		Room.TowerStaircases.addItem(hat);
-		Room.DestroyedTower.addItem(banana, nail, key);
+		Room.DestroyedTower.addItem(beans, nail, key);
 		Room.DiningRoom.addItem(key);
-		Room.Kitchen.addItem(sock);
+		Room.Kitchen.addItem(leftovers, sock);
 		Room.Pastry.addItem(magicMuffin);
 		Room.Warehouse.addItem(dagger);
 		Room.Pantry.addItem(book);
 		Room.DesertedWineStorage.addItem(bottle);
 		Room.BasementEntry.addItem(phone);
-		Room.Armoury.addItem();
+		Room.Armoury.addItem(tomatoes, axe);
 		Room.TreasureChamber.addItem(dragonglass);
-		Room.UndergroundHallway.addItem(key, axe);
-		Room.HiddenPath.addItem(candle);
+		Room.UndergroundHallway.addItem(key, sword);
+		Room.HiddenPath.addItem(bread, candle);
 		Room.Dungeon.addItem();
 
 	}
