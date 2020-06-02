@@ -2,6 +2,14 @@ package ZuulBad;
 
 import java.util.Random;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
 /**
  * This class is the main class of the "World of Zuul" application. "World of
  * Zuul" is a very simple, text based adventure game. Users can walk around some
@@ -19,7 +27,37 @@ import java.util.Random;
  * @version 2016.02.29
  */
 
-public class Game {
+public class Game extends VBox {
+	
+	// all the fun graphic stuff
+	
+	@FXML
+	BorderPane instructionDisplay;
+	@FXML
+	SplitPane mainGameDisplay;
+	@FXML
+	BorderPane levelSelectionDisplay;
+	@FXML
+	StackPane winnerDisplay;
+	@FXML
+	StackPane looserDisplay;
+	
+	@FXML
+	MenuItem help;
+	@FXML
+	MenuItem quit;
+	
+	
+	
+	
+	@FXML
+	private void handleClickHelp(ActionEvent ActionEvent) {
+		help.setText(printer.printHelp(parser));
+	}
+	
+	
+	
+	
 	private Parser parser;
 	private Room currentRoom;
 	private Environment environment;
@@ -42,12 +80,20 @@ public class Game {
 	public Game() {
 		parser = new Parser();
 		printer = new Printer();
-		chooseLevelOfDifficulty();
+//		chooseLevelOfDifficulty();
 		player = new Player();
 		environment = new Environment();
 
 		currentRoom = environment.getFirstRoom(); // start game outside
 		setTime();
+		
+		//gui components
+		instructionDisplay.setVisible(true);
+		mainGameDisplay.setVisible(false);
+		levelSelectionDisplay.setVisible(false);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+		
 	}
 
 	/**

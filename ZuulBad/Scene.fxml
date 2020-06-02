@@ -24,11 +24,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="708.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="708.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ZuulBad.Game">
   <children>
     <MenuBar prefHeight="6.0" prefWidth="594.0" VBox.vgrow="NEVER">
       <menus>
-        <Menu fx:id="help" mnemonicParsing="false" onAction="#handleClick" text="Help" />
+        <Menu fx:id="help" mnemonicParsing="false" onAction="#handleClickHelp" text="Help" />
         <Menu mnemonicParsing="false" text="Quit">
           <items>
                   <MenuItem fx:id="quit" mnemonicParsing="false" text="quit game" />
@@ -281,7 +281,7 @@
                                        <children>
                                           <ImageView fitHeight="201.0" fitWidth="150.0" opacity="0.89" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../Documents/Studium%20WI/DHBW/2.%20Semester/Programmieren%20II/Zuul/Images/Rucksack%20braunBlau.PNG" />
+                                                <Image url="@Images\Rucksack%20braunBlau.PNG" />
                                              </image>
                                           </ImageView>
                                           <BorderPane opacity="0.77" prefHeight="200.0" prefWidth="200.0">
