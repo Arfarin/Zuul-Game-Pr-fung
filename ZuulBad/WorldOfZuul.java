@@ -1,8 +1,13 @@
 package ZuulBad;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,12 +23,12 @@ public class WorldOfZuul extends Application {
 	public void start(Stage stage) throws Exception {
 		
 		VBox root = FXMLLoader.load(getClass().getResource("Scene.fxml"));
-		
+		Scene scene = new Scene(root, 1000, 700);
 		Game game = new Game();
-		Scene scene = new Scene(root, 867, 708);stage.setScene(scene);
+		
 		root = game;
 		
-		
+		stage.setScene(scene);
 		stage.show();
 		
 	}

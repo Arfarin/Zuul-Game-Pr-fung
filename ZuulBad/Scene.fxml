@@ -10,7 +10,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,10 +27,13 @@
   <children>
     <MenuBar prefHeight="6.0" prefWidth="594.0" VBox.vgrow="NEVER">
       <menus>
-        <Menu fx:id="help" mnemonicParsing="false" onAction="#handleClickHelp" text="Help" />
+        <Menu fx:id="help" mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem fx:id="helpme" mnemonicParsing="false" onAction="#handleClickHelp" text="help me" />
+               </items></Menu>
         <Menu mnemonicParsing="false" text="Quit">
           <items>
-                  <MenuItem fx:id="quit" mnemonicParsing="false" text="quit game" />
+                  <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#handleQuit" text="quit game" />
           </items>
         </Menu>
       </menus>
@@ -41,7 +43,7 @@
     </MenuBar>
       <StackPane prefHeight="682.0" prefWidth="867.0">
          <children>
-            <SplitPane fx:id="mainGameDisplay" dividerPositions="0.6014425314099581" prefHeight="225.0" prefWidth="858.0">
+            <SplitPane fx:id="mainGameDisplay" dividerPositions="0.6014425314099581" prefHeight="225.0" prefWidth="858.0" visible="false">
                <items>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
@@ -323,41 +325,41 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </TextArea>
-                                          <ToggleButton fx:id="upButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="45.0" text="  up  ">
+                                          <Button fx:id="up" mnemonicParsing="false" onAction="#handleGoUp" text="up">
                                              <VBox.margin>
-                                                <Insets left="127.0" top="20.0" />
+                                                <Insets left="132.0" top="5.0" />
                                              </VBox.margin>
-                                          </ToggleButton>
-                                          <BorderPane prefHeight="95.0" prefWidth="321.0">
-                                             <right>
-                                                <ToggleButton fx:id="eastButton" mnemonicParsing="false" text="east" BorderPane.alignment="CENTER">
-                                                   <BorderPane.margin>
-                                                      <Insets right="70.0" />
-                                                   </BorderPane.margin>
-                                                </ToggleButton>
-                                             </right>
-                                             <top>
-                                                <ToggleButton fx:id="northButton" mnemonicParsing="false" text="north" BorderPane.alignment="CENTER" />
-                                             </top>
-                                             <left>
-                                                <ToggleButton fx:id="westButton" mnemonicParsing="false" text="west" BorderPane.alignment="CENTER">
-                                                   <BorderPane.margin>
-                                                      <Insets left="70.0" />
-                                                   </BorderPane.margin>
-                                                </ToggleButton>
-                                             </left>
-                                             <bottom>
-                                                <ToggleButton fx:id="southButton" mnemonicParsing="false" text="south" BorderPane.alignment="CENTER" />
-                                             </bottom>
+                                          </Button>
+                                          <BorderPane prefHeight="126.0" prefWidth="205.0">
                                              <padding>
                                                 <Insets bottom="25.0" top="25.0" />
                                              </padding>
+                                             <top>
+                                                <Button fx:id="north" mnemonicParsing="false" onAction="#handleGoNorth" text="north" BorderPane.alignment="CENTER" />
+                                             </top>
+                                             <left>
+                                                <Button fx:id="west" mnemonicParsing="false" onAction="#handleGoWest" text="west" BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets left="60.0" />
+                                                   </BorderPane.margin>
+                                                </Button>
+                                             </left>
+                                             <right>
+                                                <Button fx:id="east" mnemonicParsing="false" onAction="#handleGoEast" text="east" BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets right="60.0" />
+                                                   </BorderPane.margin>
+                                                </Button>
+                                             </right>
+                                             <bottom>
+                                                <Button fx:id="south" mnemonicParsing="false" onAction="#handleGoSouth" text="south" BorderPane.alignment="CENTER" />
+                                             </bottom>
                                           </BorderPane>
-                                          <ToggleButton fx:id="downButton" mnemonicParsing="false" text="down">
+                                          <Button fx:id="down" mnemonicParsing="false" onAction="#handleGoDown" text="down">
                                              <VBox.margin>
-                                                <Insets bottom="10.0" left="127.0" />
+                                                <Insets left="128.0" />
                                              </VBox.margin>
-                                          </ToggleButton>
+                                          </Button>
                                        </children>
                                        <padding>
                                           <Insets left="20.0" right="20.0" />
@@ -371,7 +373,7 @@
                   </AnchorPane>
                </items>
             </SplitPane>
-            <BorderPane fx:id="instructionDisplay" prefHeight="652.0" prefWidth="867.0" visible="false">
+            <BorderPane fx:id="instructionDisplay" prefHeight="652.0" prefWidth="867.0">
                <top>
                   <Label text="Short game instructions" BorderPane.alignment="CENTER">
                      <font>
@@ -387,7 +389,7 @@
                   </TextArea>
                </center>
                <bottom>
-                  <Button fx:id="play" mnemonicParsing="false" text="Go on playing ZuulBad" BorderPane.alignment="CENTER">
+                  <Button fx:id="play" mnemonicParsing="false" onAction="#handleStart" text="Go on playing ZuulBad" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets bottom="150.0" />
                      </BorderPane.margin>
@@ -411,7 +413,7 @@
                <center>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <left>
-                        <Button fx:id="easy" mnemonicParsing="false" prefHeight="160.0" prefWidth="240.0" text="easy" BorderPane.alignment="CENTER">
+                        <Button fx:id="easy" mnemonicParsing="false" onAction="#chooseEasy" prefHeight="160.0" prefWidth="240.0" text="easy" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets left="20.0" />
                            </BorderPane.margin>
@@ -421,14 +423,14 @@
                         </Button>
                      </left>
                      <center>
-                        <Button fx:id="medium" mnemonicParsing="false" prefHeight="160.0" prefWidth="240.0" text="medium" BorderPane.alignment="CENTER">
+                        <Button fx:id="medium" mnemonicParsing="false" onAction="#chooseMedium" prefHeight="160.0" prefWidth="240.0" text="medium" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Button>
                      </center>
                      <right>
-                        <Button fx:id="heavy" mnemonicParsing="false" prefHeight="160.0" prefWidth="240.0" text="heavy" BorderPane.alignment="CENTER">
+                        <Button fx:id="heavy" mnemonicParsing="false" onAction="#chooseHeavy" prefHeight="160.0" prefWidth="240.0" text="impossible" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets right="20.0" />
                            </BorderPane.margin>

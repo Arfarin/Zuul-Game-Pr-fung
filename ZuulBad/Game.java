@@ -4,8 +4,11 @@ import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -30,7 +33,9 @@ import javafx.scene.layout.VBox;
 public class Game extends VBox {
 	
 	// all the fun graphic stuff
-	
+	@FXML
+	Label roomlabel;
+
 	@FXML
 	BorderPane instructionDisplay;
 	@FXML
@@ -41,20 +46,105 @@ public class Game extends VBox {
 	StackPane winnerDisplay;
 	@FXML
 	StackPane looserDisplay;
+	@FXML
+	TextArea informationTextArea;
 	
 	@FXML
-	MenuItem help;
-	@FXML
-	MenuItem quit;
-	
-	
-	
+	Button play;
 	
 	@FXML
-	private void handleClickHelp(ActionEvent ActionEvent) {
-		help.setText(printer.printHelp(parser));
+	private void handleStart(ActionEvent ActionEvent) {
+		instructionDisplay.setVisible(false);
+		levelSelectionDisplay.setVisible(true);
 	}
 	
+	@FXML
+	Button easy;
+	@FXML
+	Button medium;
+	@FXML
+	Button heavy;
+	
+	@FXML
+	private void chooseEasy(ActionEvent ActionEvent) {
+		difficultyLevel = Level.EASY;
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(true);
+	}
+	@FXML
+	private void chooseMedium(ActionEvent ActionEvent) {
+		difficultyLevel = Level.MEDIUM;
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(true);
+	}
+	@FXML
+	private void chooseHeavy(ActionEvent ActionEvent) {
+		difficultyLevel = Level.HEAVY;
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(true);
+	}
+	
+	@FXML
+	MenuItem helpme;
+	@FXML
+	MenuItem quit;
+
+	@FXML
+	private void handleClickHelp(ActionEvent ActionEvent) {
+		informationTextArea.setText("You are lost. You are alone. \nYou wander around at the castle." +
+				"\nNobody can help you...");
+	}
+	@FXML
+	private void handleQuit(ActionEvent ActionEvent) {
+		mainGameDisplay.setVisible(false);
+		looserDisplay.setVisible(true);;
+	}
+	
+	@FXML
+	Button north;
+	@FXML
+	Button south;
+	@FXML
+	Button east;
+	@FXML
+	Button west;
+	@FXML
+	Button up;
+	@FXML
+	Button down;
+	
+	
+	
+	@FXML
+	private void handleGoNorth(ActionEvent ActionEvent) {
+		Command command = new Command(CommandWords.GO, "north", null);
+		goRoom(command);
+	}
+	@FXML
+	private void handleGoSouth(ActionEvent ActionEvent) {
+		Command command = new Command(CommandWords.GO, "south", null);
+		goRoom(command);
+	}
+	@FXML
+	private void handleGoEast(ActionEvent ActionEvent) {
+		Command command = new Command(CommandWords.GO, "east", null);
+		goRoom(command);
+	}
+	@FXML
+	private void handleGoWest(ActionEvent ActionEvent) {
+		Command command = new Command(CommandWords.GO, "west", null);
+		goRoom(command);
+	}
+	@FXML
+	private void handleGoUp(ActionEvent ActionEvent) {
+		Command command = new Command(CommandWords.GO, "up", null);
+		goRoom(command);
+	}
+	@FXML
+	private void handleGoDown(ActionEvent ActionEvent) {
+		Command command = new Command(CommandWords.GO, "down", null);
+		goRoom(command);
+	}
 	
 	
 	
@@ -65,7 +155,7 @@ public class Game extends VBox {
 	private Printer printer;
 	private Random random;
 
-	private static Level difficultyLevel;
+	private static Level difficultyLevel = Level.EASY;
 
 	/**
 	 * how much time the game should last. Measured by the number of how often the
@@ -87,14 +177,9 @@ public class Game extends VBox {
 		currentRoom = environment.getFirstRoom(); // start game outside
 		setTime();
 		
-		//gui components
-		instructionDisplay.setVisible(true);
-		mainGameDisplay.setVisible(false);
-		levelSelectionDisplay.setVisible(false);
-		winnerDisplay.setVisible(false);
-		looserDisplay.setVisible(false);
 		
 	}
+	
 
 	/**
 	 * Main play routine. Loops until end of play.
@@ -196,17 +281,17 @@ public class Game extends VBox {
 		Room nextRoom = currentRoom.getExit(direction);
 
 		if (nextRoom == null) {
-			System.out.println("There is no door!");
+			informationTextArea.setText("There is no door!");
 			return;
 
 		} else if (nextRoom.isLocked()) {
 			if (player.backpackContainsItem(key)) {
 				nextRoom.unlockRoom();
 				player.removeItemFromBackpack(key);
-				System.out.println(nextRoom + " was unlocked.");
+				informationTextArea.setText(nextRoom + " was unlocked.");
 				currentRoom = nextRoom;
 			} else {
-				System.out.println("The " + nextRoom.toString().toLowerCase() + " is locked!");
+				informationTextArea.setText("The " + nextRoom.toString().toLowerCase() + " is locked!");
 				return;
 			}
 
@@ -232,6 +317,7 @@ public class Game extends VBox {
 		player.getHungry();
 		player.increaseLifeBar();
 		printer.printRemainingTime(time);
+		
 	}
 
 	private boolean killedMonster() {
