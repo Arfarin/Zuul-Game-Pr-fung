@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="708.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar prefHeight="6.0" prefWidth="594.0" VBox.vgrow="NEVER">
+      <menus>
+        <Menu fx:id="help" mnemonicParsing="false" onAction="#handleClick" text="Help" />
+        <Menu mnemonicParsing="false" text="Quit">
+          <items>
+                  <MenuItem fx:id="quit" mnemonicParsing="false" text="quit game" />
+          </items>
+        </Menu>
+      </menus>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+    </MenuBar>
+      <StackPane prefHeight="682.0" prefWidth="867.0">
+         <children>
+            <SplitPane fx:id="mainGameDisplay" dividerPositions="0.6014425314099581" prefHeight="225.0" prefWidth="858.0">
+               <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <SplitPane dividerPositions="0.2691065662002153" layoutX="-2.0" layoutY="2.0" orientation="VERTICAL" prefHeight="372.8" prefWidth="385.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <items>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="206.0" prefWidth="400.0">
+                                 <children>
+                                    <GridPane hgap="15.0" prefHeight="97.6" prefWidth="384.0" vgap="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.5999755859375" minWidth="10.0" prefWidth="85.99996948242188" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="396.0000305175781" minWidth="10.0" prefWidth="396.0000305175781" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label fx:id="timeLabel" text="time">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lifebarLabel" text="lifeBar" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Rectangle fx:id="timeRectangle" arcHeight="5.0" arcWidth="5.0" fill="#1edeff" height="15.0" stroke="#00000036" strokeType="INSIDE" width="385.0" GridPane.columnIndex="1" />
+                                          <Rectangle fx:id="lifebarRectangle" arcHeight="5.0" arcWidth="5.0" fill="#1edeff" height="15.0" stroke="#00000035" strokeType="INSIDE" width="85.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Rectangle fx:id="foodbarRectangle" arcHeight="5.0" arcWidth="5.0" fill="#1edeff" height="15.0" stroke="#00000035" strokeType="INSIDE" width="387.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label fx:id="foodbarLabel" text="foodBar" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" />
+                                       </padding>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="258.0" prefWidth="400.0">
+                                 <children>
+                                    <StackPane layoutX="40.0" prefHeight="482.0" prefWidth="513.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ImageView fx:id="floorImageView" fitHeight="537.0" fitWidth="785.0" mouseTransparent="true" opacity="0.54" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@Images/grauer_steinboden.jpg" />
+                                             </image>
+                                          </ImageView>
+                                          <BorderPane mouseTransparent="true" prefHeight="200.0" prefWidth="200.0">
+                                             <top>
+                                                <SplitPane dividerPositions="0.5" mouseTransparent="true" opacity="0.57" prefHeight="33.0" prefWidth="384.0" BorderPane.alignment="CENTER">
+                                                   <items>
+                                                      <Label prefHeight="26.0" prefWidth="194.0" text="CurrentRoom">
+                                                         <font>
+                                                            <Font name="System Bold" size="17.0" />
+                                                         </font>
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                      </Label>
+                                                      <Rectangle fx:id="doorNorth" arcHeight="5.0" arcWidth="5.0" fill="#1fffae" height="15.0" stroke="BLACK" strokeType="INSIDE" width="85.0" />
+                                                   </items>
+                                                   <opaqueInsets>
+                                                      <Insets left="5.0" />
+                                                   </opaqueInsets>
+                                                </SplitPane>
+                                             </top>
+                                             <left>
+                                                <Rectangle fx:id="doorWest" arcHeight="5.0" arcWidth="5.0" fill="#1fffae" height="85.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
+                                             </left>
+                                             <bottom>
+                                                <Rectangle fx:id="doorSouth" arcHeight="5.0" arcWidth="5.0" fill="#1fffae" height="15.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="85.0" BorderPane.alignment="CENTER" />
+                                             </bottom>
+                                             <right>
+                                                <Rectangle fx:id="doorEast" arcHeight="5.0" arcWidth="5.0" fill="#1fffae" height="85.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
+                                             </right>
+                                             <center>
+                                                <GridPane mouseTransparent="true" BorderPane.alignment="CENTER">
+                                                   <columnConstraints>
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
+                                                   <children>
+                                                      <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                                         <bottom>
+                                                            <HBox prefHeight="26.0" prefWidth="117.0" BorderPane.alignment="CENTER">
+                                                               <children>
+                                                                  <Button fx:id="eatButton" mnemonicParsing="false" text=" eat " />
+                                                                  <Button fx:id="storeFoodButton" mnemonicParsing="false" text="store">
+                                                                     <HBox.margin>
+                                                                        <Insets />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets left="80.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                         </bottom>
+                                                         <top>
+                                                            <ImageView fx:id="foodImage" fitHeight="65.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                               <image>
+                                                                  <Image url="@Images/messerGabel.png" />
+                                                               </image>
+                                                               <BorderPane.margin>
+                                                                  <Insets top="15.0" />
+                                                               </BorderPane.margin>
+                                                            </ImageView>
+                                                         </top>
+                                                         <center>
+                                                            <Label fx:id="foodLabel" alignment="CENTER" prefHeight="29.0" prefWidth="70.0" text="foodName" textFill="#d50d0d" BorderPane.alignment="CENTER">
+                                                               <font>
+                                                                  <Font name="System Bold" size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </center>
+                                                      </BorderPane>
+                                                      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                                         <bottom>
+                                                            <Button fx:id="storeWeaponButton" mnemonicParsing="false" text="store" BorderPane.alignment="CENTER" />
+                                                         </bottom>
+                                                         <center>
+                                                            <Label fx:id="weaponLabel" text="weaponName" textFill="#1f0bcf" BorderPane.alignment="CENTER">
+                                                               <font>
+                                                                  <Font name="System Bold" size="14.0" />
+                                                               </font>
+                                                               <padding>
+                                                                  <Insets top="2.0" />
+                                                               </padding>
+                                                            </Label>
+                                                         </center>
+                                                         <top>
+                                                            <ImageView fx:id="weaponImage" fitHeight="76.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                               <image>
+                                                                  <Image url="@Images/weapon.png" />
+                                                               </image>
+                                                               <BorderPane.margin>
+                                                                  <Insets top="15.0" />
+                                                               </BorderPane.margin>
+                                                            </ImageView>
+                                                         </top>
+                                                      </BorderPane>
+                                                      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                                                         <center>
+                                                            <Label fx:id="valuableLabel" text="valuableName" textFill="#9e3682" BorderPane.alignment="CENTER">
+                                                               <font>
+                                                                  <Font name="System Bold" size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </center>
+                                                         <top>
+                                                            <ImageView fx:id="valuableImage" fitHeight="75.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                               <image>
+                                                                  <Image url="@Images/box.png" />
+                                                               </image>
+                                                               <BorderPane.margin>
+                                                                  <Insets top="15.0" />
+                                                               </BorderPane.margin>
+                                                            </ImageView>
+                                                         </top>
+                                                         <bottom>
+                                                            <Button fx:id="storeValuableButton" mnemonicParsing="false" text="store" BorderPane.alignment="CENTER" />
+                                                         </bottom>
+                                                      </BorderPane>
+                                                      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                                         <bottom>
+                                                            <Button fx:id="hintButton" mnemonicParsing="false" text="hint" BorderPane.alignment="CENTER" />
+                                                         </bottom>
+                                                         <right>
+                                                            <TextArea fx:id="npcTextArea" editable="false" opacity="0.67" prefHeight="120.0" prefWidth="148.0" text="npcMessage (and &#10;npc-hint after click on &#10;button &quot;hint&quot;)" BorderPane.alignment="CENTER">
+                                                               <BorderPane.margin>
+                                                                  <Insets bottom="10.0" right="10.0" top="10.0" />
+                                                               </BorderPane.margin>
+                                                            </TextArea>
+                                                         </right>
+                                                         <center>
+                                                            <ImageView fx:id="humanImage" fitHeight="104.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                               <image>
+                                                                  <Image url="@Images/npc.png" />
+                                                               </image>
+                                                               <BorderPane.margin>
+                                                                  <Insets left="40.0" />
+                                                               </BorderPane.margin>
+                                                            </ImageView>
+                                                         </center>
+                                                      </BorderPane>
+                                                      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                         <center>
+                                                            <ImageView fx:id="staticItemImage" fitHeight="88.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                               <image>
+                                                                  <Image url="@Images/table.png" />
+                                                               </image>
+                                                               <BorderPane.margin>
+                                                                  <Insets top="20.0" />
+                                                               </BorderPane.margin>
+                                                            </ImageView>
+                                                         </center>
+                                                         <bottom>
+                                                            <Label fx:id="staticItemLabel" text="static item name" BorderPane.alignment="CENTER">
+                                                               <font>
+                                                                  <Font name="System Bold" size="14.0" />
+                                                               </font>
+                                                               <BorderPane.margin>
+                                                                  <Insets bottom="10.0" />
+                                                               </BorderPane.margin>
+                                                            </Label>
+                                                         </bottom>
+                                                      </BorderPane>
+                                                   </children>
+                                                </GridPane>
+                                             </center>
+                                          </BorderPane>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </AnchorPane>
+                           </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <SplitPane dividerPositions="0.550483351235231" layoutX="1.0" layoutY="2.0" orientation="VERTICAL" prefHeight="372.8" prefWidth="247.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <items>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <StackPane prefHeight="201.6" prefWidth="245.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ImageView fitHeight="201.0" fitWidth="150.0" opacity="0.89" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../Documents/Studium%20WI/DHBW/2.%20Semester/Programmieren%20II/Zuul/Images/Rucksack%20braunBlau.PNG" />
+                                             </image>
+                                          </ImageView>
+                                          <BorderPane opacity="0.77" prefHeight="200.0" prefWidth="200.0">
+                                             <center>
+                                                <TextArea fx:id="baggageContent" editable="false" prefHeight="315.0" prefWidth="337.0" text="You have got in your backpack:&#10;&#10;(print baggage)" BorderPane.alignment="CENTER" />
+                                             </center>
+                                             <bottom>
+                                                <HBox prefHeight="44.0" prefWidth="338.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <TextField fx:id="backpackTextFieldToType" prefHeight="26.0" prefWidth="185.0" promptText="type in name of item in backpack">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" top="9.0" />
+                                                         </HBox.margin>
+                                                      </TextField>
+                                                      <Button fx:id="eatFromBackpackButton" mnemonicParsing="false" text="eat">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" top="9.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                      <Button fx:id="dropButton" mnemonicParsing="false" text="drop">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" top="9.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                   </children>
+                                                </HBox>
+                                             </bottom>
+                                          </BorderPane>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="168.0" prefWidth="208.0">
+                                 <children>
+                                    <VBox prefHeight="288.0" prefWidth="338.0">
+                                       <children>
+                                          <TextArea fx:id="informationTextArea" editable="false" prefHeight="119.0" prefWidth="307.0" text="Textfield for general information from println ">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextArea>
+                                          <ToggleButton fx:id="upButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="45.0" text="  up  ">
+                                             <VBox.margin>
+                                                <Insets left="127.0" top="20.0" />
+                                             </VBox.margin>
+                                          </ToggleButton>
+                                          <BorderPane prefHeight="95.0" prefWidth="321.0">
+                                             <right>
+                                                <ToggleButton fx:id="eastButton" mnemonicParsing="false" text="east" BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets right="70.0" />
+                                                   </BorderPane.margin>
+                                                </ToggleButton>
+                                             </right>
+                                             <top>
+                                                <ToggleButton fx:id="northButton" mnemonicParsing="false" text="north" BorderPane.alignment="CENTER" />
+                                             </top>
+                                             <left>
+                                                <ToggleButton fx:id="westButton" mnemonicParsing="false" text="west" BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets left="70.0" />
+                                                   </BorderPane.margin>
+                                                </ToggleButton>
+                                             </left>
+                                             <bottom>
+                                                <ToggleButton fx:id="southButton" mnemonicParsing="false" text="south" BorderPane.alignment="CENTER" />
+                                             </bottom>
+                                             <padding>
+                                                <Insets bottom="25.0" top="25.0" />
+                                             </padding>
+                                          </BorderPane>
+                                          <ToggleButton fx:id="downButton" mnemonicParsing="false" text="down">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="127.0" />
+                                             </VBox.margin>
+                                          </ToggleButton>
+                                       </children>
+                                       <padding>
+                                          <Insets left="20.0" right="20.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+               </items>
+            </SplitPane>
+            <BorderPane fx:id="instructionDisplay" prefHeight="652.0" prefWidth="867.0" visible="false">
+               <top>
+                  <Label text="Short game instructions" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </top>
+               <center>
+                  <TextArea editable="false" prefHeight="496.0" prefWidth="614.0" text="Navigation: &#10;click on a direction button (e.g. &quot;south&quot;) to move from one room to another. &#10;The name of the room you are currently in is shown on top of the left lower display-area.&#10; &#10;Items in a room:&#10;There can be different things in a room. You can store all transportable objects that means food, wepons or valuable items. &#10;Food can also be eaten immediately.&#10;Items in your backpack are displayed in the right upper display-area. You can drop them in a room by click on the corresponding button.&#10;&#10;Person in a room:&#10;Walking across rooms you may meet other people. Provided that you have a specified item in your backpack, &#10;each person is going to give you a helpful hint. Click on the Button &quot;hint&quot; to ask them. &#10;&#10;Monster in a room:&#10;There are also monsters in rooms. As long as you have a weapon with you a monster won't bother you. Otherwise they reduce your lifebar or kill you.&#10;&#10;Goal of the game: &#10;You wander around in a castle and there is a bad monster. When you manage killing it there will be a surprise event.&#10;&#10;Keep your resources in mind: &#10;The bars in the left-upper area show your status. If you ignore them you might die.  &#10;&#10;Now let's go on playing: " BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </BorderPane.margin>
+                  </TextArea>
+               </center>
+               <bottom>
+                  <Button fx:id="play" mnemonicParsing="false" text="Go on playing ZuulBad" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="150.0" />
+                     </BorderPane.margin>
+                  </Button>
+               </bottom>
+               <opaqueInsets>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </opaqueInsets>
+            </BorderPane>
+            <BorderPane fx:id="levelSelectionDisplay" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <top>
+                  <Label text="Please select a level of difficulty" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                     <BorderPane.margin>
+                        <Insets top="50.0" />
+                     </BorderPane.margin>
+                  </Label>
+               </top>
+               <center>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <left>
+                        <Button fx:id="easy" mnemonicParsing="false" prefHeight="160.0" prefWidth="240.0" text="easy" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="20.0" />
+                           </BorderPane.margin>
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Button>
+                     </left>
+                     <center>
+                        <Button fx:id="medium" mnemonicParsing="false" prefHeight="160.0" prefWidth="240.0" text="medium" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Button>
+                     </center>
+                     <right>
+                        <Button fx:id="heavy" mnemonicParsing="false" prefHeight="160.0" prefWidth="240.0" text="heavy" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets right="20.0" />
+                           </BorderPane.margin>
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Button>
+                     </right>
+                     <padding>
+                        <Insets bottom="100.0" />
+                     </padding>
+                  </BorderPane>
+               </center>
+            </BorderPane>
+            <StackPane fx:id="winnerDisplay" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
+               <children>
+                  <ImageView fitHeight="375.0" fitWidth="459.0" opacity="0.31" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/crown.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="You win!" textFill="#d2220b">
+                     <font>
+                        <Font name="System Bold" size="64.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <StackPane fx:id="looserDisplay" prefHeight="150.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Label text="You loose!" textFill="#dd1634">
+                     <font>
+                        <Font name="System Bold" size="64.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+         </children>
+      </StackPane>
+  </children>
+</VBox>
