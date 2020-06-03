@@ -38,6 +38,9 @@ public class NonPlayerCharacter {
 		hints.put("tupperware", "Maid: Oh this tupperware is very helpful. Would be good to store the food in the basement under the wine storage but some people say that you cannot return once you are down there...");
 	}
 	
+	public String getWantedItem() {
+		return wanteditem;
+	}
 	
 	public String getMessage() {
 		String message = messages.get(wanteditem);

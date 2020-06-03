@@ -17,12 +17,12 @@ public class Printer {
 	 * Print out some help information. Here we print some stupid, cryptic message
 	 * and a list of the command words.
 	 */
-	public void printHelp(Parser parser) {
-		System.out.println("You are lost. You are alone. You wander");
-		System.out.println("around at the university.");
-		System.out.println();
-		System.out.println("Your command words are:");
-		System.out.println(parser.showCommands());
+	public String printHelp(Parser parser) {
+		return "You are lost. You are alone. You wander" +
+		"around at the university." +
+		"\n" +
+		"Your command words are:" +
+		parser.showCommands();
 	}
 	
 	public void printDifficultyChoices() {
