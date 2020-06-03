@@ -75,7 +75,7 @@ public class Items {
 		StringBuilder itemsInRoom = new StringBuilder();
 
 		if (isEmpty()) {
-			itemsInRoom.append(" none ");
+			itemsInRoom.append(" no items ");
 		} else {
 			for (Item item : this.itemlist) {
 				itemsInRoom.append(item.getName().toLowerCase().trim() + ", ");
@@ -130,6 +130,34 @@ public class Items {
 		}
 		return false;
 	}
+	
+	public Food getFood() {
+		for (Item item : itemlist) {
+			if (item instanceof Food) {
+				return (Food) item;
+			} 
+		}
+		return null;
+	}
+		
+		
+		public Weapon getWeapon() {
+			for (Item item : itemlist) {
+				if (item instanceof Weapon) {
+					return (Weapon) item;
+				} 
+			}
+			return null;
+		}
+		
+		public Valuable getValuable() {
+			for (Item item : itemlist) {
+				if (item instanceof Valuable) {
+					return (Valuable) item;
+				} 
+			}
+			return null;
+		}
 
 //	public Object toItsType(String name) {
 //
