@@ -14,9 +14,11 @@ public class Player {
 	private Printer printer;
 	
 	private SimpleIntegerProperty lifebarproperty;
+	private SimpleIntegerProperty foodbarproperty;
 
 	public Player() {
 		lifebarproperty = new SimpleIntegerProperty(lifeBar);
+		foodbarproperty = new SimpleIntegerProperty(foodBar);
 		
 		backpack = new Inventory();
 		lifeBar = 5;
@@ -27,6 +29,10 @@ public class Player {
 	
 	public IntegerProperty lifeBarProperty() {
 		return lifebarproperty;
+	}
+	
+	public IntegerProperty foodBarProperty() {
+		return foodbarproperty;
 	}
 
 
@@ -105,7 +111,12 @@ public class Player {
 	 * increases foodBar. Used when player eats food.
 	 */
 	public void increaseFoodBar() {
-		foodBar++;
+		foodBar = foodBar + 5;
+		
+		if (foodBar > maxFood) {
+			foodBar = maxFood;
+		}
+		foodbarproperty.setValue(foodBar);
 	}
 
 	/**
@@ -114,7 +125,7 @@ public class Player {
 	 */
 	public void getHungry() {
 		foodBar--;
-		
+		foodbarproperty.setValue(foodBar);
 	}
 	
 	public boolean starvedToDeath() {
@@ -136,10 +147,12 @@ public class Player {
 	 * time (used after every entry in a room)
 	 */
 	public void increaseLifeBar() {
-		if (lifeBar < maxLife) {
+		
 		lifeBar++;
-		lifebarproperty.setValue(lifeBar);
+		if (lifeBar > maxLife) {
+			lifeBar = maxLife;
 		}
+		lifebarproperty.setValue(lifeBar);
 	}
 
 	/**

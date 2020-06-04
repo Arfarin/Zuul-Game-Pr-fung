@@ -2,23 +2,14 @@ package ZuulBad;
 
 import java.util.Random;
 
-import javafx.beans.Observable;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -49,6 +40,10 @@ public class Game extends VBox {
 	TextArea npcTextArea;
 	@FXML
 	Rectangle lifebarRectangle;
+	@FXML
+	Rectangle foodbarRectangle;
+	@FXML
+	Rectangle timeRectangle;
 
 //	private SimpleStringProperty roomproperty;
 //	public StringProperty roomProperty() {
@@ -267,6 +262,8 @@ public class Game extends VBox {
 	 * player moves from one room to another
 	 */
 	private int time;
+	
+	private SimpleIntegerProperty timeproperty;
 
 	/**
 	 * Create the game. Select a Level of Difficulty, initialize the rooms with
@@ -280,8 +277,9 @@ public class Game extends VBox {
 		environment = new Environment();
 
 		currentRoom = environment.getFirstRoom(); // start game outside
-		setTime();
+		time = Level.setValue(30, -5);
 
+		timeproperty = new SimpleIntegerProperty(time);
 	}
 	
 	
@@ -303,10 +301,33 @@ public class Game extends VBox {
 			}
 		});
 		
+		player.foodBarProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
+				int maxwidth = 387;
+				int maxfood= player.getMaxFood();
+				double length = (player.foodBarProperty().doubleValue() / maxfood) * maxwidth;
+				foodbarRectangle.setWidth(length);
+			}
+		});
+		
+		this.timeProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
+				int maxwidth = 387;
+				int maxtime = Level.setValue(30, -5);
+				double length = (timeProperty().doubleValue() / maxtime) * maxwidth;
+				timeRectangle.setWidth(length);
+			}
+		});
 		
 	}
 	
 
+	public IntegerProperty timeProperty() {
+		return timeproperty;
+	}
+	
 	/**
 	 * Given a command, process (that is: execute) the command.
 	 * 
@@ -430,11 +451,12 @@ public class Game extends VBox {
 		time--;
 		player.getHungry();
 		player.increaseLifeBar();
-		printer.printRemainingTime(time);
+		
 		
 		roomlabel.setText(currentRoom.toString());
 		backpacklabel.setText(player.getBackpackContent());
 		npcTextArea.setText(currentRoom.getNpcMessage());
+		timeproperty.setValue(time);
 		
 		setItemLabels();
 		System.out.println(player.getLifeBar());
@@ -624,10 +646,6 @@ public class Game extends VBox {
 		}
 	}
 
-	private final void setTime() {
-		time = Level.setValue(30, -5);
-		printer.printRemainingTime(time);
-	}
 
 	private boolean timeOver(int time) {
 		if (time < 1) {
