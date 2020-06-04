@@ -2,15 +2,18 @@ package ZuulBad;
 
 import java.util.Random;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 /**
  * This class is the main class of the "World of Zuul" application. "World of
@@ -25,11 +28,13 @@ import javafx.scene.shape.Rectangle;
  * creates the parser and starts the game. It also evaluates and executes the
  * commands that the parser returns.
  * 
- * @author Michael KÃ¶lling and David J. Barnes
+ * @author Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
 
 public class Game extends VBox {
+	
+	private Room currentRoom;
 	
 	// all the fun graphic stuff
 	@FXML
@@ -38,17 +43,6 @@ public class Game extends VBox {
 	TextArea backpacklabel;
 	@FXML
 	TextArea npcTextArea;
-	@FXML
-	Rectangle lifebarRectangle;
-	@FXML
-	Rectangle foodbarRectangle;
-	@FXML
-	Rectangle timeRectangle;
-
-//	private SimpleStringProperty roomproperty;
-//	public StringProperty roomProperty() {
-//		return roomproperty;
-//	}
 	
 	@FXML
 	BorderPane instructionDisplay;
@@ -61,17 +55,43 @@ public class Game extends VBox {
 	@FXML
 	StackPane looserDisplay;
 	@FXML
+	StackPane welcomeDisplay;
+	@FXML
 	TextArea informationTextArea;
-	
+	@FXML
+	Button startGameButton;
 	@FXML
 	Button play;
+	@FXML
+	Button readInstructionButton;
+	
+	@FXML 
+	private void handleStart(ActionEvent ActionEvent){
+		instructionDisplay.setVisible(false);
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(true);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+		welcomeDisplay.setVisible(false);
+	}
 	
 	@FXML
-	private void handleStart(ActionEvent ActionEvent) {
+	private void handleReadInstructions(ActionEvent ActionEvent){
+		instructionDisplay.setVisible(true);
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(false);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+		welcomeDisplay.setVisible(false);
+	}
+	@FXML
+	private void handleGoOnPlaying(ActionEvent ActionEvent) {
 		instructionDisplay.setVisible(false);
-		levelSelectionDisplay.setVisible(true);
-		
-		play();
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(true);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+		welcomeDisplay.setVisible(false);
 	}
 	
 	@FXML
@@ -85,19 +105,19 @@ public class Game extends VBox {
 	private void chooseEasy(ActionEvent ActionEvent) {
 		difficultyLevel = Level.EASY;
 		levelSelectionDisplay.setVisible(false);
-		mainGameDisplay.setVisible(true);
+		welcomeDisplay.setVisible(true);
 	}
 	@FXML
 	private void chooseMedium(ActionEvent ActionEvent) {
 		difficultyLevel = Level.MEDIUM;
 		levelSelectionDisplay.setVisible(false);
-		mainGameDisplay.setVisible(true);
+		welcomeDisplay.setVisible(true);
 	}
 	@FXML
 	private void chooseHeavy(ActionEvent ActionEvent) {
 		difficultyLevel = Level.HEAVY;
 		levelSelectionDisplay.setVisible(false);
-		mainGameDisplay.setVisible(true);
+		welcomeDisplay.setVisible(true);
 	}
 	
 	@FXML
@@ -106,14 +126,18 @@ public class Game extends VBox {
 	MenuItem quit;
 
 	@FXML
-	private void handleClickHelp(ActionEvent ActionEvent) {
-		informationTextArea.setText("You are lost. You are alone. \nYou wander around at the castle." +
-				"\nNobody can help you...");
-	}
-	@FXML
 	private void handleQuit(ActionEvent ActionEvent) {
 		mainGameDisplay.setVisible(false);
-		looserDisplay.setVisible(true);;
+		looserDisplay.setVisible(true);
+	}
+	
+	@FXML
+	Button closeButton;
+	
+	@FXML
+	private void handleClose(ActionEvent ActionEvent) {
+		Platform.exit();
+		System.exit(0);
 	}
 	
 	@FXML
@@ -249,7 +273,7 @@ public class Game extends VBox {
 	
 	
 	private Parser parser;
-	private Room currentRoom;
+
 	private Environment environment;
 	private Player player;
 	private Printer printer;
@@ -262,8 +286,6 @@ public class Game extends VBox {
 	 * player moves from one room to another
 	 */
 	private int time;
-	
-	private SimpleIntegerProperty timeproperty;
 
 	/**
 	 * Create the game. Select a Level of Difficulty, initialize the rooms with
@@ -277,9 +299,8 @@ public class Game extends VBox {
 		environment = new Environment();
 
 		currentRoom = environment.getFirstRoom(); // start game outside
-		time = Level.setValue(30, -5);
+		setTime();
 
-		timeproperty = new SimpleIntegerProperty(time);
 	}
 	
 	
@@ -288,46 +309,20 @@ public class Game extends VBox {
 	 * Main play routine. Loops until end of play.
 	 */
 	public void play() {
-//		roomproperty = new SimpleStringProperty();
-//		roomproperty.setValue(currentRoom.toString());
-//		
-		player.lifeBarProperty().addListener(new ChangeListener<Object>() {
-			@Override
-			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
-				int maxwidth = 387;
-				int maxlife = player.getMaxLife();
-				double length = (player.lifeBarProperty().doubleValue() / maxlife) * maxwidth;
-				lifebarRectangle.setWidth(length);
-			}
-		});
-		
-		player.foodBarProperty().addListener(new ChangeListener<Object>() {
-			@Override
-			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
-				int maxwidth = 387;
-				int maxfood= player.getMaxFood();
-				double length = (player.foodBarProperty().doubleValue() / maxfood) * maxwidth;
-				foodbarRectangle.setWidth(length);
-			}
-		});
-		
-		this.timeProperty().addListener(new ChangeListener<Object>() {
-			@Override
-			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
-				int maxwidth = 387;
-				int maxtime = Level.setValue(30, -5);
-				double length = (timeProperty().doubleValue() / maxtime) * maxwidth;
-				timeRectangle.setWidth(length);
-			}
-		});
-		
-	}
-	
+		printer.printWelcome();
+		System.out.println(currentRoom.getLongDescription());
 
-	public IntegerProperty timeProperty() {
-		return timeproperty;
+		// Enter the main command loop. Here we repeatedly read commands and
+		// execute them until the game is over.
+
+		boolean finished = false;
+		while (!finished) {
+			Command command = parser.getCommand();
+			finished = processCommand(command);
+		}
+		System.out.println("Thank you for playing.  Good bye.");
 	}
-	
+
 	/**
 	 * Given a command, process (that is: execute) the command.
 	 * 
@@ -417,7 +412,7 @@ public class Game extends VBox {
 				nextRoom.unlockRoom();
 				player.removeItemFromBackpack(key);
 				informationTextArea.setText(nextRoom + " was unlocked.");
-				switchRoom(nextRoom);
+				currentRoom = nextRoom;
 			} else {
 				informationTextArea.setText("The " + nextRoom.toString().toLowerCase() + " is locked!");
 				return;
@@ -425,41 +420,33 @@ public class Game extends VBox {
 
 		} else if (nextRoom.isTeleporterRoom()) {
 			informationTextArea.setText("You were randomly teleported." + "\n");
-			switchRoom( getRandomRoom());
+			currentRoom = getRandomRoom();
 
 		} else if (nextRoom.hasMonster()) {
 			if (killedMonster()) {
 				nextRoom.killMonster();
-				switchRoom(nextRoom);
-			} else {
-				return;
+				currentRoom = nextRoom;
 			}
 		} else if (nextRoom.isFinalRoom()) {
 			rescuedPrincess();
 			return;
 
 		} else {
-			switchRoom(nextRoom);
+			currentRoom = nextRoom;
 		}
 
-	}
-	
-	private void switchRoom(Room nextRoom) {
-		currentRoom = nextRoom;
-		
 		System.out.println(currentRoom.getLongDescription());
+		time--;
 		time--;
 		player.getHungry();
 		player.increaseLifeBar();
-		
+		printer.printRemainingTime(time);
 		
 		roomlabel.setText(currentRoom.toString());
 		backpacklabel.setText(player.getBackpackContent());
 		npcTextArea.setText(currentRoom.getNpcMessage());
-		timeproperty.setValue(time);
 		
 		setItemLabels();
-		System.out.println(player.getLifeBar());
 	}
 	
 	private void setItemLabels() {
@@ -646,6 +633,10 @@ public class Game extends VBox {
 		}
 	}
 
+	private final void setTime() {
+		time = Level.setValue(30, -5);
+		printer.printRemainingTime(time);
+	}
 
 	private boolean timeOver(int time) {
 		if (time < 1) {
