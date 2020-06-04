@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -35,6 +36,10 @@ public class Game extends VBox {
 	// all the fun graphic stuff
 	@FXML
 	Label roomlabel;
+	@FXML
+	TextArea backpacklabel;
+	@FXML
+	TextArea npcTextArea;
 
 	@FXML
 	BorderPane instructionDisplay;
@@ -113,8 +118,6 @@ public class Game extends VBox {
 	@FXML
 	Button down;
 	
-	
-	
 	@FXML
 	private void handleGoNorth(ActionEvent ActionEvent) {
 		Command command = new Command(CommandWords.GO, "north", null);
@@ -146,6 +149,92 @@ public class Game extends VBox {
 		goRoom(command);
 	}
 	
+	@FXML
+	TextField backpackTextFieldToType;
+	@FXML
+	Button eatFromBackpackButton;
+	@FXML
+	Button dropButton;
+	
+	@FXML
+	private void handleClickEat(ActionEvent ActionEvent) {
+		eatFromBackpack(backpackTextFieldToType.getText());
+		
+		backpacklabel.setText(player.getBackpackContent());
+		setItemLabels();
+	}
+	@FXML
+	private void handleClickDrop(ActionEvent ActionEvent) {
+		Command command = new Command(CommandWords.DROP, backpackTextFieldToType.getText(), null);
+		drop(command);
+		
+		backpacklabel.setText(player.getBackpackContent());
+		setItemLabels();
+	}
+	
+	@FXML
+	Button hintButton;
+	@FXML
+	private void handleClickHint(ActionEvent ActionEvent) {
+		Command command = new Command(CommandWords.HINT, null, null);
+		String npchint = hint(command);
+		npcTextArea.setText(npchint);
+	}
+
+	@FXML
+	Label foodLabel;
+	@FXML
+	Button eatButton;
+	@FXML
+	Button storeFoodButton;
+	@FXML
+	Label weaponLabel;
+	@FXML
+	Button storeWeaponButton;
+	@FXML
+	Label valuableLabel;
+	@FXML
+	Button storeValuableButton;
+	
+	@FXML
+	private void handleEatFoodClick(ActionEvent ActionEvent) {
+		if (foodLabel.getText() != "") {
+			eatFromRoom(foodLabel.getText());
+			foodLabel.setText("");
+		}
+		backpacklabel.setText(player.getBackpackContent());
+		setItemLabels();
+	}
+	@FXML
+	private void handleStoreFoodClick(ActionEvent ActionEvent) {
+		if (foodLabel.getText() != "") {
+			Command command = new Command(CommandWords.STORE, foodLabel.getText(), null);
+			store(command);
+			foodLabel.setText("");
+		}
+		backpacklabel.setText(player.getBackpackContent());
+		setItemLabels();
+	}
+	@FXML
+	private void handleStoreWeaponClick(ActionEvent ActionEvent) {
+		if (weaponLabel.getText() != "") {
+			Command command = new Command(CommandWords.STORE, weaponLabel.getText(), null);
+			store(command);
+			weaponLabel.setText("");
+		}
+		backpacklabel.setText(player.getBackpackContent());
+		setItemLabels();
+	}
+	@FXML
+	private void handleStoreValuableClick(ActionEvent ActionEvent) {
+		if (valuableLabel.getText() != "") {
+			Command command = new Command(CommandWords.STORE, valuableLabel.getText(), null);
+			store(command);
+			valuableLabel.setText("");
+		}
+		backpacklabel.setText(player.getBackpackContent());
+		setItemLabels();
+	}
 	
 	
 	private Parser parser;
@@ -176,9 +265,9 @@ public class Game extends VBox {
 
 		currentRoom = environment.getFirstRoom(); // start game outside
 		setTime();
-		
-		
+
 	}
+	
 	
 
 	/**
@@ -230,7 +319,6 @@ public class Game extends VBox {
 			player.lookAround(currentRoom);
 			break;
 		case EAT:
-			eat(command);
 			break;
 		case HINT:
 			hint(command);
@@ -296,7 +384,7 @@ public class Game extends VBox {
 			}
 
 		} else if (nextRoom.isTeleporterRoom()) {
-			System.out.println("You were randomly teleported." + "\n");
+			informationTextArea.setText("You were randomly teleported." + "\n");
 			currentRoom = getRandomRoom();
 
 		} else if (nextRoom.hasMonster()) {
@@ -318,19 +406,47 @@ public class Game extends VBox {
 		player.increaseLifeBar();
 		printer.printRemainingTime(time);
 		
+		roomlabel.setText(currentRoom.toString());
+		backpacklabel.setText(player.getBackpackContent());
+		npcTextArea.setText(currentRoom.getNpcMessage());
+		
+		setItemLabels();
 	}
+	
+	private void setItemLabels() {
+		if (currentRoom.getFood() != null) {
+			foodLabel.setText(currentRoom.getFood().getName());
+		} else {
+			foodLabel.setText("");
+		}
+		if (currentRoom.getWeapon() != null) {
+			weaponLabel.setText(currentRoom.getWeapon().getName());
+		} else {
+			weaponLabel.setText("");
+		}
+		if (currentRoom.getValuable() != null) {
+			valuableLabel.setText(currentRoom.getValuable().getName());
+		} else {
+			valuableLabel.setText("");
+		}
+
+	}
+	
 
 	private boolean killedMonster() {
 
 		if (player.hasWeapon()) {
 			player.removeAWeaponFromBackpack();
-			System.out.println("You killed the monster in the room.\n");
+			informationTextArea.setText("You killed the monster in the room.\n");
+			
+			backpacklabel.setText(player.getBackpackContent());
 			return true;
 		}
 		int damage = Level.setValue(1, 1);
 		player.reduceLifeBar(damage);
-		System.out.println("The Monster hurt you. You have to flee back to the previous room.\n");
+		informationTextArea.setText("The Monster hurt you. You have to flee back to the previous room.\n");
 		return false;
+		
 	}
 
 	/**
@@ -357,93 +473,59 @@ public class Game extends VBox {
 	 * 
 	 * @param command
 	 */
-
-	public boolean eat(Command command) {
-		String secondWord;
-		String thirdWord;
+	
+	public void eatFromRoom(String foodstring) {
 		Food food;
-
-		// check if user specified item to eat
-		if (command.hasSecondWord()) {
-			secondWord = command.getSecondWord().trim().toLowerCase();
-		} else {
-			System.out.println("Eat what?");
-			return false;
-		}
+		Item fooditem;
 
 		// check if this food exists in the game and store food object in variable
-		food = Environment.getFood(secondWord);
-		if (food == null) {
-
-			// check if user wants to eat a magic muffin
-			if (secondWord.contains("magic") && command.hasThirdWord()) {
-
-				try {
-					thirdWord = command.getThirdWord().trim().toLowerCase();
-				} catch (NullPointerException e) {
-					System.out.println("magic what?");
-					return false;
-				}
-				if (thirdWord.equals("muffin")) {
-					return eatMuffin(environment.getMuffin(secondWord + thirdWord));
-				}
-			} else
-				System.out.println("Sorry. This is not an item of this game.");
-			return false;
-		}
-
-		if (currentRoom.containsFood(secondWord)) { // if item is in room, eat it
-			currentRoom.removeItem(food);
-			player.eatFood(food);
-			return true;
-		} else if (player.backpackContainsFood(secondWord)) { // if item is not in room, go to inventory
-			player.eatFoodFromBackpack(food);
-			return true;
-
-		} else {
-			System.out.println("Sorry, that's not possible.");
-			System.out.println(printer.getFoodHint());
-			return false;
-		}
-
+		food = Environment.getFood(foodstring);
+		fooditem = Environment.getFood(foodstring);
+		
+		if (foodstring.matches("magic muffin")) { // check if user wants to eat a magic muffin
+			informationTextArea.setText(player.getPowerFromMuffin());
+			}
+		currentRoom.removeItem(fooditem);
+		player.eatFood(food);
 	}
 
-	private boolean eatMuffin(MagicMuffin muffin) {
-		if (currentRoom.containsMuffin()) {
-			player.eatFood(muffin);
-			System.out.println(player.getPowerFromMuffin());
-			currentRoom.removeItem(muffin);
-			return true;
+	public void eatFromBackpack(String foodstring) {
+		Food food;
+		Item item;
 
-		} else if (!(currentRoom.containsItem(muffin)) && player.backpackContainsItem(muffin)) {
-			player.eatFoodFromBackpack(muffin);
-			System.out.println(player.getPowerFromMuffin());
-			return true;
-		} else {
-			return false;
+		// check if this food exists in the game and store food object in variable
+		food = Environment.getFood(foodstring);
+		item = environment.getItem(foodstring);
+		
+		if (food != null) {
+
+			if (player.backpackContainsItem(item)) { // if item is not in room, go to inventory
+				player.eatFood(food);
+				player.removeItemFromBackpack(item);
+
+			} else {
+				informationTextArea.setText("Sorry, that's not possible.\n"
+						+ printer.getFoodHint());
+
+			}
 		}
 	}
 
-	private void hint(Command command) {
+	private String hint(Command command) {
 
 		if (currentRoom.getNpc() == null) {
-			System.out.println("Here is nobody to talk with.");
+			return "Here is nobody to talk with.";
 
 		} else {
-			System.out.println("Do you have " + currentRoom.getWantedNPCItem() +  " for me?");
-			String specificValuable = parser.getUserInput().trim().toLowerCase();
-			Valuable valuable = Environment.getValuable(specificValuable);
+			System.out.println();
+			Valuable valuable = Environment.getValuable(currentRoom.getWantedNPCItem());
 
 //			String response = currentRoom.getNpcHint(specificValuable);
 			if (player.backpackContainsItem(valuable)) {
 
-				if (currentRoom.getNpcHint(specificValuable) == true) {
-					// System.out.println(response);
-					player.removeItemFromBackpack(valuable);
-				}
+				return currentRoom.getNpcHint(valuable.toString());
 			} else {
-				System.out.println("It's not possible to deliver " + specificValuable);
-				System.out.println(printer.printItemsForNPCsTip());
+				return "Please find " + currentRoom.getWantedNPCItem() +  " for me first";
 			}
 		}
 	}
@@ -459,15 +541,8 @@ public class Game extends VBox {
 	 */
 
 	private boolean store(Command command) {
-		String secondWord;
+		String secondWord = command.getSecondWord();
 		Item item;
-
-		if (command.hasSecondWord()) {
-			secondWord = command.getSecondWord().trim().toLowerCase();
-		} else {
-			System.out.println("Store what?");
-			return false;
-		}
 
 		// check if this item exists in the game and store it in variable
 		item = environment.getItem(secondWord);
@@ -500,30 +575,24 @@ public class Game extends VBox {
 	}
 
 	public boolean drop(Command command) {
-		String secondWord;
 		Item item;
 
-		if (command.hasSecondWord()) {
-			secondWord = command.getSecondWord().trim().toLowerCase();
-		} else {
-			System.out.println("Drop what?");
-			return false;
-		}
+		String secondWord = command.getSecondWord();
 
 		// check if this item exists in the game and store it in variable
 		item = environment.getItem(secondWord);
 		if (item == null) {
-			System.out.println("Sorry. This is not an item of this game.");
+			informationTextArea.setText("Sorry. This is not an item of this game.");
 			return false;
 		}
 
 		if (player.backpackContainsItem(item)) {
 			player.removeItemFromBackpack(item);
 			currentRoom.addItem(item);
-			System.out.println("You have dropped " + command.getSecondWord());
+			informationTextArea.setText("You have dropped " + command.getSecondWord());
 			return true;
 		} else {
-			System.out.println("You cannot drop that. Your backpack doesn't contain it.");
+			informationTextArea.setText("You cannot drop that. Your backpack doesn't contain it.");
 			return false;
 		}
 	}

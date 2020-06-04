@@ -267,15 +267,23 @@ enum Room{
 	 * @param Item that unlocks hint
 	 * @return Hint from NPC
 	 */
-	public boolean getNpcHint(String item) {
+	public String getNpcHint(String item) {
 		if (npc != null) {
 		return npc.getHint(item);
 		} 
 		else {
-			System.out.println("There is nobody to give you a hint");
-			return false;
-			
+			return ("There is nobody to give you a hint");	
 		}
+	}
+	
+	public Food getFood() {
+		return itemlist.getFood();
+	}
+	public Weapon getWeapon() {
+		return itemlist.getWeapon();
+	}
+	public Valuable getValuable() {
+		return itemlist.getValuable();
 	}
 	
 

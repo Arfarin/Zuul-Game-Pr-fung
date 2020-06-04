@@ -125,9 +125,8 @@ public class Environment<T> {
 		itemsOfGame.addItem(starfruit);
 		
 		//Magic muffin
-		MagicMuffin magicMuffin = new MagicMuffin("magic muffin", 5,
+		Food magicMuffin = new MagicMuffin("magic muffin", 5,
 				"This magically looking muffin is made according to a special recipe of the castle.");
-		magicMuffinsOfGame.add(magicMuffin);
 		foodsOfGame.add(magicMuffin);
 		itemsOfGame.addItem(magicMuffin);
 

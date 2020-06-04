@@ -91,16 +91,16 @@
                                  <children>
                                     <StackPane layoutX="40.0" prefHeight="482.0" prefWidth="513.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <ImageView fx:id="floorImageView" fitHeight="537.0" fitWidth="785.0" mouseTransparent="true" opacity="0.54" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="floorImageView" fitHeight="537.0" fitWidth="785.0" opacity="0.54" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@Images/grauer_steinboden.jpg" />
                                              </image>
                                           </ImageView>
-                                          <BorderPane mouseTransparent="true" prefHeight="200.0" prefWidth="200.0">
+                                          <BorderPane prefHeight="200.0" prefWidth="200.0">
                                              <top>
-                                                <SplitPane dividerPositions="0.5" mouseTransparent="true" opacity="0.57" prefHeight="33.0" prefWidth="384.0" BorderPane.alignment="CENTER">
+                                                <SplitPane dividerPositions="0.5" opacity="0.57" prefHeight="33.0" prefWidth="384.0" BorderPane.alignment="CENTER">
                                                    <items>
-                                                      <Label prefHeight="26.0" prefWidth="194.0" text="CurrentRoom">
+                                                      <Label fx:id="roomlabel" prefHeight="26.0" prefWidth="194.0" text="CurrentRoom">
                                                          <font>
                                                             <Font name="System Bold" size="17.0" />
                                                          </font>
@@ -125,7 +125,7 @@
                                                 <Rectangle fx:id="doorEast" arcHeight="5.0" arcWidth="5.0" fill="#1fffae" height="85.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
                                              </right>
                                              <center>
-                                                <GridPane mouseTransparent="true" BorderPane.alignment="CENTER">
+                                                <GridPane BorderPane.alignment="CENTER">
                                                    <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -140,8 +140,8 @@
                                                          <bottom>
                                                             <HBox prefHeight="26.0" prefWidth="117.0" BorderPane.alignment="CENTER">
                                                                <children>
-                                                                  <Button fx:id="eatButton" mnemonicParsing="false" text=" eat " />
-                                                                  <Button fx:id="storeFoodButton" mnemonicParsing="false" text="store">
+                                                                  <Button fx:id="eatButton" mnemonicParsing="false" onAction="#handleEatFoodClick" text=" eat " />
+                                                                  <Button fx:id="storeFoodButton" mnemonicParsing="false" onAction="#handleStoreFoodClick" text="store">
                                                                      <HBox.margin>
                                                                         <Insets />
                                                                      </HBox.margin>
@@ -172,7 +172,7 @@
                                                       </BorderPane>
                                                       <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                                          <bottom>
-                                                            <Button fx:id="storeWeaponButton" mnemonicParsing="false" text="store" BorderPane.alignment="CENTER" />
+                                                            <Button fx:id="storeWeaponButton" mnemonicParsing="false" onAction="#handleStoreWeaponClick" text="store" BorderPane.alignment="CENTER" />
                                                          </bottom>
                                                          <center>
                                                             <Label fx:id="weaponLabel" text="weaponName" textFill="#1f0bcf" BorderPane.alignment="CENTER">
@@ -214,12 +214,12 @@
                                                             </ImageView>
                                                          </top>
                                                          <bottom>
-                                                            <Button fx:id="storeValuableButton" mnemonicParsing="false" text="store" BorderPane.alignment="CENTER" />
+                                                            <Button fx:id="storeValuableButton" mnemonicParsing="false" onAction="#handleStoreValuableClick" text="store" BorderPane.alignment="CENTER" />
                                                          </bottom>
                                                       </BorderPane>
                                                       <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                                          <bottom>
-                                                            <Button fx:id="hintButton" mnemonicParsing="false" text="hint" BorderPane.alignment="CENTER" />
+                                                            <Button fx:id="hintButton" mnemonicParsing="false" onAction="#handleClickHint" text="hint" BorderPane.alignment="CENTER" />
                                                          </bottom>
                                                          <right>
                                                             <TextArea fx:id="npcTextArea" editable="false" opacity="0.67" prefHeight="120.0" prefWidth="148.0" text="npcMessage (and &#10;npc-hint after click on &#10;button &quot;hint&quot;)" BorderPane.alignment="CENTER">
@@ -288,7 +288,7 @@
                                           </ImageView>
                                           <BorderPane opacity="0.77" prefHeight="200.0" prefWidth="200.0">
                                              <center>
-                                                <TextArea fx:id="baggageContent" editable="false" prefHeight="315.0" prefWidth="337.0" text="You have got in your backpack:&#10;&#10;(print baggage)" BorderPane.alignment="CENTER" />
+                                                <TextArea fx:id="backpacklabel" editable="false" prefHeight="315.0" prefWidth="337.0" text="You have got in your backpack:&#10;&#10;(print baggage)" BorderPane.alignment="CENTER" />
                                              </center>
                                              <bottom>
                                                 <HBox prefHeight="44.0" prefWidth="338.0" BorderPane.alignment="CENTER">
@@ -298,12 +298,12 @@
                                                             <Insets left="10.0" top="9.0" />
                                                          </HBox.margin>
                                                       </TextField>
-                                                      <Button fx:id="eatFromBackpackButton" mnemonicParsing="false" text="eat">
+                                                      <Button fx:id="eatFromBackpackButton" mnemonicParsing="false" onAction="#handleClickEat" text="eat">
                                                          <HBox.margin>
                                                             <Insets left="10.0" top="9.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <Button fx:id="dropButton" mnemonicParsing="false" text="drop">
+                                                      <Button fx:id="dropButton" mnemonicParsing="false" onAction="#handleClickDrop" text="drop">
                                                          <HBox.margin>
                                                             <Insets left="10.0" top="9.0" />
                                                          </HBox.margin>

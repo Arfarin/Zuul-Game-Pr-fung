@@ -47,14 +47,11 @@ public class NonPlayerCharacter {
 		return message;
 	}
 	
-	public boolean getHint(String itemname) {
+	public String getHint(String itemname) {
 		if (itemname.equals(wanteditem)) {
-			System.out.println(hints.get(wanteditem));
-			return true; 
-		
+			return hints.get(wanteditem); 
 		} else {
-			System.out.println("I don't know what I should do with this item.");
-			return false;
+			return ("You do not have the item I want.");
 		}
 	}
 }

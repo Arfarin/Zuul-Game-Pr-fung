@@ -12,7 +12,9 @@ public class Player {
 		lifeBar = 5;
 		foodBar = 5;
 		printer = new Printer();
+		
 	}
+
 
 	public void lookAround(Room currentRoom) {
 		System.out.println(currentRoom.getLongDescription());
@@ -27,10 +29,9 @@ public class Player {
 	}
 
 	public void eatFoodFromBackpack(Food food) {
-		if (backpack.removeItem(food) == true) {
+			backpack.removeItem(food);
 			eatFood(food);
 			System.out.println("It was stored in your backpack before.");
-		}
 	}
 	
 	public void eatFood(Food food) {
@@ -76,6 +77,7 @@ public class Player {
 	public String getBackpackContent() {
 		return backpack.getListOfContent();
 	}
+	
 
 	public boolean cantCarryMore(int itemWeight) {
 		return backpack.isFull(itemWeight);
