@@ -1,18 +1,38 @@
 package ZuulBad;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Player {
+	
+	private int maxFood = 10;
+	private int maxLife = 10;
 
 	Inventory backpack;
 	private int lifeBar;
 	private int foodBar;
 	private Printer printer;
+	
+	private SimpleIntegerProperty lifebarproperty;
+	private SimpleIntegerProperty foodbarproperty;
 
 	public Player() {
+		lifebarproperty = new SimpleIntegerProperty(lifeBar);
+		foodbarproperty = new SimpleIntegerProperty(foodBar);
+		
 		backpack = new Inventory();
 		lifeBar = 5;
 		foodBar = 5;
 		printer = new Printer();
 		
+	}
+	
+	public IntegerProperty lifeBarProperty() {
+		return lifebarproperty;
+	}
+	
+	public IntegerProperty foodBarProperty() {
+		return foodbarproperty;
 	}
 
 
@@ -91,7 +111,12 @@ public class Player {
 	 * increases foodBar. Used when player eats food.
 	 */
 	public void increaseFoodBar() {
-		foodBar++;
+		foodBar = foodBar + 5;
+		
+		if (foodBar > maxFood) {
+			foodBar = maxFood;
+		}
+		foodbarproperty.setValue(foodBar);
 	}
 
 	/**
@@ -100,6 +125,7 @@ public class Player {
 	 */
 	public void getHungry() {
 		foodBar--;
+		foodbarproperty.setValue(foodBar);
 	}
 	
 	public boolean starvedToDeath() {
@@ -121,7 +147,12 @@ public class Player {
 	 * time (used after every entry in a room)
 	 */
 	public void increaseLifeBar() {
+		
 		lifeBar++;
+		if (lifeBar > maxLife) {
+			lifeBar = maxLife;
+		}
+		lifebarproperty.setValue(lifeBar);
 	}
 
 	/**
@@ -131,5 +162,18 @@ public class Player {
 	 */
 	public void reduceLifeBar(int amount) {
 		lifeBar = lifeBar - amount;
+		lifebarproperty.setValue(lifeBar);
+	}
+
+	public int getMaxFood() {
+		return maxFood;
+	}
+
+	public int getMaxLife() {
+		return maxLife;
+	}
+	
+	public int getLifeBar() {
+		return lifeBar;
 	}
 }
