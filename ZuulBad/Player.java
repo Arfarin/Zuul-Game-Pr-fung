@@ -1,18 +1,32 @@
 package ZuulBad;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Player {
+	
+	private int maxFood = 10;
+	private int maxLife = 10;
 
 	Inventory backpack;
 	private int lifeBar;
 	private int foodBar;
 	private Printer printer;
+	
+	private SimpleIntegerProperty lifebarproperty;
 
 	public Player() {
+		lifebarproperty = new SimpleIntegerProperty(lifeBar);
+		
 		backpack = new Inventory();
 		lifeBar = 5;
 		foodBar = 5;
 		printer = new Printer();
 		
+	}
+	
+	public IntegerProperty lifeBarProperty() {
+		return lifebarproperty;
 	}
 
 
@@ -100,6 +114,7 @@ public class Player {
 	 */
 	public void getHungry() {
 		foodBar--;
+		
 	}
 	
 	public boolean starvedToDeath() {
@@ -121,7 +136,10 @@ public class Player {
 	 * time (used after every entry in a room)
 	 */
 	public void increaseLifeBar() {
+		if (lifeBar < maxLife) {
 		lifeBar++;
+		lifebarproperty.setValue(lifeBar);
+		}
 	}
 
 	/**
@@ -131,5 +149,18 @@ public class Player {
 	 */
 	public void reduceLifeBar(int amount) {
 		lifeBar = lifeBar - amount;
+		lifebarproperty.setValue(lifeBar);
+	}
+
+	public int getMaxFood() {
+		return maxFood;
+	}
+
+	public int getMaxLife() {
+		return maxLife;
+	}
+	
+	public int getLifeBar() {
+		return lifeBar;
 	}
 }
