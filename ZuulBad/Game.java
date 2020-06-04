@@ -476,30 +476,36 @@ public class Game extends VBox {
 	
 	public void eatFromRoom(String foodstring) {
 		Food food;
+		Item fooditem;
 
 		// check if this food exists in the game and store food object in variable
 		food = Environment.getFood(foodstring);
+		fooditem = Environment.getFood(foodstring);
 		
 		if (foodstring.matches("magic muffin")) { // check if user wants to eat a magic muffin
 			informationTextArea.setText(player.getPowerFromMuffin());
 			}
-		currentRoom.removeItem(food);
+		currentRoom.removeItem(fooditem);
 		player.eatFood(food);
 	}
 
 	public void eatFromBackpack(String foodstring) {
 		Food food;
+		Item item;
 
 		// check if this food exists in the game and store food object in variable
 		food = Environment.getFood(foodstring);
+		item = environment.getItem(foodstring);
+		
 		if (food != null) {
 
-			if (player.backpackContainsFood(foodstring)) { // if item is not in room, go to inventory
-				player.eatFoodFromBackpack(food);
+			if (player.backpackContainsItem(item)) { // if item is not in room, go to inventory
+				player.eatFood(food);
+				player.removeItemFromBackpack(item);
 
 			} else {
-				informationTextArea.setText("Sorry, that's not possible.");
-				informationTextArea.setText(printer.getFoodHint());
+				informationTextArea.setText("Sorry, that's not possible.\n"
+						+ printer.getFoodHint());
 
 			}
 		}
@@ -569,15 +575,9 @@ public class Game extends VBox {
 	}
 
 	public boolean drop(Command command) {
-		String secondWord;
 		Item item;
 
-		if (command.hasSecondWord()) {
-			secondWord = command.getSecondWord().trim().toLowerCase();
-		} else {
-			System.out.println("Drop what?");
-			return false;
-		}
+		String secondWord = command.getSecondWord();
 
 		// check if this item exists in the game and store it in variable
 		item = environment.getItem(secondWord);

@@ -29,10 +29,9 @@ public class Player {
 	}
 
 	public void eatFoodFromBackpack(Food food) {
-		if (backpack.removeItem(food) == true) {
+			backpack.removeItem(food);
 			eatFood(food);
 			System.out.println("It was stored in your backpack before.");
-		}
 	}
 	
 	public void eatFood(Food food) {
