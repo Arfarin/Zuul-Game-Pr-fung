@@ -2,7 +2,7 @@ package ZuulBad;
 
 import java.util.ArrayList;
 
-public class Environment<T> {
+public class Environment{
 
 	private Items itemsOfGame;
 	private static ArrayList<Food> foodsOfGame;

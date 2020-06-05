@@ -2,6 +2,7 @@ package ZuulBad;
 
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -25,7 +26,7 @@ import javafx.scene.shape.Rectangle;
  * creates the parser and starts the game. It also evaluates and executes the
  * commands that the parser returns.
  * 
- * @author Michael KÃ¶lling and David J. Barnes
+ * @author Michael Kölling and David J. Barnes
  * @version 2016.02.29
  */
 
@@ -57,6 +58,8 @@ public class Game extends VBox {
 	@FXML
 	BorderPane levelSelectionDisplay;
 	@FXML
+	StackPane welcomeDisplay;
+	@FXML
 	StackPane winnerDisplay;
 	@FXML
 	StackPane looserDisplay;
@@ -67,11 +70,33 @@ public class Game extends VBox {
 	Button play;
 	
 	@FXML
-	private void handleStart(ActionEvent ActionEvent) {
+	private void handleStart(ActionEvent ActionEvent){
 		instructionDisplay.setVisible(false);
-		levelSelectionDisplay.setVisible(true);
-		
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(true);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+		welcomeDisplay.setVisible(false);
 		play();
+	}
+	@FXML
+	private void handleReadInstructions(ActionEvent ActionEvent){
+		instructionDisplay.setVisible(true);
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(false);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+		welcomeDisplay.setVisible(false);
+		
+	}
+	@FXML
+	private void handleGoOnPlaying(ActionEvent ActionEvent) {
+		instructionDisplay.setVisible(false);
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(true);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+		welcomeDisplay.setVisible(false);
 	}
 	
 	@FXML
@@ -85,19 +110,19 @@ public class Game extends VBox {
 	private void chooseEasy(ActionEvent ActionEvent) {
 		difficultyLevel = Level.EASY;
 		levelSelectionDisplay.setVisible(false);
-		mainGameDisplay.setVisible(true);
+		welcomeDisplay.setVisible(true);
 	}
 	@FXML
 	private void chooseMedium(ActionEvent ActionEvent) {
 		difficultyLevel = Level.MEDIUM;
 		levelSelectionDisplay.setVisible(false);
-		mainGameDisplay.setVisible(true);
+		welcomeDisplay.setVisible(true);
 	}
 	@FXML
 	private void chooseHeavy(ActionEvent ActionEvent) {
 		difficultyLevel = Level.HEAVY;
 		levelSelectionDisplay.setVisible(false);
-		mainGameDisplay.setVisible(true);
+		welcomeDisplay.setVisible(true);
 	}
 	
 	@FXML
@@ -107,13 +132,22 @@ public class Game extends VBox {
 
 	@FXML
 	private void handleClickHelp(ActionEvent ActionEvent) {
-		informationTextArea.setText("You are lost. You are alone. \nYou wander around at the castle." +
-				"\nNobody can help you...");
+		instructionDisplay.setVisible(true);
+		mainGameDisplay.setVisible(false);
 	}
 	@FXML
 	private void handleQuit(ActionEvent ActionEvent) {
 		mainGameDisplay.setVisible(false);
-		looserDisplay.setVisible(true);;
+		looserDisplay.setVisible(true);
+	}
+	
+	@FXML
+	Button closeButton;
+	
+	@FXML
+	private void handleClose(ActionEvent ActionEvent) {
+		Platform.exit();
+		System.exit(0);
 	}
 	
 	@FXML
@@ -440,6 +474,13 @@ public class Game extends VBox {
 
 		} else {
 			switchRoom(nextRoom);
+		}
+		
+		if (timeOver(time) || player.starvedToDeath() == true || player.beaten() == true) {
+			mainGameDisplay.setVisible(false);
+			looserDisplay.setVisible(true);
+			System.out.println("Game is over.");
+		
 		}
 
 	}

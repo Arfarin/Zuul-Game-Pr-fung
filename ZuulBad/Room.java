@@ -1,6 +1,11 @@
+
 package ZuulBad;
 
 import java.util.HashMap;
+//import javafx.beans.property.StringProperty;
+//import javafx.beans.property.SimpleStringProperty;
+//import javafx.beans.value.ObservableValue;
+
 
 /**
  * Class Room - a room in an adventure game.
@@ -12,7 +17,7 @@ import java.util.HashMap;
  * connected to other rooms via exits.  For each existing exit, the room 
  * stores a reference to the neighboring room.
  * 
- * @author  Michael KÃ¶lling and David J. Barnes
+ * @author  Michael Kölling and David J. Barnes
  * @author Daniel Birk
  * @author Katerina Matysova
  * @author Sarah Engelmayer
@@ -42,7 +47,8 @@ enum Room{
 	Dungeon("Nobody wants so be hold captive in this cold dungeon."),
 	TeleporterRoom("Everything is moving... What is happening?");
 	
-    private String description;
+ //   private StringProperty description;
+	private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
     
     private NonPlayerCharacter npc;
@@ -63,7 +69,10 @@ enum Room{
      */
     Room(String description) 
     {
-        this.description = description;
+
+   // 	this.description = new SimpleStringProperty(description);
+    	this.description = description;
+       
         exits = new HashMap<>();
         itemlist = new Items();
         
@@ -73,7 +82,14 @@ enum Room{
         monster = false;
         finalroom = false;
     }
- 
+    
+//    public StringProperty roomDescriptionProperty() {
+//		return description;
+//	}
+
+    public String getDescription() {
+    	return description;
+    }
     
     /**
      * Define an exit from this room.
@@ -193,15 +209,6 @@ enum Room{
 	public void removeItem(String item) {
 		itemlist.removeItem(item);
 	}
-	
-    /**
-     * @return The short description of the room
-     * (the one that was defined in the constructor).
-     */
-    public String getShortDescription()
-    {
-        return description;
-    }
 
     /**
      * Return a description of the room in the form:
@@ -295,3 +302,4 @@ enum Room{
     }
     
 }
+

@@ -1,5 +1,6 @@
 package ZuulBad;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Inventory {
@@ -23,11 +24,10 @@ public class Inventory {
 		content = new Items();
 	}
 
-	
-	public void addItemToBackpack(Item ...items) {
+	public void addItemToBackpack(Item... items) {
 		for (Item item : items) {
 			content.addItem(item);
-			currentWeight =+ item.getWeight();
+			currentWeight = +item.getWeight();
 		}
 	}
 
@@ -36,7 +36,7 @@ public class Inventory {
 
 		if (content.contains(item)) {
 			content.removeItem(item);
-			currentWeight =- item.getWeight();
+			currentWeight = -item.getWeight();
 		} else {
 			System.out.println("Sorry, your backpack doesn't contain that.");
 			removed = false;
@@ -44,23 +44,22 @@ public class Inventory {
 		return removed;
 	}
 
-	public void removeWeapon(){
+	public void removeWeapon() {
 		content.removeWeapon();
 	}
-	
 
 	public boolean contains(Item specificitem) {
 		return content.contains(specificitem);
 	}
-	
-	
+
 	public boolean containsFood(String foodName) {
 		return content.containsFood(foodName);
 	}
-	
+
 	public boolean containsWeapon() {
 		return content.containsAnyWeapon();
 	}
+
 	public boolean containsMuffin() {
 		return content.containsMuffin();
 	}
@@ -80,8 +79,9 @@ public class Inventory {
 			return false;
 		}
 	}
+
 	public int getRemainingFreeWeight() {
-		return maxWeight-currentWeight;
+		return maxWeight - currentWeight;
 	}
-	
+
 }
