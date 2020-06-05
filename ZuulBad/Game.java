@@ -529,7 +529,7 @@ public class Game extends VBox {
 
 		// check if this food exists in the game and store food object in variable
 		food = Environment.getFood(foodstring);
-		fooditem = Environment.getFood(foodstring);
+		fooditem = environment.getItem(foodstring);
 		
 		if (foodstring.matches("magic muffin")) { // check if user wants to eat a magic muffin
 			informationTextArea.setText(player.getPowerFromMuffin());
