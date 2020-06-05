@@ -75,7 +75,7 @@ public class Items {
 		StringBuilder itemsInRoom = new StringBuilder();
 
 		if (isEmpty()) {
-			itemsInRoom.append(" no items ");
+			itemsInRoom.append(" none ");
 		} else {
 			for (Item item : this.itemlist) {
 				itemsInRoom.append(item.getName().toLowerCase().trim() + ", ");
@@ -85,6 +85,7 @@ public class Items {
 		String itemstring = itemsInRoom.toString();
 		return itemstring;
 	}
+	
 
 	public boolean contains(String itemName) {
 		itemName = itemName.trim().toLowerCase();
@@ -130,7 +131,7 @@ public class Items {
 		}
 		return false;
 	}
-	
+
 	public Food getFood() {
 		for (Item item : itemlist) {
 			if (item instanceof Food) {
@@ -139,7 +140,6 @@ public class Items {
 		}
 		return null;
 	}
-		
 		
 		public Weapon getWeapon() {
 			for (Item item : itemlist) {
@@ -158,31 +158,6 @@ public class Items {
 			}
 			return null;
 		}
-
-//	public Object toItsType(String name) {
-//
-//		try {
-//
-//			for (Food food : Food.values()) {
-//				if (food.toString().toLowerCase().equals(name)) {
-//					return Food.valueOf(name.toUpperCase());
-//				}
-//			}
-//
-//			for (Weapon weapon : Weapon.values()) {
-//				if (weapon.toString().toLowerCase().equals(name)) {
-//					return Weapon.valueOf(name.toUpperCase());
-//				}
-//			}
-//			for (Valuable valuable : Valuable.values()) {
-//				if (valuable.toString().toLowerCase().equals(name)) {
-//					return Valuable.valueOf(name.toUpperCase());
-//				}
-//			}
-//		} catch (IllegalArgumentException e) {
-//			System.out.println("This is not an Item.");
-//		}
-//		return null;
-//	}
+	
 
 }
