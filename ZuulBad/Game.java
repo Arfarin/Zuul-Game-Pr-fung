@@ -85,7 +85,13 @@ public class Game extends VBox {
 			popupTextArea.setText(currentRoom.getValuable().getDescription());
 		}
 	}
-
+	@FXML
+	private void handleStaticItemPopup() {
+		if (currentRoom.getAccessory() != null) {
+			popupPane.setVisible(true);
+			popupTextArea.setText(currentRoom.getAccessory().getDescription());
+		}
+	}
 //	private SimpleStringProperty roomproperty;
 //	public StringProperty roomProperty() {
 //		return roomproperty;
@@ -460,6 +466,11 @@ public class Game extends VBox {
 		} else {
 			valuableLabel.setText("");
 		}
+		if (currentRoom.getAccessory() != null) {
+			staticItemLabel.setText(currentRoom.getAccessory().getName());
+		} else {
+			staticItemLabel.setText("");
+		}
 
 	}
 	
@@ -501,16 +512,14 @@ public class Game extends VBox {
 	}
 	
 	private void setOtherLabels() {
-		// static item label
-		String[] randomItems = new String[] {"chair", "blue couch", "old desk", "giant vase", "",
-				"candle holder", "armour", "bookcase", "treasure chest (empty)", "lamp", "broken glass"};
-		random = new Random();
-		Accessory[] accessories = new Accessory[environment.getListOfAccessories().size()];
-		environment.getListOfAccessories().toArray(accessories);
-		
-		int i = random.nextInt(randomItems.length);
-		staticItemLabel.setText(randomItems[i]);
-		
+//	// static item label
+//		random = new Random();
+//		Accessory[] accessories = new Accessory[environment.getListOfAccessories().size()];
+//		environment.getListOfAccessories().toArray(accessories);
+//		
+//		int i = random.nextInt(accessories.length);
+//		staticItemLabel.setText(accessories[i].getName());
+			
 		// backpack label
 		int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
 		backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());

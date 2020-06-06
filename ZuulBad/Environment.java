@@ -219,26 +219,34 @@ public class Environment{
 		//Accessoires
 		Accessory chair = new Accessory("chair", 10, "a dark wooden chair");
 		Accessory couch = new Accessory("blue couch", 10, "a blue and very cosy couch");
-		Collections.addAll(accessories, chair, couch);
+		Accessory desk = new Accessory("old desk", 10, "a desk with a quill and a vial of black ink on it");
+		Accessory vase = new Accessory("giant vase", 10, "a giant vase decorated with mother-of-pearl and rose paintings");
+		Accessory candlestick = new Accessory("huge candle holder", 50, "a golden three-armed candlestick");
+		Accessory armour = new Accessory("armour", 40, "a heavy and shiny armour");
+		Accessory bookcase = new Accessory("bookcase", 150, "a dusty, enchanted bookcase");
+		Accessory chest = new Accessory("empty treasure chest", 20, "Alas, someone else was faster..");
+		Accessory bricks = new Accessory("bricks", 1, "scrolled paraffin lamp ");
+		Accessory glass = new Accessory("sharp broken glass", 1, "a piece of a broken glass painting");
+		Collections.addAll(accessories, chair, couch, desk, vase, candlestick, armour, bookcase, chest, bricks, glass);
 
 		// put items into rooms
-		Room.CastleCourtyard.addItem(starfruit);
+		Room.CastleCourtyard.addItem(starfruit, chair);
 		Room.CastleGarden.addItem(apple, knife);
-		Room.FlowerGarden.addItem(plant);
-		Room.KingsChamber.addItem(hairbrush);
+		Room.FlowerGarden.addItem(plant, couch);
+		Room.KingsChamber.addItem(hairbrush, chest);
 		Room.EntryHall.addItem(banana, toothpick);
-		Room.TowerStaircases.addItem(hat);
+		Room.TowerStaircases.addItem(hat, bricks);
 		Room.DestroyedTower.addItem(beans, nail, key);
 		Room.DiningRoom.addItem(key);
 		Room.Kitchen.addItem(leftovers, sock);
-		Room.Pastry.addItem(magicMuffin);
-		Room.Warehouse.addItem(dagger);
-		Room.Pantry.addItem(book);
-		Room.DesertedWineStorage.addItem(bottle);
-		Room.BasementEntry.addItem(phone);
-		Room.Armoury.addItem(tomatoes, axe);
+		Room.Pastry.addItem(magicMuffin, candlestick);
+		Room.Warehouse.addItem(dagger, couch);
+		Room.Pantry.addItem(book, glass);
+		Room.DesertedWineStorage.addItem(bottle, desk);
+		Room.BasementEntry.addItem(phone, vase);
+		Room.Armoury.addItem(tomatoes, axe, armour);
 		Room.TreasureChamber.addItem(dragonglass);
-		Room.UndergroundHallway.addItem(key, sword);
+		Room.UndergroundHallway.addItem(key, sword, bookcase);
 		Room.HiddenPath.addItem(bread, candle);
 		Room.Dungeon.addItem();
 

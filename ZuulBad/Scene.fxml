@@ -257,7 +257,7 @@
                                                       </BorderPane>
                                                       <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                          <center>
-                                                            <ImageView fx:id="staticItemImage" fitHeight="88.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                            <ImageView fx:id="staticItemImage" fitHeight="88.0" fitWidth="100.0" onMouseClicked="#handleStaticItemPopup" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                                                <image>
                                                                   <Image url="@Images/table.png" />
                                                                </image>
