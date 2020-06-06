@@ -277,6 +277,23 @@ public class Game extends VBox {
 		setItemLabels();
 	}
 	
+	@FXML
+	Rectangle northDoorRectangle;
+	@FXML
+	Rectangle southDoorRectangle;
+	@FXML
+	Rectangle eastDoorRectangle;
+	@FXML
+	Rectangle westDoorRectangle;
+	@FXML
+	Rectangle upDoorRectangle;
+	@FXML
+	Rectangle downDoorRectangle;
+	@FXML
+	Label upDoorLabel;
+	@FXML
+	Label downDoorLabel;
+	
 	
 	private Parser parser;
 	private Room currentRoom;
@@ -384,12 +401,54 @@ public class Game extends VBox {
 
 	}
 	
+	private void setExitLabels() {
+		if (currentRoom.getExit("north") == null) {
+			northDoorRectangle.setVisible(false);
+		} else {
+			northDoorRectangle.setVisible(true);
+		}
+		if (currentRoom.getExit("south") == null) {
+			southDoorRectangle.setVisible(false);
+		} else {
+			southDoorRectangle.setVisible(true);
+		}
+		if (currentRoom.getExit("east") == null) {
+			eastDoorRectangle.setVisible(false);
+		} else {
+			eastDoorRectangle.setVisible(true);
+		}
+		if (currentRoom.getExit("west") == null) {
+			westDoorRectangle.setVisible(false);
+		} else {
+			westDoorRectangle.setVisible(true);
+		}
+		if (currentRoom.getExit("up") == null) {
+			upDoorRectangle.setVisible(false);
+			upDoorLabel.setVisible(false);
+		} else {
+			upDoorRectangle.setVisible(true);
+			upDoorLabel.setVisible(true);
+		}
+		if (currentRoom.getExit("down") == null) {
+			downDoorRectangle.setVisible(false);
+			downDoorLabel.setVisible(false);
+		} else {
+			downDoorRectangle.setVisible(true);
+			downDoorLabel.setVisible(true);
+		}
+	}
+	
 	
 	private void checkVitals() {
 		if (timeOver(time) || player.starvedToDeath() || player.beaten()) {
 			looseGame();
 			System.out.println("Time is over.");
 		}
+	}
+	
+	private void setUpRoom() {
+		setItemLabels();
+		setExitLabels();
 	}
 	
 	private void looseGame() {
@@ -458,14 +517,14 @@ public class Game extends VBox {
 		npcTextArea.setText(currentRoom.getNpcMessage());
 		timeproperty.setValue(time);
 		
-		setItemLabels();
+		setUpRoom();
 		System.out.println(player.getLifeBar());
 		System.out.println("Checking vitals2");
 		checkVitals();
 	}
 	
 	private void tryUnlockRoom(Room nextRoom) {
-		Valuable key = Environment.getValuable("key");
+		Item key = environment.getItem("key");
 		
 		if (player.backpackContainsItem(key)) {
 			nextRoom.unlockRoom();
@@ -486,10 +545,11 @@ public class Game extends VBox {
 			backpacklabel.setText(player.getBackpackContent());
 			nextRoom.killMonster();
 			switchRoom(nextRoom);
-		}
+		} else {
 		int damage = Level.setValue(1, 1);
 		player.reduceLifeBar(damage);
 		informationTextArea.setText("The Monster hurt you. You have to flee back to the previous room.\n");
+		}
 	}
 	
 	private void rescuePrincess() {
