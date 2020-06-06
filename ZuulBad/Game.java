@@ -129,6 +129,7 @@ public class Game extends VBox {
 		winnerDisplay.setVisible(false);
 		looserDisplay.setVisible(false);
 		welcomeDisplay.setVisible(false);
+		play();
 		
 	}
 	@FXML
@@ -177,11 +178,19 @@ public class Game extends VBox {
 	private void handleClickHelp(ActionEvent ActionEvent) {
 		instructionDisplay.setVisible(true);
 		mainGameDisplay.setVisible(false);
+		levelSelectionDisplay.setVisible(false);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+		welcomeDisplay.setVisible(false);
 	}
 	@FXML
 	private void handleQuit(ActionEvent ActionEvent) {
 		mainGameDisplay.setVisible(false);
+		instructionDisplay.setVisible(false);
+		levelSelectionDisplay.setVisible(false);
+		winnerDisplay.setVisible(false);
 		looserDisplay.setVisible(true);
+		welcomeDisplay.setVisible(false);
 	}
 	
 	@FXML
@@ -496,6 +505,8 @@ public class Game extends VBox {
 		String[] randomItems = new String[] {"chair", "blue couch", "old desk", "giant vase", "",
 				"candle holder", "armour", "bookcase", "treasure chest (empty)", "lamp", "broken glass"};
 		random = new Random();
+		Accessory[] accessories = new Accessory[environment.getListOfAccessories().size()];
+		environment.getListOfAccessories().toArray(accessories);
 		
 		int i = random.nextInt(randomItems.length);
 		staticItemLabel.setText(randomItems[i]);
@@ -650,6 +661,7 @@ public class Game extends VBox {
 		
 		if (foodstring.matches("magic muffin")) { // check if user wants to eat a magic muffin
 			informationTextArea.setText(player.getPowerFromMuffin());
+			backpackWeightLabel.setText("Portable weight of backpack is unlimited.");
 			}
 		currentRoom.removeItem(fooditem);
 		player.increaseFoodBar();
@@ -733,6 +745,7 @@ public class Game extends VBox {
 
 		// check if this item exists in the game and store it in variable
 		item = environment.getItem(secondWord);
+		
 		if(secondWord.equals("")) {
 			informationTextArea.setText("You have to enter the item you want to drop.");
 		}
@@ -740,11 +753,13 @@ public class Game extends VBox {
 			informationTextArea.setText("Sorry. This is not an item of this game.");
 		} else if (!player.backpackContainsItem(item)) {
 			informationTextArea.setText("You cannot drop that. Your backpack doesn't contain it.");
+		} else if (item instanceof Food && !foodLabel.getText().equals("") || item instanceof Weapon && !weaponLabel.getText().equals("") || item instanceof Valuable && !valuableLabel.getText().equals("")) {
+			informationTextArea.setText("You can't drop " + secondWord.toLowerCase().trim() + " here. At the moment there is no free space for it in this room.");	
 		} else {
 			// if there are no issues, drop item
 			player.removeItemFromBackpack(item);
 			currentRoom.addItem(item);
-			informationTextArea.setText("You have dropped " + secondWord);
+			informationTextArea.setText("You have dropped " + secondWord.toLowerCase().trim());
 		}
 	}
 
@@ -768,20 +783,20 @@ public class Game extends VBox {
 	}
 
 
-	public final void chooseLevelOfDifficulty() {
-
-		printer.printDifficultyChoices();
-
-		String input = parser.getUserInput().trim().toUpperCase();
-		try {
-			difficultyLevel = Level.valueOf(input);
-			System.out.println("Thank you. Level of difficulty is set to: " + input);
-		} catch (IllegalArgumentException e) {
-			System.out.println(input + " ist not valid!");
-			System.out.println();
-			chooseLevelOfDifficulty();
-		}
-	}
+//	public final void chooseLevelOfDifficulty() {
+//
+//		printer.printDifficultyChoices();
+//
+//		String input = parser.getUserInput().trim().toUpperCase();
+//		try {
+//			difficultyLevel = Level.valueOf(input);
+//			System.out.println("Thank you. Level of difficulty is set to: " + input);
+//		} catch (IllegalArgumentException e) {
+//			System.out.println(input + " ist not valid!");
+//			System.out.println();
+//			chooseLevelOfDifficulty();
+//		}
+//	}
 
 	/**
 	 * Getter for the level of difficulty. For the classes player and monster to set

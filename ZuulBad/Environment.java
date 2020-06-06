@@ -1,6 +1,7 @@
 package ZuulBad;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Environment{
 
@@ -8,6 +9,7 @@ public class Environment{
 	private static ArrayList<Food> foodsOfGame;
 	private static ArrayList<Weapon> weaponsOfGame;
 	private static ArrayList<Valuable> valuablesOfGame;
+	private ArrayList<Accessory> accessories = new ArrayList<Accessory>(); 
 
 	public Environment() {
 		itemsOfGame = new Items();
@@ -213,6 +215,11 @@ public class Environment{
 				"This must be a very old vintage. Alas, it looks unenjoyable.");
 		valuablesOfGame.add(bottle);
 		itemsOfGame.addItem(bottle);
+		
+		//Accessoires
+		Accessory chair = new Accessory("chair", 10, "a dark wooden chair");
+		Accessory couch = new Accessory("blue couch", 10, "a blue and very cosy couch");
+		Collections.addAll(accessories, chair, couch);
 
 		// put items into rooms
 		Room.CastleCourtyard.addItem(starfruit);
@@ -309,6 +316,10 @@ public class Environment{
 
 	public Items getItemsOfGame() {
 		return itemsOfGame;
+	}
+	
+	public ArrayList<Accessory> getListOfAccessories(){
+		return accessories;
 	}
 
 }
