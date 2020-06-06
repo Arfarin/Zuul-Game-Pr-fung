@@ -14,13 +14,12 @@ public class Environment{
 		foodsOfGame = new ArrayList<Food>();
 		weaponsOfGame = new ArrayList<Weapon>();
 		valuablesOfGame = new ArrayList<Valuable>();
-		prepareEnvironment();
 	}
 
 	/**
 	 * Create all the rooms and link their exits together.
 	 */
-	private final void prepareEnvironment() {
+	public void prepareEnvironment() {
 
 		setRoomExits();
 		createItemsInRooms();
@@ -252,7 +251,6 @@ public class Environment{
 		Room.Armoury.putMonster();
 		Room.UndergroundHallway.putMonster();
 		Room.HiddenPath.putMonster();
-		Room.Dungeon.putMonster();
 		Room.Dungeon.makeFinalRoom();
 
 	}

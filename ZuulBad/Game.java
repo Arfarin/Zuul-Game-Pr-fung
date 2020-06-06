@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Popup;
 
 /**
  * This class is the main class of the "World of Zuul" application. "World of
@@ -45,6 +46,45 @@ public class Game extends VBox {
 	Rectangle foodbarRectangle;
 	@FXML
 	Rectangle timeRectangle;
+	
+	@FXML
+	TextArea popupTextArea;
+	@FXML
+	Button popupButton;
+	
+	@FXML
+	private void handlePopupClose() {
+		popupPane.setVisible(false);
+	}
+	@FXML
+	private void handleRoomPopup() {
+		popupPane.setVisible(true);
+		popupTextArea.setText(currentRoom.getLongDescription());
+	}
+	
+	@FXML
+	private void handleFoodPopup() {
+		if (currentRoom.getFood() != null) {
+			popupPane.setVisible(true);
+			popupTextArea.setText(currentRoom.getFood().getDescription());
+		}
+	}
+
+	@FXML
+	private void handleWeaponPopup() {
+		if (currentRoom.getWeapon() != null) {
+			popupPane.setVisible(true);
+			popupTextArea.setText(currentRoom.getWeapon().getDescription());
+		}
+	}
+
+	@FXML
+	private void handleValuablePopup() {
+		if (currentRoom.getValuable() != null) {
+			popupPane.setVisible(true);
+			popupTextArea.setText(currentRoom.getValuable().getDescription());
+		}
+	}
 
 //	private SimpleStringProperty roomproperty;
 //	public StringProperty roomProperty() {
@@ -63,6 +103,8 @@ public class Game extends VBox {
 	StackPane winnerDisplay;
 	@FXML
 	StackPane looserDisplay;
+	@FXML
+	Pane popupPane;
 	@FXML
 	TextArea informationTextArea;
 	
@@ -201,6 +243,8 @@ public class Game extends VBox {
 	Button eatFromBackpackButton;
 	@FXML
 	Button dropButton;
+	@FXML
+	Label backpackWeightLabel;
 	
 	@FXML
 	private void handleClickEat(ActionEvent ActionEvent) {
@@ -240,6 +284,8 @@ public class Game extends VBox {
 	Label valuableLabel;
 	@FXML
 	Button storeValuableButton;
+	@FXML
+	Label staticItemLabel;
 	
 	@FXML
 	private void handleEatFoodClick(ActionEvent ActionEvent) {
@@ -320,25 +366,23 @@ public class Game extends VBox {
 	public Game() {
 		parser = new Parser();
 		printer = new Printer();
-//		chooseLevelOfDifficulty();
-		player = new Player();
 		environment = new Environment();
-
-		currentRoom = environment.getFirstRoom(); // start game outside
-		time = Level.setValue(30, -5);
-
 		timeproperty = new SimpleIntegerProperty(time);
 	}
-	
-	
 
 	/**
 	 * Main play routine. Loops until end of play.
 	 */
 	public void play() {
+		environment.prepareEnvironment();
+		player = new Player();
+		time = Level.setValue(30, -5);
+		
 		currentRoom = environment.getFirstRoom();
 		setUpRoom();
 
+		// set up all the listeners
+		
 		player.lifeBarProperty().addListener(new ChangeListener<Object>() {
 			@Override
 			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
@@ -366,6 +410,14 @@ public class Game extends VBox {
 				int maxtime = Level.setValue(30, -5);
 				double length = (timeProperty().doubleValue() / maxtime) * maxwidth;
 				timeRectangle.setWidth(length);
+			}
+		});
+		
+		player.backpackWeightProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
+				int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
+				backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());
 			}
 		});
 		
@@ -439,6 +491,19 @@ public class Game extends VBox {
 		}
 	}
 	
+	private void setOtherLabels() {
+		// static item label
+		String[] randomItems = new String[] {"chair", "blue couch", "old desk", "giant vase", "",
+				"candle holder", "armour", "bookcase", "treasure chest (empty)", "lamp", "broken glass"};
+		random = new Random();
+		
+		int i = random.nextInt(randomItems.length);
+		staticItemLabel.setText(randomItems[i]);
+		
+		// backpack label
+		int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
+		backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());
+	}
 	
 	private void checkVitals() {
 		if (timeOver(time) || player.starvedToDeath() || player.beaten()) {
@@ -450,6 +515,7 @@ public class Game extends VBox {
 	private void setUpRoom() {
 		setItemLabels();
 		setExitLabels();
+		setOtherLabels();
 		
 		roomlabel.setText(currentRoom.toString());
 		backpacklabel.setText(player.getBackpackContent());
@@ -586,7 +652,7 @@ public class Game extends VBox {
 			informationTextArea.setText(player.getPowerFromMuffin());
 			}
 		currentRoom.removeItem(fooditem);
-		player.eatFood(food);
+		player.increaseFoodBar();
 	}
 
 	public void eatFromBackpack(String foodstring) {
@@ -600,7 +666,7 @@ public class Game extends VBox {
 		if (food != null) {
 
 			if (player.backpackContainsItem(item)) { // if item is not in room, go to inventory
-				player.eatFood(food);
+				player.increaseFoodBar();
 				player.removeItemFromBackpack(item);
 
 			} else {
@@ -701,14 +767,6 @@ public class Game extends VBox {
 		return randomroom;
 	}
 
-
-
-//// Check status of lifeBar, time or foodBar 		
-//	private String checkLevel(int feature) {
-//		if (feature <= 5) {
-//			System.out.println("Almost over. Status of "+ feature);
-//		}
-//	}
 
 	public final void chooseLevelOfDifficulty() {
 
