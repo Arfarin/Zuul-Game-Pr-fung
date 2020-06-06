@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Popup;
 
 /**
  * This class is the main class of the "World of Zuul" application. "World of
@@ -45,6 +46,45 @@ public class Game extends VBox {
 	Rectangle foodbarRectangle;
 	@FXML
 	Rectangle timeRectangle;
+	
+	@FXML
+	TextArea popupTextArea;
+	@FXML
+	Button popupButton;
+	
+	@FXML
+	private void handlePopupClose() {
+		popupPane.setVisible(false);
+	}
+	@FXML
+	private void handleRoomPopup() {
+		popupPane.setVisible(true);
+		popupTextArea.setText(currentRoom.getLongDescription());
+	}
+	
+	@FXML
+	private void handleFoodPopup() {
+		if (currentRoom.getFood() != null) {
+			popupPane.setVisible(true);
+			popupTextArea.setText(currentRoom.getFood().getDescription());
+		}
+	}
+
+	@FXML
+	private void handleWeaponPopup() {
+		if (currentRoom.getWeapon() != null) {
+			popupPane.setVisible(true);
+			popupTextArea.setText(currentRoom.getWeapon().getDescription());
+		}
+	}
+
+	@FXML
+	private void handleValuablePopup() {
+		if (currentRoom.getValuable() != null) {
+			popupPane.setVisible(true);
+			popupTextArea.setText(currentRoom.getValuable().getDescription());
+		}
+	}
 
 //	private SimpleStringProperty roomproperty;
 //	public StringProperty roomProperty() {
@@ -63,6 +103,8 @@ public class Game extends VBox {
 	StackPane winnerDisplay;
 	@FXML
 	StackPane looserDisplay;
+	@FXML
+	Pane popupPane;
 	@FXML
 	TextArea informationTextArea;
 	
@@ -97,6 +139,7 @@ public class Game extends VBox {
 		winnerDisplay.setVisible(false);
 		looserDisplay.setVisible(false);
 		welcomeDisplay.setVisible(false);
+		
 	}
 	
 	@FXML
@@ -200,6 +243,8 @@ public class Game extends VBox {
 	Button eatFromBackpackButton;
 	@FXML
 	Button dropButton;
+	@FXML
+	Label backpackWeightLabel;
 	
 	@FXML
 	private void handleClickEat(ActionEvent ActionEvent) {
@@ -210,8 +255,7 @@ public class Game extends VBox {
 	}
 	@FXML
 	private void handleClickDrop(ActionEvent ActionEvent) {
-		Command command = new Command(CommandWords.DROP, backpackTextFieldToType.getText(), null);
-		drop(command);
+		drop(backpackTextFieldToType.getText());
 		
 		backpacklabel.setText(player.getBackpackContent());
 		setItemLabels();
@@ -240,6 +284,8 @@ public class Game extends VBox {
 	Label valuableLabel;
 	@FXML
 	Button storeValuableButton;
+	@FXML
+	Label staticItemLabel;
 	
 	@FXML
 	private void handleEatFoodClick(ActionEvent ActionEvent) {
@@ -253,8 +299,7 @@ public class Game extends VBox {
 	@FXML
 	private void handleStoreFoodClick(ActionEvent ActionEvent) {
 		if (foodLabel.getText() != "") {
-			Command command = new Command(CommandWords.STORE, foodLabel.getText(), null);
-			store(command);
+			store(foodLabel.getText());
 			foodLabel.setText("");
 		}
 		backpacklabel.setText(player.getBackpackContent());
@@ -263,8 +308,7 @@ public class Game extends VBox {
 	@FXML
 	private void handleStoreWeaponClick(ActionEvent ActionEvent) {
 		if (weaponLabel.getText() != "") {
-			Command command = new Command(CommandWords.STORE, weaponLabel.getText(), null);
-			store(command);
+			store(weaponLabel.getText());
 			weaponLabel.setText("");
 		}
 		backpacklabel.setText(player.getBackpackContent());
@@ -273,13 +317,29 @@ public class Game extends VBox {
 	@FXML
 	private void handleStoreValuableClick(ActionEvent ActionEvent) {
 		if (valuableLabel.getText() != "") {
-			Command command = new Command(CommandWords.STORE, valuableLabel.getText(), null);
-			store(command);
+			store(valuableLabel.getText());
 			valuableLabel.setText("");
 		}
 		backpacklabel.setText(player.getBackpackContent());
 		setItemLabels();
 	}
+	
+	@FXML
+	Rectangle northDoorRectangle;
+	@FXML
+	Rectangle southDoorRectangle;
+	@FXML
+	Rectangle eastDoorRectangle;
+	@FXML
+	Rectangle westDoorRectangle;
+	@FXML
+	Rectangle upDoorRectangle;
+	@FXML
+	Rectangle downDoorRectangle;
+	@FXML
+	Label upDoorLabel;
+	@FXML
+	Label downDoorLabel;
 	
 	
 	private Parser parser;
@@ -306,25 +366,23 @@ public class Game extends VBox {
 	public Game() {
 		parser = new Parser();
 		printer = new Printer();
-//		chooseLevelOfDifficulty();
-		player = new Player();
 		environment = new Environment();
-
-		currentRoom = environment.getFirstRoom(); // start game outside
-		time = Level.setValue(30, -5);
-
 		timeproperty = new SimpleIntegerProperty(time);
 	}
-	
-	
 
 	/**
 	 * Main play routine. Loops until end of play.
 	 */
 	public void play() {
-//		roomproperty = new SimpleStringProperty();
-//		roomproperty.setValue(currentRoom.toString());
-//		
+		environment.prepareEnvironment();
+		player = new Player();
+		time = Level.setValue(30, -5);
+		
+		currentRoom = environment.getFirstRoom();
+		setUpRoom();
+
+		// set up all the listeners
+		
 		player.lifeBarProperty().addListener(new ChangeListener<Object>() {
 			@Override
 			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
@@ -355,6 +413,14 @@ public class Game extends VBox {
 			}
 		});
 		
+		player.backpackWeightProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
+				int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
+				backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());
+			}
+		});
+		
 	}
 	
 
@@ -369,140 +435,6 @@ public class Game extends VBox {
 	 * @return true If the command ends the game, false otherwise.
 	 */
 
-	private boolean processCommand(Command command) {
-		boolean wantToQuit = false;
-
-		if (command.isUnknown()) {
-			System.out.println("I don't know what you mean...");
-			return false;
-		}
-
-		CommandWords commandWord = command.getCommandWord();
-
-		switch (commandWord) {
-		case HELP:
-			printer.printHelp(parser);
-			break;
-		case GO:
-			goRoom(command);
-			break;
-		case QUIT:
-			wantToQuit = quit(command);
-			break;
-		case LOOK:
-			player.lookAround(currentRoom);
-			break;
-		case EAT:
-			break;
-		case HINT:
-			hint(command);
-			break;
-		case STORE:
-			store(command);
-			break;
-		case BAGGAGE:
-			System.out.println("Backpack contains: " + player.getBackpackContent() + "\n" + "You can carry another "
-					+ player.getBackpacksWeight() + " kilo more.");
-			break;
-		case DROP:
-			drop(command);
-			break;
-		}
-
-		if (timeOver(time)) {
-			wantToQuit = true;
-			System.out.println("Time is over.");
-		}
-		if (player.starvedToDeath() == true) {
-			System.out.println("You starved to death. Game over.");
-			wantToQuit = true;
-		}
-		if (player.beaten() == true) {
-			System.out.println("You are beaten. Game over.");
-			wantToQuit = true;
-		}
-
-		return wantToQuit;
-	}
-
-	/**
-	 * Try to move into one direction. If there is an exit, enter the new room,
-	 * otherwise print an error message.
-	 */
-	private void goRoom(Command command) {
-		if (!command.hasSecondWord()) {
-			// if there is no second word, we don't know where to go...
-			System.out.println("Go where?");
-			return;
-		}
-
-		String direction = command.getSecondWord();
-		Valuable key = Environment.getValuable("key");
-
-		// Try to leave current room.
-		Room nextRoom = currentRoom.getExit(direction);
-
-		if (nextRoom == null) {
-			informationTextArea.setText("There is no door!");
-			return;
-
-		} else if (nextRoom.isLocked()) {
-			if (player.backpackContainsItem(key)) {
-				nextRoom.unlockRoom();
-				player.removeItemFromBackpack(key);
-				informationTextArea.setText(nextRoom + " was unlocked.");
-				switchRoom(nextRoom);
-			} else {
-				informationTextArea.setText("The " + nextRoom.toString().toLowerCase() + " is locked!");
-				return;
-			}
-
-		} else if (nextRoom.isTeleporterRoom()) {
-			informationTextArea.setText("You were randomly teleported." + "\n");
-			switchRoom( getRandomRoom());
-
-		} else if (nextRoom.hasMonster()) {
-			if (killedMonster()) {
-				nextRoom.killMonster();
-				switchRoom(nextRoom);
-			} else {
-				return;
-			}
-		} else if (nextRoom.isFinalRoom()) {
-			rescuedPrincess();
-			return;
-
-		} else {
-			switchRoom(nextRoom);
-		}
-		
-		if (timeOver(time) || player.starvedToDeath() == true || player.beaten() == true) {
-			mainGameDisplay.setVisible(false);
-			looserDisplay.setVisible(true);
-			System.out.println("Game is over.");
-		
-		}
-
-	}
-	
-	private void switchRoom(Room nextRoom) {
-		currentRoom = nextRoom;
-		
-		System.out.println(currentRoom.getLongDescription());
-		time--;
-		player.getHungry();
-		player.increaseLifeBar();
-		
-		
-		roomlabel.setText(currentRoom.toString());
-		backpacklabel.setText(player.getBackpackContent());
-		npcTextArea.setText(currentRoom.getNpcMessage());
-		timeproperty.setValue(time);
-		
-		setItemLabels();
-		System.out.println(player.getLifeBar());
-	}
-	
 	private void setItemLabels() {
 		if (currentRoom.getFood() != null) {
 			foodLabel.setText(currentRoom.getFood().getName());
@@ -522,38 +454,182 @@ public class Game extends VBox {
 
 	}
 	
+	private void setExitLabels() {
+		if (currentRoom.getExit("north") == null) {
+			northDoorRectangle.setVisible(false);
+		} else {
+			northDoorRectangle.setVisible(true);
+		}
+		if (currentRoom.getExit("south") == null) {
+			southDoorRectangle.setVisible(false);
+		} else {
+			southDoorRectangle.setVisible(true);
+		}
+		if (currentRoom.getExit("east") == null) {
+			eastDoorRectangle.setVisible(false);
+		} else {
+			eastDoorRectangle.setVisible(true);
+		}
+		if (currentRoom.getExit("west") == null) {
+			westDoorRectangle.setVisible(false);
+		} else {
+			westDoorRectangle.setVisible(true);
+		}
+		if (currentRoom.getExit("up") == null) {
+			upDoorRectangle.setVisible(false);
+			upDoorLabel.setVisible(false);
+		} else {
+			upDoorRectangle.setVisible(true);
+			upDoorLabel.setVisible(true);
+		}
+		if (currentRoom.getExit("down") == null) {
+			downDoorRectangle.setVisible(false);
+			downDoorLabel.setVisible(false);
+		} else {
+			downDoorRectangle.setVisible(true);
+			downDoorLabel.setVisible(true);
+		}
+	}
+	
+	private void setOtherLabels() {
+		// static item label
+		String[] randomItems = new String[] {"chair", "blue couch", "old desk", "giant vase", "",
+				"candle holder", "armour", "bookcase", "treasure chest (empty)", "lamp", "broken glass"};
+		random = new Random();
+		
+		int i = random.nextInt(randomItems.length);
+		staticItemLabel.setText(randomItems[i]);
+		
+		// backpack label
+		int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
+		backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());
+	}
+	
+	private void checkVitals() {
+		if (timeOver(time) || player.starvedToDeath() || player.beaten()) {
+			looseGame();
+			System.out.println("Time is over.");
+		}
+	}
+	
+	private void setUpRoom() {
+		setItemLabels();
+		setExitLabels();
+		setOtherLabels();
+		
+		roomlabel.setText(currentRoom.toString());
+		backpacklabel.setText(player.getBackpackContent());
+		npcTextArea.setText(currentRoom.getNpcMessage()+ "\n");
+		
+		if (currentRoom.getNpc() != null) {
+			npcTextArea.appendText("Can you please get me my " + currentRoom.getWantedNPCItem() + "?");
+		}
+	}
+	
+	private void looseGame() {
+		instructionDisplay.setVisible(false);
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(false);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(true);
+		welcomeDisplay.setVisible(false);
+	}
+	
+	private void winGame() {
+		instructionDisplay.setVisible(false);
+		levelSelectionDisplay.setVisible(false);
+		mainGameDisplay.setVisible(false);
+		winnerDisplay.setVisible(true);
+		looserDisplay.setVisible(false);
+		welcomeDisplay.setVisible(false);
+	}
 
-	private boolean killedMonster() {
+	/**
+	 * Try to move into one direction. If there is an exit, enter the new room,
+	 * otherwise print an error message.
+	 */
+	private void goRoom(Command command) {
+
+		String direction = command.getSecondWord();
+
+		// Try to leave current room.
+		Room nextRoom = currentRoom.getExit(direction);
+
+		if (nextRoom == null) {
+			informationTextArea.setText("There is no door!");
+
+		} else if (nextRoom.isLocked()) {
+			tryUnlockRoom(nextRoom);
+
+		} else if (nextRoom.isTeleporterRoom()) {
+			informationTextArea.setText("You were randomly teleported." + "\n");
+			switchRoom(getRandomRoom());
+
+		} else if (nextRoom.hasMonster()) {
+			tryKillMonster(nextRoom);
+			
+		} else if (nextRoom.isFinalRoom()) {
+			rescuePrincess();
+
+		} else {
+			switchRoom(nextRoom);
+		}
+		
+		checkVitals();
+	}
+	
+	private void switchRoom(Room nextRoom) {
+		currentRoom = nextRoom;
+		
+		System.out.println(currentRoom.getLongDescription());
+		time--;
+		player.getHungry();
+		player.increaseLifeBar();
+		
+		timeproperty.setValue(time);
+		
+		setUpRoom();
+		checkVitals();
+	}
+	
+	private void tryUnlockRoom(Room nextRoom) {
+		Item key = environment.getItem("key");
+		
+		if (player.backpackContainsItem(key)) {
+			nextRoom.unlockRoom();
+			player.removeItemFromBackpack(key);
+			informationTextArea.setText(nextRoom + " was unlocked.");
+			switchRoom(nextRoom);
+		} else {
+			informationTextArea.setText("The " + nextRoom.toString().toLowerCase() + " is locked!");
+		}
+	}
+
+	private void tryKillMonster(Room nextRoom) {
 
 		if (player.hasWeapon()) {
 			player.removeAWeaponFromBackpack();
 			informationTextArea.setText("You killed the monster in the room.\n");
 			
 			backpacklabel.setText(player.getBackpackContent());
-			return true;
-		}
+			nextRoom.killMonster();
+			switchRoom(nextRoom);
+		} else {
 		int damage = Level.setValue(1, 1);
 		player.reduceLifeBar(damage);
 		informationTextArea.setText("The Monster hurt you. You have to flee back to the previous room.\n");
-		return false;
-		
+		}
 	}
-
-	/**
-	 * "Quit" was entered. Check the rest of the command to see whether we really
-	 * quit the game.
-	 * 
-	 * @return true, if this command quits the game, false otherwise.
-	 */
-	private boolean quit(Command command) {
-		if (command.hasSecondWord() && command.getSecondWord().trim().toLowerCase().equals("game")) {
-			return true; // signal that we want to quit
-
-		} else {// when user doesn't type in "quit game" (e.g. only "quit") we are not sure if
-				// he really wants to quit and make a call back
-
-			System.out.println("Quit what?");
-			return false;
+	
+	private void rescuePrincess() {
+		Valuable dragonGlass = Environment.getValuable("dragonglass");
+		
+		if (player.backpackContainsItem(dragonGlass)) {
+			winGame();
+		} else {
+		int damage = Level.setValue(1, 1) * 2;
+		player.reduceLifeBar(damage);
+		informationTextArea.setText("The Monster hurt you badly. You have to flee back to the previous room.\n");
 		}
 	}
 
@@ -570,13 +646,13 @@ public class Game extends VBox {
 
 		// check if this food exists in the game and store food object in variable
 		food = Environment.getFood(foodstring);
-		fooditem = Environment.getFood(foodstring);
+		fooditem = environment.getItem(foodstring);
 		
 		if (foodstring.matches("magic muffin")) { // check if user wants to eat a magic muffin
 			informationTextArea.setText(player.getPowerFromMuffin());
 			}
 		currentRoom.removeItem(fooditem);
-		player.eatFood(food);
+		player.increaseFoodBar();
 	}
 
 	public void eatFromBackpack(String foodstring) {
@@ -590,7 +666,7 @@ public class Game extends VBox {
 		if (food != null) {
 
 			if (player.backpackContainsItem(item)) { // if item is not in room, go to inventory
-				player.eatFood(food);
+				player.increaseFoodBar();
 				player.removeItemFromBackpack(item);
 
 			} else {
@@ -630,60 +706,45 @@ public class Game extends VBox {
 	 * @return true when storing was successful
 	 */
 
-	private boolean store(Command command) {
-		String secondWord = command.getSecondWord();
+	private void store(String secondWord) {
 		Item item;
 
 		// check if this item exists in the game and store it in variable
 		item = environment.getItem(secondWord);
-		if (item == null) {
-			System.out.println("Sorry. This is not an item of this game.");
-			return false;
-		} else if (item instanceof Transportable) {
+		if (item == null || !(item instanceof Transportable)) {
+			System.out.println("This won't work.");
 
-			// check if there is free capacity to store the item
-			if (player.cantCarryMore(item.getWeight()) == true) {
-				System.out.println(printer.weightTooHighError());
-				return false;
-			} else {
+		} else if (player.cantCarryMore(item.getWeight())) { // check if there is free capacity to store the item
 
-				// if item is in current room, store it
-				if (currentRoom.containsItem(item)) {
-					currentRoom.removeItem(item);
-					player.putItemIntoBackpack(item);
-					return true;
-				} else {
-					System.out.println("This item is not available at the moment.");
-					System.out.println(printer.getItemHint());
-					return false;
-				}
-			}
+			informationTextArea.setText(printer.weightTooHighError());
+
+		} else if (!currentRoom.containsItem(item)) {
+			System.out.println("This item is not available at the moment.");
+			System.out.println(printer.getItemHint());
 		} else {
-			System.out.println("This item is not transportable.");
-			return false;
+			// if there was no issue, store item
+			currentRoom.removeItem(item);
+			player.putItemIntoBackpack(item);
 		}
 	}
 
-	public boolean drop(Command command) {
+	public void drop(String secondWord) {
 		Item item;
-
-		String secondWord = command.getSecondWord();
 
 		// check if this item exists in the game and store it in variable
 		item = environment.getItem(secondWord);
-		if (item == null) {
-			informationTextArea.setText("Sorry. This is not an item of this game.");
-			return false;
+		if(secondWord.equals("")) {
+			informationTextArea.setText("You have to enter the item you want to drop.");
 		}
-
-		if (player.backpackContainsItem(item)) {
+		else if (item == null) {
+			informationTextArea.setText("Sorry. This is not an item of this game.");
+		} else if (!player.backpackContainsItem(item)) {
+			informationTextArea.setText("You cannot drop that. Your backpack doesn't contain it.");
+		} else {
+			// if there are no issues, drop item
 			player.removeItemFromBackpack(item);
 			currentRoom.addItem(item);
-			informationTextArea.setText("You have dropped " + command.getSecondWord());
-			return true;
-		} else {
-			informationTextArea.setText("You cannot drop that. Your backpack doesn't contain it.");
-			return false;
+			informationTextArea.setText("You have dropped " + secondWord);
 		}
 	}
 
@@ -706,33 +767,6 @@ public class Game extends VBox {
 		return randomroom;
 	}
 
-	private boolean rescuedPrincess() {
-
-		Valuable dragonGlass = Environment.getValuable("dragonglass");
-		if (player.backpackContainsItem(dragonGlass)) {
-
-			player.removeItemFromBackpack(dragonGlass);
-
-			System.out.println("You killed the monster in the room.\n"
-					+ "Princess: Thanks for saving me. Here's a kiss on the cheek for that.\n"
-					+ "I have wanted to be independent for so long, but because of this monster I was stuck here.\n"
-					+ "But now I can go to college and become a Data Scientist. Bye!");
-			return true;
-		}
-
-		int damage = Level.setValue(1, 1) * 2;
-		player.reduceLifeBar(damage);
-		System.out.println("The Monster hurt you badly. You have to flee back to the previous room.\n");
-
-		return false;
-	}
-
-//// Check status of lifeBar, time or foodBar 		
-//	private String checkLevel(int feature) {
-//		if (feature <= 5) {
-//			System.out.println("Almost over. Status of "+ feature);
-//		}
-//	}
 
 	public final void chooseLevelOfDifficulty() {
 

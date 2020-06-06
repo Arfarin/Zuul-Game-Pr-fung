@@ -3,6 +3,9 @@ package ZuulBad;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Inventory {
 	/**
 	 * specifies the maximum permissible weight of the inventory
@@ -12,7 +15,7 @@ public class Inventory {
 	/**
 	 * specifies the current weight of the inventory
 	 */
-	private int currentWeight;
+	private SimpleIntegerProperty currentWeight;
 
 	/**
 	 * the current content of the inventory
@@ -22,12 +25,17 @@ public class Inventory {
 	public Inventory() {
 		setMaxWeight(Level.setValue(23, -5));
 		content = new Items();
+		currentWeight = new SimpleIntegerProperty(0);
 	}
 
+	public IntegerProperty backpackWeightProperty() {
+		return currentWeight;
+	}
+	
 	public void addItemToBackpack(Item... items) {
 		for (Item item : items) {
 			content.addItem(item);
-			currentWeight = +item.getWeight();
+			currentWeight.setValue(currentWeight.getValue() + item.getWeight());
 		}
 	}
 
@@ -36,7 +44,7 @@ public class Inventory {
 
 		if (content.contains(item)) {
 			content.removeItem(item);
-			currentWeight = -item.getWeight();
+			currentWeight.setValue(currentWeight.getValue() - item.getWeight());
 		} else {
 			System.out.println("Sorry, your backpack doesn't contain that.");
 			removed = false;
@@ -60,10 +68,6 @@ public class Inventory {
 		return content.containsAnyWeapon();
 	}
 
-	public boolean containsMuffin() {
-		return content.containsMuffin();
-	}
-
 	public String getListOfContent() {
 		return content.getItemList();
 	}
@@ -73,7 +77,7 @@ public class Inventory {
 	}
 
 	public boolean isFull(int itemWeight) {
-		if (currentWeight + itemWeight > maxWeight) {
+		if (currentWeight.getValue() + itemWeight > maxWeight) {
 			return true;
 		} else {
 			return false;
@@ -81,7 +85,11 @@ public class Inventory {
 	}
 
 	public int getRemainingFreeWeight() {
-		return maxWeight - currentWeight;
+		return maxWeight - currentWeight.getValue();
+	}
+	
+	public int getMaxWeight() {
+		return maxWeight;
 	}
 
 }

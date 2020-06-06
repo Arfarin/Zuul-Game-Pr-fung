@@ -75,10 +75,10 @@ public class Items {
 		StringBuilder itemsInRoom = new StringBuilder();
 
 		if (isEmpty()) {
-			itemsInRoom.append(" none ");
+			itemsInRoom.append(" EMPTY ");
 		} else {
 			for (Item item : this.itemlist) {
-				itemsInRoom.append(item.getName().toLowerCase().trim() + ", ");
+				itemsInRoom.append(item.getName().toLowerCase().trim() + " \n");
 			}
 			itemsInRoom.deleteCharAt(itemsInRoom.length() - 2); 
 		}
@@ -123,14 +123,6 @@ public class Items {
 		return false;
 	}
 
-	public boolean containsMuffin() {
-		for (Item item : itemlist) {
-			if (item instanceof MagicMuffin) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public Food getFood() {
 		for (Item item : itemlist) {

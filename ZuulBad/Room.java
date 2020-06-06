@@ -187,10 +187,6 @@ enum Room{
 		return itemlist.containsFood(specificFood);
 	}
 
-	public boolean containsMuffin(){
-		return itemlist.containsMuffin();
-	}
-	
     /**
      * Converts the list with items into a String.
      * 

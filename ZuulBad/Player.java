@@ -9,32 +9,28 @@ public class Player {
 	private int maxLife = 10;
 
 	Inventory backpack;
-	private int lifeBar;
-	private int foodBar;
-	private Printer printer;
 	
-	private SimpleIntegerProperty lifebarproperty;
-	private SimpleIntegerProperty foodbarproperty;
+	private SimpleIntegerProperty lifeBar;
+	private SimpleIntegerProperty foodBar;
 
 	public Player() {
-		lifebarproperty = new SimpleIntegerProperty(lifeBar);
-		foodbarproperty = new SimpleIntegerProperty(foodBar);
+		lifeBar = new SimpleIntegerProperty(5);
+		foodBar = new SimpleIntegerProperty(5);
 		
 		backpack = new Inventory();
-		lifeBar = 5;
-		foodBar = 5;
-		printer = new Printer();
-		
 	}
 	
 	public IntegerProperty lifeBarProperty() {
-		return lifebarproperty;
+		return lifeBar;
 	}
 	
 	public IntegerProperty foodBarProperty() {
-		return foodbarproperty;
+		return foodBar;
 	}
 
+	public IntegerProperty backpackWeightProperty() {
+		return backpack.backpackWeightProperty();
+	}
 
 	public void lookAround(Room currentRoom) {
 		System.out.println(currentRoom.getLongDescription());
@@ -43,21 +39,13 @@ public class Player {
 	public boolean backpackContainsItem(Item specificitem) {
 		return backpack.contains(specificitem);
 	}
-	
-	public boolean backpackContainsFood(String specifiedFood) {
-		return backpack.containsFood(specifiedFood);
-	}
 
 	public void eatFoodFromBackpack(Food food) {
 			backpack.removeItem(food);
-			eatFood(food);
+			increaseFoodBar();
 			System.out.println("It was stored in your backpack before.");
 	}
 	
-	public void eatFood(Food food) {
-		increaseFoodBar();
-		System.out.println("You ate the " + food.getName() + ".");
-	}
 
 	public String getPowerFromMuffin() {
 		backpack.setMaxWeight(Integer.MAX_VALUE);
@@ -70,7 +58,6 @@ public class Player {
 
 
 		if (backpack.isFull(itemWeight)) {
-			System.out.println(printer.weightTooHighError());
 			stored = false;
 
 		} else {
@@ -111,12 +98,12 @@ public class Player {
 	 * increases foodBar. Used when player eats food.
 	 */
 	public void increaseFoodBar() {
-		foodBar = foodBar + 5;
+		int currentfood = foodBar.getValue();
+		foodBar.setValue(currentfood + 5);
 		
-		if (foodBar > maxFood) {
-			foodBar = maxFood;
+		if (currentfood > maxFood) {
+			foodBar.setValue(maxFood);
 		}
-		foodbarproperty.setValue(foodBar);
 	}
 
 	/**
@@ -124,19 +111,18 @@ public class Player {
 	 * after every entry in a room).
 	 */
 	public void getHungry() {
-		foodBar--;
-		foodbarproperty.setValue(foodBar);
+		foodBar.setValue(foodBar.getValue() - 1);;
 	}
 	
 	public boolean starvedToDeath() {
-		if (foodBar <= 0) {
+		if (foodBar.getValue() <= 0) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean beaten() {
-		if (lifeBar <= 0) {
+		if (lifeBar.getValue() <= 0) {
 			return true;
 		}
 		return false;
@@ -147,12 +133,12 @@ public class Player {
 	 * time (used after every entry in a room)
 	 */
 	public void increaseLifeBar() {
+		int currentlife = lifeBar.getValue();
 		
-		lifeBar++;
-		if (lifeBar > maxLife) {
-			lifeBar = maxLife;
+		lifeBar.setValue(currentlife + 1);
+		if (currentlife > maxLife) {
+			lifeBar.setValue(maxLife);
 		}
-		lifebarproperty.setValue(lifeBar);
 	}
 
 	/**
@@ -161,8 +147,7 @@ public class Player {
 	 * @param amount
 	 */
 	public void reduceLifeBar(int amount) {
-		lifeBar = lifeBar - amount;
-		lifebarproperty.setValue(lifeBar);
+		lifeBar.setValue(lifeBar.getValue() - amount);
 	}
 
 	public int getMaxFood() {
@@ -173,7 +158,11 @@ public class Player {
 		return maxLife;
 	}
 	
+	public int getMaxWeight() {
+		return backpack.getMaxWeight();
+	}
+	
 	public int getLifeBar() {
-		return lifeBar;
+		return lifeBar.getValue();
 	}
 }
