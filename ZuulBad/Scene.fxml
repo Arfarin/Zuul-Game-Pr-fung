@@ -63,12 +63,12 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <Label fx:id="timeLabel" text="time">
+                                          <Label fx:id="timeLabel" text="Time">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lifebarLabel" text="lifeBar" GridPane.rowIndex="2">
+                                          <Label fx:id="lifebarLabel" text="Health" GridPane.rowIndex="2">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -76,7 +76,7 @@
                                           <Rectangle fx:id="timeRectangle" arcHeight="5.0" arcWidth="5.0" fill="#1edeff" height="15.0" stroke="#00000036" strokeType="INSIDE" width="385.0" GridPane.columnIndex="1" />
                                           <Rectangle fx:id="lifebarRectangle" arcHeight="5.0" arcWidth="5.0" fill="#1edeff" height="15.0" stroke="#00000035" strokeType="INSIDE" width="183.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Rectangle fx:id="foodbarRectangle" arcHeight="5.0" arcWidth="5.0" fill="#1edeff" height="15.0" stroke="#00000035" strokeType="INSIDE" width="183.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <Label fx:id="foodbarLabel" text="foodBar" GridPane.rowIndex="1">
+                                          <Label fx:id="foodbarLabel" text="Energy" GridPane.rowIndex="1">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>

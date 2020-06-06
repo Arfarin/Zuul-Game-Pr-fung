@@ -520,6 +520,7 @@ public class Game extends VBox {
 		roomlabel.setText(currentRoom.toString());
 		backpacklabel.setText(player.getBackpackContent());
 		npcTextArea.setText(currentRoom.getNpcMessage()+ "\n");
+		informationTextArea.clear();
 		
 		if (currentRoom.getNpc() != null) {
 			npcTextArea.appendText("Can you please get me my " + currentRoom.getWantedNPCItem() + "?");
@@ -549,7 +550,7 @@ public class Game extends VBox {
 	 * otherwise print an error message.
 	 */
 	private void goRoom(Command command) {
-
+		informationTextArea.clear();
 		String direction = command.getSecondWord();
 
 		// Try to leave current room.
