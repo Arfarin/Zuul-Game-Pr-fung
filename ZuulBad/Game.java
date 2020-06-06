@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
@@ -288,19 +289,27 @@ public class Game extends VBox {
 	@FXML
 	Label foodLabel;
 	@FXML
+	ImageView foodImage;
+	@FXML
 	Button eatButton;
 	@FXML
 	Button storeFoodButton;
 	@FXML
 	Label weaponLabel;
 	@FXML
+	ImageView weaponImage;
+	@FXML
 	Button storeWeaponButton;
 	@FXML
 	Label valuableLabel;
 	@FXML
+	ImageView valuableImage;
+	@FXML
 	Button storeValuableButton;
 	@FXML
 	Label staticItemLabel;
+	@FXML
+	ImageView staticItemImage;
 	
 	@FXML
 	private void handleEatFoodClick(ActionEvent ActionEvent) {
@@ -453,23 +462,39 @@ public class Game extends VBox {
 	private void setItemLabels() {
 		if (currentRoom.getFood() != null) {
 			foodLabel.setText(currentRoom.getFood().getName());
+			foodImage.setVisible(true);
+			eatButton.setVisible(true);
+			storeFoodButton.setVisible(true);
 		} else {
 			foodLabel.setText("");
+			foodImage.setVisible(false);
+			eatButton.setVisible(false);
+			storeFoodButton.setVisible(false);
 		}
 		if (currentRoom.getWeapon() != null) {
 			weaponLabel.setText(currentRoom.getWeapon().getName());
+			weaponImage.setVisible(true);
+			storeWeaponButton.setVisible(true);
 		} else {
 			weaponLabel.setText("");
+			weaponImage.setVisible(false);
+			storeWeaponButton.setVisible(false);
 		}
 		if (currentRoom.getValuable() != null) {
 			valuableLabel.setText(currentRoom.getValuable().getName());
+			valuableImage.setVisible(true);
+			storeValuableButton.setVisible(true);
 		} else {
 			valuableLabel.setText("");
+			valuableImage.setVisible(false);
+			storeValuableButton.setVisible(false);
 		}
 		if (currentRoom.getAccessory() != null) {
 			staticItemLabel.setText(currentRoom.getAccessory().getName());
+			staticItemImage.setVisible(true);
 		} else {
 			staticItemLabel.setText("");
+			staticItemImage.setVisible(false);
 		}
 
 	}
