@@ -23,7 +23,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="708.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ZuulBad.Game">
+<VBox prefHeight="680.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ZuulBad.Game">
   <children>
     <MenuBar prefHeight="6.0" prefWidth="594.0" VBox.vgrow="NEVER">
       <menus>
@@ -222,10 +222,13 @@
                                                             <Button fx:id="hintButton" mnemonicParsing="false" onAction="#handleClickHint" text="hint" BorderPane.alignment="CENTER" />
                                                          </bottom>
                                                          <right>
-                                                            <TextArea fx:id="npcTextArea" editable="false" opacity="0.67" prefHeight="120.0" prefWidth="148.0" text="npcMessage (and &#10;npc-hint after click on &#10;button &quot;hint&quot;)" BorderPane.alignment="CENTER">
+                                                            <TextArea fx:id="npcTextArea" editable="false" opacity="0.67" prefHeight="119.0" prefWidth="148.0" text="npcMessage (and &#10;npc-hint after click on &#10;button &quot;hint&quot;)" wrapText="true" BorderPane.alignment="CENTER">
                                                                <BorderPane.margin>
-                                                                  <Insets bottom="10.0" right="10.0" top="10.0" />
+                                                                  <Insets bottom="2.0" right="2.0" top="2.0" />
                                                                </BorderPane.margin>
+                                                               <font>
+                                                                  <Font size="10.0" />
+                                                               </font>
                                                             </TextArea>
                                                          </right>
                                                          <center>
@@ -357,7 +360,7 @@
                                  <children>
                                     <VBox prefHeight="288.0" prefWidth="338.0">
                                        <children>
-                                          <TextArea fx:id="informationTextArea" editable="false" prefHeight="119.0" prefWidth="307.0" text="Textfield for general information from println ">
+                                          <TextArea fx:id="informationTextArea" editable="false" prefHeight="82.0" prefWidth="298.0" text="Textfield for general information from println " wrapText="true">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -367,7 +370,7 @@
                                                 <Insets left="132.0" top="5.0" />
                                              </VBox.margin>
                                           </Button>
-                                          <BorderPane prefHeight="126.0" prefWidth="205.0">
+                                          <BorderPane prefHeight="126.0" prefWidth="229.0">
                                              <padding>
                                                 <Insets bottom="25.0" top="25.0" />
                                              </padding>

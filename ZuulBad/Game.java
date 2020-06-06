@@ -97,6 +97,7 @@ public class Game extends VBox {
 		winnerDisplay.setVisible(false);
 		looserDisplay.setVisible(false);
 		welcomeDisplay.setVisible(false);
+		
 	}
 	
 	@FXML
@@ -335,9 +336,9 @@ public class Game extends VBox {
 	 * Main play routine. Loops until end of play.
 	 */
 	public void play() {
-//		roomproperty = new SimpleStringProperty();
-//		roomproperty.setValue(currentRoom.toString());
-//		
+		currentRoom = environment.getFirstRoom();
+		setUpRoom();
+
 		player.lifeBarProperty().addListener(new ChangeListener<Object>() {
 			@Override
 			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
@@ -449,6 +450,14 @@ public class Game extends VBox {
 	private void setUpRoom() {
 		setItemLabels();
 		setExitLabels();
+		
+		roomlabel.setText(currentRoom.toString());
+		backpacklabel.setText(player.getBackpackContent());
+		npcTextArea.setText(currentRoom.getNpcMessage()+ "\n");
+		
+		if (currentRoom.getNpc() != null) {
+			npcTextArea.appendText("Can you please get me my " + currentRoom.getWantedNPCItem() + "?");
+		}
 	}
 	
 	private void looseGame() {
@@ -511,15 +520,9 @@ public class Game extends VBox {
 		player.getHungry();
 		player.increaseLifeBar();
 		
-		
-		roomlabel.setText(currentRoom.toString());
-		backpacklabel.setText(player.getBackpackContent());
-		npcTextArea.setText(currentRoom.getNpcMessage());
 		timeproperty.setValue(time);
 		
 		setUpRoom();
-		System.out.println(player.getLifeBar());
-		System.out.println("Checking vitals2");
 		checkVitals();
 	}
 	

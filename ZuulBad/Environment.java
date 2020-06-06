@@ -8,14 +8,12 @@ public class Environment{
 	private static ArrayList<Food> foodsOfGame;
 	private static ArrayList<Weapon> weaponsOfGame;
 	private static ArrayList<Valuable> valuablesOfGame;
-	private static ArrayList<MagicMuffin> magicMuffinsOfGame;
 
 	public Environment() {
 		itemsOfGame = new Items();
 		foodsOfGame = new ArrayList<Food>();
 		weaponsOfGame = new ArrayList<Weapon>();
 		valuablesOfGame = new ArrayList<Valuable>();
-		magicMuffinsOfGame = new ArrayList<MagicMuffin>();
 		prepareEnvironment();
 	}
 
@@ -125,7 +123,7 @@ public class Environment{
 		itemsOfGame.addItem(starfruit);
 		
 		//Magic muffin
-		Food magicMuffin = new MagicMuffin("magic muffin", 5,
+		Food magicMuffin = new Food("magic muffin", 5,
 				"This magically looking muffin is made according to a special recipe of the castle.");
 		foodsOfGame.add(magicMuffin);
 		itemsOfGame.addItem(magicMuffin);
@@ -152,20 +150,20 @@ public class Environment{
 		weaponsOfGame.add(dagger);
 		itemsOfGame.addItem(dagger);
 		
-		Weapon axe = new Weapon("axe", 9, "You could chop a tree with that axe.");
+		Weapon axe = new Weapon("axe", 4, "You could chop a tree with that axe.");
 		weaponsOfGame.add(axe);
 		itemsOfGame.addItem(axe);
 		
-		Weapon sword = new Weapon("sword", 10, "This must have belonged to a strong man and mighty soldier.");
+		Weapon sword = new Weapon("sword", 6, "This must have belonged to a strong man and mighty soldier.");
 		weaponsOfGame.add(sword);
 		itemsOfGame.addItem(sword);
 
 		// Valuables
-		Valuable key = new Valuable("key", 4, "Don't loose this one.");
+		Valuable key = new Valuable("key", 2, "Don't loose this one.");
 		valuablesOfGame.add(key);
 		itemsOfGame.addItem(key);
 		
-		Valuable dragonglass = new Valuable("dragonglass", 7, "WOW! This looks like it could even kill dragons.");
+		Valuable dragonglass = new Valuable("dragonglass", 5, "WOW! This looks like it could even kill dragons.");
 		valuablesOfGame.add(dragonglass);
 		itemsOfGame.addItem(dragonglass);
 		
@@ -315,25 +313,4 @@ public class Environment{
 		return itemsOfGame;
 	}
 
-	public MagicMuffin getMuffin(Food food) {
-		String possibleMuffin = food.getName().toLowerCase().trim();
-		for (MagicMuffin muffin : magicMuffinsOfGame) {
-			if (possibleMuffin.equals(muffin.getName().toLowerCase().trim())) {
-				return muffin;
-			}
-		}
-		return null;
-	}
-
-	public MagicMuffin getMuffin(String foodName) {
-		String possibleMuffin = foodName.toLowerCase().replaceAll(" ", "");
-		for (MagicMuffin muffin : magicMuffinsOfGame) {
-//			String muffinString = 
-//			muffinString = muffinString.replaceAll(" ","");
-			if (possibleMuffin.equals(muffin.getName().toLowerCase().replaceAll(" ", ""))) {
-				return muffin;
-			}
-		}
-		return null;
-	}
 }

@@ -60,10 +60,6 @@ public class Inventory {
 		return content.containsAnyWeapon();
 	}
 
-	public boolean containsMuffin() {
-		return content.containsMuffin();
-	}
-
 	public String getListOfContent() {
 		return content.getItemList();
 	}

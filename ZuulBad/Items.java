@@ -123,14 +123,6 @@ public class Items {
 		return false;
 	}
 
-	public boolean containsMuffin() {
-		for (Item item : itemlist) {
-			if (item instanceof MagicMuffin) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public Food getFood() {
 		for (Item item : itemlist) {
