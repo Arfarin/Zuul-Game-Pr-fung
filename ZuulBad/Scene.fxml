@@ -367,7 +367,7 @@
                                              <bottom>
                                                 <HBox prefHeight="44.0" prefWidth="338.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <TextField fx:id="backpackTextFieldToType" prefHeight="26.0" prefWidth="185.0" promptText="type in name of item in backpack" visible="false">
+                                                      <TextField fx:id="backpackTextFieldToType" prefHeight="26.0" prefWidth="185.0" promptText="type in name of item in backpack">
                                                          <HBox.margin>
                                                             <Insets left="10.0" top="9.0" />
                                                          </HBox.margin>

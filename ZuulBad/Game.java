@@ -61,6 +61,7 @@ public class Game extends VBox {
 	@FXML
 	private void handlePopupClose() {
 		popupPane.setVisible(false);
+		descriptionPane.setVisible(false);
 	}
 	@FXML
 	private void handleRoomPopup() {
@@ -119,7 +120,7 @@ public class Game extends VBox {
 	@FXML
 	Label roomUnlockedPopup;
 	
-	PauseTransition visiblePause = new PauseTransition(Duration.seconds(1));
+	PauseTransition visiblePause = new PauseTransition(Duration.seconds(2));
 	
 	private void waitAndEnd() {
 		visiblePause.play();
@@ -130,6 +131,7 @@ public class Game extends VBox {
 		monsterDamagePopup.setVisible(false);
 		roomLockedPopup.setVisible(false);
 		roomUnlockedPopup.setVisible(false);
+		descriptionPane.setVisible(false);
 		
 		popupPane.setVisible(true);
 		monsterKilledPopup.setVisible(true);
@@ -141,6 +143,7 @@ public class Game extends VBox {
 		roomLockedPopup.setVisible(false);
 		roomUnlockedPopup.setVisible(false);
 		monsterKilledPopup.setVisible(false);
+		descriptionPane.setVisible(false);
 		
 		popupPane.setVisible(true);
 		monsterDamagePopup.setVisible(true);
@@ -152,6 +155,7 @@ public class Game extends VBox {
 		roomUnlockedPopup.setVisible(false);
 		monsterKilledPopup.setVisible(false);
 		monsterDamagePopup.setVisible(false);
+		descriptionPane.setVisible(false);
 		
 		popupPane.setVisible(true);
 		roomLockedPopup.setVisible(true);
@@ -163,6 +167,7 @@ public class Game extends VBox {
 		monsterKilledPopup.setVisible(false);
 		monsterDamagePopup.setVisible(false);
 		roomLockedPopup.setVisible(false);
+		descriptionPane.setVisible(false);
 		
 		popupPane.setVisible(true);
 		roomUnlockedPopup.setVisible(true);
