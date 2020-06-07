@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
@@ -302,7 +303,28 @@ public class Game extends VBox {
 	Button down;
 	
 	@FXML
+	Rectangle northDoorRectangle;
+	@FXML
+	Rectangle southDoorRectangle;
+	@FXML
+	Rectangle eastDoorRectangle;
+	@FXML
+	Rectangle westDoorRectangle;
+	@FXML
+	Rectangle upDoorRectangle;
+	@FXML
+	Rectangle downDoorRectangle;
+	@FXML
+	Label upDoorLabel;
+	@FXML
+	Label downDoorLabel;
+	
+	@FXML
 	private void handleGoNorth(ActionEvent ActionEvent) {
+		goRoom("north");
+	}
+	@FXML
+	private void handleGoNorthByClickOnRectangle() {
 		goRoom("north");
 	}
 	@FXML
@@ -310,7 +332,15 @@ public class Game extends VBox {
 		goRoom("south");
 	}
 	@FXML
+	private void handleGoSouthByClickOnRectangle() {
+		goRoom("south");
+	}
+	@FXML
 	private void handleGoEast(ActionEvent ActionEvent) {
+		goRoom("east");
+	}
+	@FXML
+	private void handleGoEasyByClickOnRectangle() {
 		goRoom("east");
 	}
 	@FXML
@@ -318,11 +348,23 @@ public class Game extends VBox {
 		goRoom("west");
 	}
 	@FXML
+	private void handleGoWestByClickOnRectangle() {
+		goRoom("west");
+	}
+	@FXML
 	private void handleGoUp(ActionEvent ActionEvent) {
 		goRoom("up");
 	}
 	@FXML
+	private void handleGoUpByClickOnStairsUp() {
+		goRoom("up");
+	}
+	@FXML
 	private void handleGoDown(ActionEvent ActionEvent) {
+		goRoom("down");
+	}
+	@FXML
+	private void handleGoDownByClickOnStairsDown() {
 		goRoom("down");
 	}
 	
@@ -419,23 +461,6 @@ public class Game extends VBox {
 		backpacklabel.setText(player.getBackpackContent());
 		setItemLabels();
 	}
-	
-	@FXML
-	Rectangle northDoorRectangle;
-	@FXML
-	Rectangle southDoorRectangle;
-	@FXML
-	Rectangle eastDoorRectangle;
-	@FXML
-	Rectangle westDoorRectangle;
-	@FXML
-	Rectangle upDoorRectangle;
-	@FXML
-	Rectangle downDoorRectangle;
-	@FXML
-	Label upDoorLabel;
-	@FXML
-	Label downDoorLabel;
 	
 	
 	private Room currentRoom;
@@ -790,10 +815,11 @@ public class Game extends VBox {
 				player.removeItemFromBackpack(item);
 
 			} else {
-				informationTextArea.setText("Sorry, that's not possible.\n"
+				informationTextArea.setText("Sorry, currently your backpack does not contain that.\n"
 						+ printer.getFoodHint());
-
 			}
+		} else {
+			informationTextArea.setText("Sorry, this is not a food item of this game.");
 		}
 	}
 
