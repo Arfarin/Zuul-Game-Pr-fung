@@ -1,8 +1,5 @@
 package ZuulBad;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -53,8 +50,7 @@ public class Inventory {
 	}
 
 	public void removeWeapon() {
-		currentWeight.setValue(currentWeight.getValue() - content.getWeapon().getWeight());
-		content.removeWeapon();
+		this.removeItem(content.getWeapon());
 	}
 
 	public boolean contains(Item specificitem) {

@@ -303,33 +303,27 @@ public class Game extends VBox {
 	
 	@FXML
 	private void handleGoNorth(ActionEvent ActionEvent) {
-		Command command = new Command(CommandWords.GO, "north", null);
-		goRoom(command);
+		goRoom("north");
 	}
 	@FXML
 	private void handleGoSouth(ActionEvent ActionEvent) {
-		Command command = new Command(CommandWords.GO, "south", null);
-		goRoom(command);
+		goRoom("south");
 	}
 	@FXML
 	private void handleGoEast(ActionEvent ActionEvent) {
-		Command command = new Command(CommandWords.GO, "east", null);
-		goRoom(command);
+		goRoom("east");
 	}
 	@FXML
 	private void handleGoWest(ActionEvent ActionEvent) {
-		Command command = new Command(CommandWords.GO, "west", null);
-		goRoom(command);
+		goRoom("west");
 	}
 	@FXML
 	private void handleGoUp(ActionEvent ActionEvent) {
-		Command command = new Command(CommandWords.GO, "up", null);
-		goRoom(command);
+		goRoom("up");
 	}
 	@FXML
 	private void handleGoDown(ActionEvent ActionEvent) {
-		Command command = new Command(CommandWords.GO, "down", null);
-		goRoom(command);
+		goRoom("down");
 	}
 	
 	@FXML
@@ -360,8 +354,7 @@ public class Game extends VBox {
 	Button hintButton;
 	@FXML
 	private void handleClickHint(ActionEvent ActionEvent) {
-		Command command = new Command(CommandWords.HINT, null, null);
-		String npchint = hint(command);
+		String npchint = hint();
 		npcTextArea.setText(npchint);
 	}
 
@@ -445,7 +438,6 @@ public class Game extends VBox {
 	Label downDoorLabel;
 	
 	
-	private Parser parser;
 	private Room currentRoom;
 	private Environment environment;
 	private Player player;
@@ -467,7 +459,6 @@ public class Game extends VBox {
 	 * their content and set the time-limit.
 	 */
 	public Game() {
-		parser = new Parser();
 		printer = new Printer();
 		environment = new Environment();
 		timeproperty = new SimpleIntegerProperty(time);
@@ -673,9 +664,8 @@ public class Game extends VBox {
 	 * Try to move into one direction. If there is an exit, enter the new room,
 	 * otherwise print an error message.
 	 */
-	private void goRoom(Command command) {
+	private void goRoom(String direction) {
 		informationTextArea.clear();
-		String direction = command.getSecondWord();
 
 		// Try to leave current room.
 		Room nextRoom = currentRoom.getExit(direction);
@@ -807,7 +797,7 @@ public class Game extends VBox {
 		}
 	}
 
-	private String hint(Command command) {
+	private String hint() {
 
 		if (currentRoom.getNpc() == null) {
 			return "Here is nobody to talk with.";
