@@ -288,6 +288,9 @@ enum Room{
 	public Valuable getValuable() {
 		return itemlist.getValuable();
 	}
+	public Accessory getAccessory() {
+		return itemlist.getAccessory();
+	}
 	
 
     /**

@@ -150,6 +150,14 @@ public class Items {
 			}
 			return null;
 		}
+		public Accessory getAccessory() {
+			for (Item item : itemlist) {
+				if (item instanceof Accessory) {
+					return (Accessory) item;
+				} 
+			}
+			return null;
+		}
 	
 
 }
