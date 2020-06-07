@@ -99,9 +99,10 @@ public class Player {
 	 */
 	public void increaseFoodBar() {
 		int currentfood = foodBar.getValue();
-		foodBar.setValue(currentfood + 5);
-		
-		if (currentfood > maxFood) {
+
+		if ((currentfood + 5) < maxFood) {
+			foodBar.setValue(currentfood + 5);
+		} else {
 			foodBar.setValue(maxFood);
 		}
 	}

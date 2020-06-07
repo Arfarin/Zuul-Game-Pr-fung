@@ -53,6 +53,7 @@ public class Inventory {
 	}
 
 	public void removeWeapon() {
+		currentWeight.setValue(currentWeight.getValue() - content.getWeapon().getWeight());
 		content.removeWeapon();
 	}
 

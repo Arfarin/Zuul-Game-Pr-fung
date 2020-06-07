@@ -1,7 +1,10 @@
 package ZuulBad;
 
-import java.util.Random;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -13,7 +16,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Scale;
 import javafx.stage.Popup;
+import javafx.util.Duration;
 
 /**
  * This class is the main class of the "World of Zuul" application. "World of
@@ -56,17 +61,18 @@ public class Game extends VBox {
 	@FXML
 	private void handlePopupClose() {
 		popupPane.setVisible(false);
+		descriptionPane.setVisible(false);
 	}
 	@FXML
 	private void handleRoomPopup() {
-		popupPane.setVisible(true);
+		openDescriptionPopup();
 		popupTextArea.setText(currentRoom.getLongDescription());
 	}
 	
 	@FXML
 	private void handleFoodPopup() {
 		if (currentRoom.getFood() != null) {
-			popupPane.setVisible(true);
+			openDescriptionPopup();
 			popupTextArea.setText(currentRoom.getFood().getDescription());
 		}
 	}
@@ -74,7 +80,7 @@ public class Game extends VBox {
 	@FXML
 	private void handleWeaponPopup() {
 		if (currentRoom.getWeapon() != null) {
-			popupPane.setVisible(true);
+			openDescriptionPopup();
 			popupTextArea.setText(currentRoom.getWeapon().getDescription());
 		}
 	}
@@ -82,21 +88,92 @@ public class Game extends VBox {
 	@FXML
 	private void handleValuablePopup() {
 		if (currentRoom.getValuable() != null) {
-			popupPane.setVisible(true);
+			openDescriptionPopup();
 			popupTextArea.setText(currentRoom.getValuable().getDescription());
 		}
 	}
 	@FXML
 	private void handleStaticItemPopup() {
 		if (currentRoom.getAccessory() != null) {
-			popupPane.setVisible(true);
+			openDescriptionPopup();
 			popupTextArea.setText(currentRoom.getAccessory().getDescription());
 		}
 	}
-//	private SimpleStringProperty roomproperty;
-//	public StringProperty roomProperty() {
-//		return roomproperty;
-//	}
+	
+	private void openDescriptionPopup() {
+		popupPane.setVisible(true);
+		descriptionPane.setVisible(true);
+		monsterKilledPopup.setVisible(false);
+		monsterDamagePopup.setVisible(false);
+		roomLockedPopup.setVisible(false);
+		roomUnlockedPopup.setVisible(false);
+	}
+
+	// other popups
+	
+	@FXML
+	Label monsterKilledPopup;
+	@FXML
+	Label monsterDamagePopup;
+	@FXML
+	Label roomLockedPopup;
+	@FXML
+	Label roomUnlockedPopup;
+	
+	PauseTransition visiblePause = new PauseTransition(Duration.seconds(2));
+	
+	private void waitAndEnd() {
+		visiblePause.play();
+		visiblePause.setOnFinished(event -> popupPane.setVisible(false));
+	}
+	
+	private void KillMonsterPopup() {
+		monsterDamagePopup.setVisible(false);
+		roomLockedPopup.setVisible(false);
+		roomUnlockedPopup.setVisible(false);
+		descriptionPane.setVisible(false);
+		
+		popupPane.setVisible(true);
+		monsterKilledPopup.setVisible(true);
+		
+		waitAndEnd();
+	}
+	
+	private void monsterDamagePopup() {
+		roomLockedPopup.setVisible(false);
+		roomUnlockedPopup.setVisible(false);
+		monsterKilledPopup.setVisible(false);
+		descriptionPane.setVisible(false);
+		
+		popupPane.setVisible(true);
+		monsterDamagePopup.setVisible(true);
+		
+		waitAndEnd();
+	}
+	
+	private void roomLockedPopup() {
+		roomUnlockedPopup.setVisible(false);
+		monsterKilledPopup.setVisible(false);
+		monsterDamagePopup.setVisible(false);
+		descriptionPane.setVisible(false);
+		
+		popupPane.setVisible(true);
+		roomLockedPopup.setVisible(true);
+		
+		waitAndEnd();
+	}
+	
+	private void roomUnlockedPopup() {
+		monsterKilledPopup.setVisible(false);
+		monsterDamagePopup.setVisible(false);
+		roomLockedPopup.setVisible(false);
+		descriptionPane.setVisible(false);
+		
+		popupPane.setVisible(true);
+		roomUnlockedPopup.setVisible(true);
+		
+		waitAndEnd();
+	}
 	
 	@FXML
 	BorderPane instructionDisplay;
@@ -112,6 +189,8 @@ public class Game extends VBox {
 	StackPane looserDisplay;
 	@FXML
 	Pane popupPane;
+	@FXML
+	SplitPane descriptionPane;
 	@FXML
 	TextArea informationTextArea;
 	
@@ -565,6 +644,7 @@ public class Game extends VBox {
 		roomlabel.setText(currentRoom.toString());
 		backpacklabel.setText(player.getBackpackContent());
 		npcTextArea.setText(currentRoom.getNpcMessage()+ "\n");
+		informationTextArea.clear();
 		
 		if (currentRoom.getNpc() != null) {
 			npcTextArea.appendText("Can you please get me my " + currentRoom.getWantedNPCItem() + "?");
@@ -594,7 +674,7 @@ public class Game extends VBox {
 	 * otherwise print an error message.
 	 */
 	private void goRoom(Command command) {
-
+		informationTextArea.clear();
 		String direction = command.getSecondWord();
 
 		// Try to leave current room.
@@ -641,12 +721,14 @@ public class Game extends VBox {
 		Item key = environment.getItem("key");
 		
 		if (player.backpackContainsItem(key)) {
+			roomUnlockedPopup();
 			nextRoom.unlockRoom();
 			player.removeItemFromBackpack(key);
 			informationTextArea.setText(nextRoom + " was unlocked.");
 			switchRoom(nextRoom);
 		} else {
 			informationTextArea.setText("The " + nextRoom.toString().toLowerCase() + " is locked!");
+			roomLockedPopup();
 		}
 	}
 
@@ -656,11 +738,13 @@ public class Game extends VBox {
 			player.removeAWeaponFromBackpack();
 			informationTextArea.setText("You killed the monster in the room.\n");
 			
+			KillMonsterPopup();
 			backpacklabel.setText(player.getBackpackContent());
 			nextRoom.killMonster();
 			switchRoom(nextRoom);
 		} else {
 		int damage = Level.setValue(1, 1);
+		monsterDamagePopup();
 		player.reduceLifeBar(damage);
 		informationTextArea.setText("The Monster hurt you. You have to flee back to the previous room.\n");
 		}
