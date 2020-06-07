@@ -144,11 +144,17 @@
                                                          <bottom>
                                                             <HBox prefHeight="26.0" prefWidth="117.0" BorderPane.alignment="CENTER">
                                                                <children>
-                                                                  <Button fx:id="eatButton" mnemonicParsing="false" onAction="#handleEatFoodClick" text=" eat " />
+                                                                  <Button fx:id="eatButton" mnemonicParsing="false" onAction="#handleEatFoodClick" text=" eat ">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor></Button>
                                                                   <Button fx:id="storeFoodButton" mnemonicParsing="false" onAction="#handleStoreFoodClick" text="store">
                                                                      <HBox.margin>
                                                                         <Insets />
                                                                      </HBox.margin>
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
                                                                   </Button>
                                                                </children>
                                                                <padding>
@@ -179,7 +185,10 @@
                                                       </BorderPane>
                                                       <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                                          <bottom>
-                                                            <Button fx:id="storeWeaponButton" mnemonicParsing="false" onAction="#handleStoreWeaponClick" text="store" BorderPane.alignment="CENTER" />
+                                                            <Button fx:id="storeWeaponButton" mnemonicParsing="false" onAction="#handleStoreWeaponClick" text="store" BorderPane.alignment="CENTER">
+                                                               <cursor>
+                                                                  <Cursor fx:constant="HAND" />
+                                                               </cursor></Button>
                                                          </bottom>
                                                          <center>
                                                             <Label fx:id="weaponLabel" alignment="CENTER" prefHeight="29.0" prefWidth="150.0" text="weaponName" textFill="#1f0bcf" BorderPane.alignment="CENTER">
@@ -227,12 +236,18 @@
                                                             </ImageView>
                                                          </top>
                                                          <bottom>
-                                                            <Button fx:id="storeValuableButton" mnemonicParsing="false" onAction="#handleStoreValuableClick" text="store" BorderPane.alignment="CENTER" />
+                                                            <Button fx:id="storeValuableButton" mnemonicParsing="false" onAction="#handleStoreValuableClick" text="store" BorderPane.alignment="CENTER">
+                                                               <cursor>
+                                                                  <Cursor fx:constant="HAND" />
+                                                               </cursor></Button>
                                                          </bottom>
                                                       </BorderPane>
                                                       <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                                          <bottom>
-                                                            <Button fx:id="hintButton" mnemonicParsing="false" onAction="#handleClickHint" text="hint" BorderPane.alignment="CENTER" />
+                                                            <Button fx:id="hintButton" mnemonicParsing="false" onAction="#handleClickHint" text="hint" BorderPane.alignment="CENTER">
+                                                               <cursor>
+                                                                  <Cursor fx:constant="HAND" />
+                                                               </cursor></Button>
                                                          </bottom>
                                                          <right>
                                                             <TextArea fx:id="npcTextArea" editable="false" opacity="0.67" prefHeight="119.0" prefWidth="148.0" text="npcMessage (and &#10;npc-hint after click on &#10;button &quot;hint&quot;)" wrapText="true" BorderPane.alignment="CENTER">
@@ -264,6 +279,9 @@
                                                                <BorderPane.margin>
                                                                   <Insets top="20.0" />
                                                                </BorderPane.margin>
+                                                               <cursor>
+                                                                  <Cursor fx:constant="HAND" />
+                                                               </cursor>
                                                             </ImageView>
                                                          </center>
                                                          <bottom>
@@ -349,7 +367,7 @@
                                              <bottom>
                                                 <HBox prefHeight="44.0" prefWidth="338.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <TextField fx:id="backpackTextFieldToType" prefHeight="26.0" prefWidth="185.0" promptText="type in name of item in backpack">
+                                                      <TextField fx:id="backpackTextFieldToType" prefHeight="26.0" prefWidth="185.0" promptText="type in name of item in backpack" visible="false">
                                                          <HBox.margin>
                                                             <Insets left="10.0" top="9.0" />
                                                          </HBox.margin>
@@ -358,11 +376,17 @@
                                                          <HBox.margin>
                                                             <Insets left="10.0" top="9.0" />
                                                          </HBox.margin>
+                                                         <cursor>
+                                                            <Cursor fx:constant="HAND" />
+                                                         </cursor>
                                                       </Button>
                                                       <Button fx:id="dropButton" mnemonicParsing="false" onAction="#handleClickDrop" text="drop">
                                                          <HBox.margin>
                                                             <Insets left="10.0" top="9.0" />
                                                          </HBox.margin>
+                                                         <cursor>
+                                                            <Cursor fx:constant="HAND" />
+                                                         </cursor>
                                                       </Button>
                                                    </children>
                                                 </HBox>
@@ -388,19 +412,28 @@
                                              <VBox.margin>
                                                 <Insets left="132.0" top="5.0" />
                                              </VBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                           </Button>
                                           <BorderPane prefHeight="126.0" prefWidth="229.0">
                                              <padding>
                                                 <Insets bottom="25.0" top="25.0" />
                                              </padding>
                                              <top>
-                                                <Button fx:id="north" mnemonicParsing="false" onAction="#handleGoNorth" text="north" BorderPane.alignment="CENTER" />
+                                                <Button fx:id="north" mnemonicParsing="false" onAction="#handleGoNorth" text="north" BorderPane.alignment="CENTER">
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor></Button>
                                              </top>
                                              <left>
                                                 <Button fx:id="west" mnemonicParsing="false" onAction="#handleGoWest" text="west" BorderPane.alignment="CENTER">
                                                    <BorderPane.margin>
                                                       <Insets left="60.0" />
                                                    </BorderPane.margin>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
                                                 </Button>
                                              </left>
                                              <right>
@@ -408,16 +441,25 @@
                                                    <BorderPane.margin>
                                                       <Insets right="60.0" />
                                                    </BorderPane.margin>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
                                                 </Button>
                                              </right>
                                              <bottom>
-                                                <Button fx:id="south" mnemonicParsing="false" onAction="#handleGoSouth" text="south" BorderPane.alignment="CENTER" />
+                                                <Button fx:id="south" mnemonicParsing="false" onAction="#handleGoSouth" text="south" BorderPane.alignment="CENTER">
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor></Button>
                                              </bottom>
                                           </BorderPane>
                                           <Button fx:id="down" mnemonicParsing="false" onAction="#handleGoDown" text="down">
                                              <VBox.margin>
                                                 <Insets left="128.0" />
                                              </VBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                           </Button>
                                        </children>
                                        <padding>
@@ -452,6 +494,9 @@
                      <BorderPane.margin>
                         <Insets bottom="150.0" />
                      </BorderPane.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </bottom>
                <opaqueInsets>
@@ -479,6 +524,9 @@
                            <font>
                               <Font size="36.0" />
                            </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </left>
                      <center>
@@ -486,6 +534,9 @@
                            <font>
                               <Font size="36.0" />
                            </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </center>
                      <right>
@@ -496,6 +547,9 @@
                            <font>
                               <Font size="36.0" />
                            </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </right>
                      <padding>
@@ -535,6 +589,9 @@
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Label text="You loose!" textFill="#dd1634">
                      <font>
@@ -571,6 +628,9 @@
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Button fx:id="readInstructionButton" mnemonicParsing="false" onAction="#handleReadInstructions" prefHeight="40.0" prefWidth="204.0" text="Read the instructions" textFill="#dd1e1e">
                      <StackPane.margin>
@@ -579,6 +639,9 @@
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
                <StackPane.margin>
@@ -587,7 +650,7 @@
             </StackPane>
             <Pane fx:id="popupPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <SplitPane dividerPositions="0.7610062893081762" layoutX="253.0" layoutY="206.0" orientation="VERTICAL" prefHeight="242.0" prefWidth="344.0">
+                  <SplitPane fx:id="descriptionPane" dividerPositions="0.7610062893081762" layoutX="253.0" layoutY="206.0" orientation="VERTICAL" prefHeight="242.0" prefWidth="344.0" visible="false">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="166.0" prefWidth="317.0">
                            <children>
@@ -599,11 +662,34 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="67.0" prefWidth="335.0">
                            <children>
-                              <Button fx:id="popupButton" layoutX="97.0" layoutY="14.0" mnemonicParsing="false" onAction="#handlePopupClose" prefHeight="25.0" prefWidth="148.0" text="OK" />
+                              <Button fx:id="popupButton" layoutX="97.0" layoutY="14.0" mnemonicParsing="false" onAction="#handlePopupClose" prefHeight="25.0" prefWidth="148.0" text="OK">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
                            </children>
                         </AnchorPane>
                     </items>
                   </SplitPane>
+                  <Label fx:id="monsterKilledPopup" layoutX="158.0" layoutY="276.0" prefHeight="103.0" prefWidth="535.0" text="You killed the Monster!" textFill="RED" visible="false">
+                     <font>
+                        <Font name="System Bold" size="48.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="monsterDamagePopup" layoutX="166.0" layoutY="287.0" prefHeight="82.0" prefWidth="518.0" text="The Monster hurt you!" textFill="#f70505" visible="false">
+                     <font>
+                        <Font name="System Bold" size="48.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="roomLockedPopup" layoutX="205.0" layoutY="241.0" text="The Room is locked" textFill="#f9c805" visible="false">
+                     <font>
+                        <Font name="System Bold" size="48.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="roomUnlockedPopup" layoutX="160.0" layoutY="276.0" text="You unlocked the room" textFill="#f9c805" visible="false">
+                     <font>
+                        <Font name="System Bold" size="48.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </children>
