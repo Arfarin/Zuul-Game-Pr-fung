@@ -184,38 +184,38 @@ public class Environment{
 		valuablesOfGame.add(tupperware);
 		itemsOfGame.addItem(tupperware);
 		
-		Valuable hat = new Valuable("medieval hat", 3, "Quite fashionable if you are into that sort of thing.");
-		valuablesOfGame.add(hat);
-		itemsOfGame.addItem(hat);
-		
-		Valuable plant = new Valuable("avocado plant", 5,
-				"Try to get this to the owner ASAP, maybe they can still save it.");
-		valuablesOfGame.add(plant);
-		itemsOfGame.addItem(plant);
-		
-		Valuable phone = new Valuable("phone", 6,
-				"Sadly you don't know the PIN. Also, what is this doing in an old castle?");
-		valuablesOfGame.add(phone);
-		itemsOfGame.addItem(phone);
-		
-		Valuable sock = new Valuable("green sock", 2, "This must have been useful to someone at some point.");
-		valuablesOfGame.add(sock);
-		itemsOfGame.addItem(sock);
-		
-		Valuable candle = new Valuable("nice smelling candle", 3, "Lavender always makes me so sleepy...");
-		valuablesOfGame.add(candle);
-		itemsOfGame.addItem(candle);
-		
-		Valuable book = new Valuable("old book", 5,
-				"Oh look, here is recipe for a love potion. Do you believe in that sort of thing?");
-		valuablesOfGame.add(book);
-		itemsOfGame.addItem(book);
-		
-		Valuable bottle = new Valuable("old bottle of wine", 5,
-				"This must be a very old vintage. Alas, it looks unenjoyable.");
-		valuablesOfGame.add(bottle);
-		itemsOfGame.addItem(bottle);
-		
+//		Valuable hat = new Valuable("medieval hat", 3, "Quite fashionable if you are into that sort of thing.");
+//		valuablesOfGame.add(hat);
+//		itemsOfGame.addItem(hat);
+//		
+//		Valuable plant = new Valuable("avocado plant", 5,
+//				"Try to get this to the owner ASAP, maybe they can still save it.");
+//		valuablesOfGame.add(plant);
+//		itemsOfGame.addItem(plant);
+//		
+//		Valuable phone = new Valuable("phone", 6,
+//				"Sadly you don't know the PIN. Also, what is this doing in an old castle?");
+//		valuablesOfGame.add(phone);
+//		itemsOfGame.addItem(phone);
+//		
+//		Valuable sock = new Valuable("green sock", 2, "This must have been useful to someone at some point.");
+//		valuablesOfGame.add(sock);
+//		itemsOfGame.addItem(sock);
+//		
+//		Valuable candle = new Valuable("nice smelling candle", 3, "Lavender always makes me so sleepy...");
+//		valuablesOfGame.add(candle);
+//		itemsOfGame.addItem(candle);
+//		
+//		Valuable book = new Valuable("old book", 5,
+//				"Oh look, here is recipe for a love potion. Do you believe in that sort of thing?");
+//		valuablesOfGame.add(book);
+//		itemsOfGame.addItem(book);
+//		
+//		Valuable bottle = new Valuable("old bottle of wine", 5,
+//				"This must be a very old vintage. Alas, it looks unenjoyable.");
+//		valuablesOfGame.add(bottle);
+//		itemsOfGame.addItem(bottle);
+//		
 		//Accessoires
 		Accessory chair = new Accessory("chair", 10, "a dark wooden chair");
 		Accessory couch = new Accessory("blue couch", 10, "a blue and very cosy couch");
@@ -225,29 +225,29 @@ public class Environment{
 		Accessory armour = new Accessory("armour", 40, "a heavy and shiny armour");
 		Accessory bookcase = new Accessory("bookcase", 150, "a dusty, enchanted bookcase");
 		Accessory chest = new Accessory("empty treasure chest", 20, "Alas, someone else was faster..");
-		Accessory bricks = new Accessory("bricks", 1, "scrolled paraffin lamp ");
-		Accessory glass = new Accessory("sharp broken glass", 1, "a piece of a broken glass painting");
-		Collections.addAll(accessories, chair, couch, desk, vase, candlestick, armour, bookcase, chest, bricks, glass);
+//		Accessory bricks = new Accessory("bricks", 1, "scrolled paraffin lamp");
+//		Accessory glass = new Accessory("sharp broken glass", 1, "a piece of a broken glass painting");
+		Collections.addAll(accessories, chair, couch, desk, vase, candlestick, armour, bookcase, chest);
 
 		// put items into rooms
 		Room.CastleCourtyard.addItem(starfruit, chair);
 		Room.CastleGarden.addItem(apple, knife);
-		Room.FlowerGarden.addItem(plant, couch);
+		Room.FlowerGarden.addItem(couch);
 		Room.KingsChamber.addItem(hairbrush, chest);
-		Room.EntryHall.addItem(banana, toothpick);
-		Room.TowerStaircases.addItem(hat, bricks);
+		Room.EntryHall.addItem(banana, toothpick, glasses);
+		Room.TowerStaircases.addItem();
 		Room.DestroyedTower.addItem(beans, nail, key);
 		Room.DiningRoom.addItem(key);
-		Room.Kitchen.addItem(leftovers, sock);
+		Room.Kitchen.addItem(leftovers);
 		Room.Pastry.addItem(magicMuffin, candlestick);
 		Room.Warehouse.addItem(dagger, couch);
-		Room.Pantry.addItem(book, glass);
-		Room.DesertedWineStorage.addItem(bottle, desk);
-		Room.BasementEntry.addItem(phone, vase);
+		Room.Pantry.addItem(tiara);
+		Room.DesertedWineStorage.addItem(tupperware, desk);
+		Room.BasementEntry.addItem(spoon, vase);
 		Room.Armoury.addItem(tomatoes, axe, armour);
 		Room.TreasureChamber.addItem(dragonglass);
 		Room.UndergroundHallway.addItem(key, sword, bookcase);
-		Room.HiddenPath.addItem(bread, candle);
+		Room.HiddenPath.addItem(bread);
 		Room.Dungeon.addItem();
 
 	}

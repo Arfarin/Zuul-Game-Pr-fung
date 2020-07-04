@@ -68,8 +68,8 @@ public class Player {
 		return stored;
 	}
 
-	public void removeItemFromBackpack(Item item) {
-		backpack.removeItem(item);
+	public boolean removeItemFromBackpack(Item item) {
+		return backpack.removeItem(item);
 	}
 
 
