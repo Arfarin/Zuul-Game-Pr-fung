@@ -40,7 +40,33 @@ import javafx.util.Duration;
 
 public class Game extends VBox {
 	
-	// all the fun graphic stuff
+	/**
+	 * the room in which the player is at the moment
+	 */
+	private Room currentRoom;
+	
+	private Environment environment;
+	private Player player;
+	private Printer printer;
+	private Random random;
+
+	private static Level difficultyLevel = Level.EASY;
+
+	/**
+	 * how much time the game should last. Measured by the number of how often the
+	 * player moves from one room to another
+	 */
+	private int time;
+	
+	private SimpleIntegerProperty timeproperty;
+
+	
+	public Game() {
+		printer = new Printer();
+		environment = new Environment();
+		timeproperty = new SimpleIntegerProperty(time);
+	}
+	
 	@FXML
 	Label roomlabel;
 	@FXML
@@ -288,6 +314,15 @@ public class Game extends VBox {
 		Platform.exit();
 		System.exit(0);
 	}
+	@FXML
+	Button restartButton;
+	
+	@FXML
+	private void handleRestart(ActionEvent ActionEvent) {
+		levelSelectionDisplay.setVisible(true);
+		winnerDisplay.setVisible(false);
+		looserDisplay.setVisible(false);
+	}
 	
 	@FXML
 	Button north;
@@ -375,22 +410,49 @@ public class Game extends VBox {
 	@FXML
 	Button dropButton;
 	@FXML
+	Button destroyButton;
+	@FXML
 	Label backpackWeightLabel;
 	
+	/**
+	 * 
+	 */
+	private void refreshBackpack() {
+		backpacklabel.setText(player.getBackpackContent());
+		backpackTextFieldToType.clear();
+		setItemLabels();
+	}
+	/**
+	 *
+	 * @param ActionEvent
+	 */
 	@FXML
 	private void handleClickEat(ActionEvent ActionEvent) {
 		eatFromBackpack(backpackTextFieldToType.getText());
 		
-		backpacklabel.setText(player.getBackpackContent());
-		setItemLabels();
+		refreshBackpack();
 	}
+	/**
+	 * 
+	 * @param ActionEvent
+	 */
 	@FXML
 	private void handleClickDrop(ActionEvent ActionEvent) {
 		drop(backpackTextFieldToType.getText());
 		
-		backpacklabel.setText(player.getBackpackContent());
-		setItemLabels();
+		refreshBackpack();
 	}
+	/**
+	 * 
+	 * @param ActionEvent
+	 */
+	@FXML
+	private void handleClickDestroy(ActionEvent ActionEvent) {
+		destroy(backpackTextFieldToType.getText());
+		
+		refreshBackpack();
+	}
+
 	
 	@FXML
 	Button hintButton;
@@ -424,6 +486,10 @@ public class Game extends VBox {
 	Label staticItemLabel;
 	@FXML
 	ImageView staticItemImage;
+	@FXML
+	ImageView humanImage;
+	@FXML
+	BorderPane npcBorderPane;
 	
 	@FXML
 	private void handleEatFoodClick(ActionEvent ActionEvent) {
@@ -431,8 +497,7 @@ public class Game extends VBox {
 			eatFromRoom(foodLabel.getText());
 			foodLabel.setText("");
 		}
-		backpacklabel.setText(player.getBackpackContent());
-		setItemLabels();
+		refreshBackpack();
 	}
 	@FXML
 	private void handleStoreFoodClick(ActionEvent ActionEvent) {
@@ -440,8 +505,7 @@ public class Game extends VBox {
 			store(foodLabel.getText());
 			foodLabel.setText("");
 		}
-		backpacklabel.setText(player.getBackpackContent());
-		setItemLabels();
+		refreshBackpack();
 	}
 	@FXML
 	private void handleStoreWeaponClick(ActionEvent ActionEvent) {
@@ -449,8 +513,7 @@ public class Game extends VBox {
 			store(weaponLabel.getText());
 			weaponLabel.setText("");
 		}
-		backpacklabel.setText(player.getBackpackContent());
-		setItemLabels();
+		refreshBackpack();
 	}
 	@FXML
 	private void handleStoreValuableClick(ActionEvent ActionEvent) {
@@ -458,37 +521,10 @@ public class Game extends VBox {
 			store(valuableLabel.getText());
 			valuableLabel.setText("");
 		}
-		backpacklabel.setText(player.getBackpackContent());
-		setItemLabels();
+		refreshBackpack();
 	}
 	
 	
-	private Room currentRoom;
-	private Environment environment;
-	private Player player;
-	private Printer printer;
-	private Random random;
-
-	private static Level difficultyLevel = Level.EASY;
-
-	/**
-	 * how much time the game should last. Measured by the number of how often the
-	 * player moves from one room to another
-	 */
-	private int time;
-	
-	private SimpleIntegerProperty timeproperty;
-
-	/**
-	 * Create the game. Select a Level of Difficulty, initialize the rooms with
-	 * their content and set the time-limit.
-	 */
-	public Game() {
-		printer = new Printer();
-		environment = new Environment();
-		timeproperty = new SimpleIntegerProperty(time);
-	}
-
 	/**
 	 * Main play routine. Loops until end of play.
 	 */
@@ -542,10 +578,10 @@ public class Game extends VBox {
 		
 	}
 	
-
 	public IntegerProperty timeProperty() {
 		return timeproperty;
 	}
+	
 	
 	/**
 	 * Given a command, process (that is: execute) the command.
@@ -591,6 +627,11 @@ public class Game extends VBox {
 			staticItemLabel.setText("");
 			staticItemImage.setVisible(false);
 		}
+		if(currentRoom.getNpc() != null) {
+			npcBorderPane.setVisible(true);
+		} else {
+			npcBorderPane.setVisible(false);
+		}
 
 	}
 	
@@ -632,23 +673,27 @@ public class Game extends VBox {
 	}
 	
 	private void setOtherLabels() {
-//	// static item label
-//		random = new Random();
-//		Accessory[] accessories = new Accessory[environment.getListOfAccessories().size()];
-//		environment.getListOfAccessories().toArray(accessories);
-//		
-//		int i = random.nextInt(accessories.length);
-//		staticItemLabel.setText(accessories[i].getName());
-			
+
 		// backpack label
 		int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
 		backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());
 	}
 	
+	@FXML
+	Label reasonForLoosingLabel;
+	
 	private void checkVitals() {
-		if (timeOver(time) || player.starvedToDeath() || player.beaten()) {
+		if (timeOver(time)) {
+			reasonForLoosingLabel.setText("Time was over");
 			looseGame();
-			System.out.println("Time is over.");
+		}
+		else if (player.starvedToDeath()) {
+			reasonForLoosingLabel.setText("You starved to death");
+			looseGame();
+		}
+		else if (player.beaten()) {
+			reasonForLoosingLabel.setText("You were beaten by a monster");
+			looseGame();
 		}
 	}
 	
@@ -835,7 +880,7 @@ public class Game extends VBox {
 //			String response = currentRoom.getNpcHint(specificValuable);
 			if (player.backpackContainsItem(valuable)) {
 
-				return currentRoom.getNpcHint(valuable.toString());
+				return currentRoom.getNpcHint(valuable.getName());
 			} else {
 				return "Please find " + currentRoom.getWantedNPCItem() +  " for me first";
 			}
@@ -874,13 +919,13 @@ public class Game extends VBox {
 		}
 	}
 
-	public void drop(String secondWord) {
+	public void drop(String typedWord) {
 		Item item;
 
 		// check if this item exists in the game and store it in variable
-		item = environment.getItem(secondWord);
+		item = environment.getItem(typedWord);
 		
-		if(secondWord.equals("")) {
+		if(typedWord.equals("")) {
 			informationTextArea.setText("You have to enter the item you want to drop.");
 		}
 		else if (item == null) {
@@ -888,12 +933,31 @@ public class Game extends VBox {
 		} else if (!player.backpackContainsItem(item)) {
 			informationTextArea.setText("You cannot drop that. Your backpack doesn't contain it.");
 		} else if (item instanceof Food && !foodLabel.getText().equals("") || item instanceof Weapon && !weaponLabel.getText().equals("") || item instanceof Valuable && !valuableLabel.getText().equals("")) {
-			informationTextArea.setText("You can't drop " + secondWord.toLowerCase().trim() + " here. At the moment there is no free space for it in this room.");	
+			informationTextArea.setText("You can't drop " + typedWord.toLowerCase().trim() + " here. At the moment there is no free space for it in this room.");	
 		} else {
 			// if there are no issues, drop item
 			player.removeItemFromBackpack(item);
 			currentRoom.addItem(item);
-			informationTextArea.setText("You have dropped " + secondWord.toLowerCase().trim());
+			informationTextArea.setText("You have dropped " + typedWord.toLowerCase().trim());
+		}
+	}
+	
+	public void destroy(String typedWord) {
+		Item item; 
+		
+		// check if this item exists in the game and store it in variable
+		item = environment.getItem(typedWord);
+		
+		if(typedWord.equals("")) {
+			informationTextArea.setText("You have to enter the item you want to destroy.");
+		}
+		else if (item == null) {
+			informationTextArea.setText("Sorry. This is not an item of this game.");
+		} else if (player.removeItemFromBackpack(item) == false) {
+			informationTextArea.setText("You cannot destroy that. Your backpack doesn't contain it.");
+		}	
+		else {
+			informationTextArea.setText("You have destroyed " + typedWord.toLowerCase().trim());
 		}
 	}
 
