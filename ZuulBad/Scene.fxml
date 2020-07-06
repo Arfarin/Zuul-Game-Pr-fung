@@ -112,7 +112,7 @@
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor>
                                                       </Label>
-                                                      <Rectangle fx:id="northDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" stroke="BLACK" strokeType="INSIDE" width="85.0" />
+                                                      <Rectangle fx:id="northDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoNorthByClickOnRectangle" stroke="BLACK" strokeType="INSIDE" width="85.0" />
                                                    </items>
                                                    <opaqueInsets>
                                                       <Insets left="5.0" />
@@ -120,13 +120,13 @@
                                                 </SplitPane>
                                              </top>
                                              <left>
-                                                <Rectangle fx:id="westDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
+                                                <Rectangle fx:id="westDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoWestByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
                                              </left>
                                              <bottom>
-                                                <Rectangle fx:id="southDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="85.0" BorderPane.alignment="CENTER" />
+                                                <Rectangle fx:id="southDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoSouthByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="85.0" BorderPane.alignment="CENTER" />
                                              </bottom>
                                              <right>
-                                                <Rectangle fx:id="eastDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
+                                                <Rectangle fx:id="eastDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoEasyByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
                                              </right>
                                              <center>
                                                 <GridPane BorderPane.alignment="CENTER">
@@ -242,7 +242,7 @@
                                                                </cursor></Button>
                                                          </bottom>
                                                       </BorderPane>
-                                                      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                                      <BorderPane fx:id="npcBorderPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                                          <bottom>
                                                             <Button fx:id="hintButton" mnemonicParsing="false" onAction="#handleClickHint" text="hint" BorderPane.alignment="CENTER">
                                                                <cursor>
@@ -304,17 +304,17 @@
                                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                         </rowConstraints>
                                                          <children>
-                                                            <Rectangle fx:id="upDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a34f0f9b" height="45.0" stroke="BLACK" strokeType="INSIDE" width="87.0">
+                                                            <Rectangle fx:id="upDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a34f0f9b" height="45.0" onMouseClicked="#handleGoUpByClickOnStairsUp" stroke="BLACK" strokeType="INSIDE" width="87.0">
                                                                <GridPane.margin>
                                                                   <Insets left="10.0" />
                                                                </GridPane.margin>
                                                             </Rectangle>
-                                                            <Rectangle fx:id="downDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a34f0f9a" height="45.0" stroke="BLACK" strokeType="INSIDE" width="108.0" GridPane.columnIndex="1">
+                                                            <Rectangle fx:id="downDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a34f0f9a" height="45.0" onMouseClicked="#handleGoDownByClickOnStairsDown" stroke="BLACK" strokeType="INSIDE" width="108.0" GridPane.columnIndex="1">
                                                                <GridPane.margin>
                                                                   <Insets />
                                                                </GridPane.margin>
                                                             </Rectangle>
-                                                            <Label fx:id="upDoorLabel" prefHeight="33.0" prefWidth="84.0" text="staircase up">
+                                                            <Label fx:id="upDoorLabel" onMouseClicked="#handleGoUpByClickOnStairsUp" prefHeight="33.0" prefWidth="84.0" text="staircase up">
                                                                <font>
                                                                   <Font name="System Bold" size="14.0" />
                                                                </font>
@@ -322,7 +322,7 @@
                                                                   <Insets left="15.0" />
                                                                </GridPane.margin>
                                                             </Label>
-                                                            <Label fx:id="downDoorLabel" prefHeight="20.0" prefWidth="115.0" text="staircase down" GridPane.columnIndex="1">
+                                                            <Label fx:id="downDoorLabel" onMouseClicked="#handleGoDownByClickOnStairsDown" prefHeight="20.0" prefWidth="115.0" text="staircase down" GridPane.columnIndex="1">
                                                                <font>
                                                                   <Font name="System Bold" size="14.0" />
                                                                </font>
@@ -367,7 +367,7 @@
                                              <bottom>
                                                 <HBox prefHeight="44.0" prefWidth="338.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <TextField fx:id="backpackTextFieldToType" prefHeight="26.0" prefWidth="185.0" promptText="type in name of item in backpack">
+                                                      <TextField fx:id="backpackTextFieldToType" prefHeight="26.0" prefWidth="155.0" promptText="type in name of item in backpack">
                                                          <HBox.margin>
                                                             <Insets left="10.0" top="9.0" />
                                                          </HBox.margin>
@@ -388,6 +388,11 @@
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor>
                                                       </Button>
+                                                      <Button fx:id="destroyButton" mnemonicParsing="false" onAction="#handleClickDestroy" text="destroy">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" top="9.0" />
+                                                         </HBox.margin>
+                                                      </Button>
                                                    </children>
                                                 </HBox>
                                              </bottom>
@@ -403,7 +408,7 @@
                                  <children>
                                     <VBox prefHeight="288.0" prefWidth="338.0">
                                        <children>
-                                          <TextArea fx:id="informationTextArea" editable="false" prefHeight="82.0" prefWidth="298.0" text="Textfield for general information from println " wrapText="true">
+                                          <TextArea fx:id="informationTextArea" editable="false" prefHeight="82.0" prefWidth="298.0" text=" " wrapText="true">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -574,25 +579,6 @@
             </StackPane>
             <StackPane fx:id="looserDisplay" prefHeight="150.0" prefWidth="200.0" visible="false">
                <children>
-                  <Label text="Thank you for Playing">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                     <StackPane.margin>
-                        <Insets bottom="100.0" />
-                     </StackPane.margin>
-                  </Label>
-                  <Button fx:id="closeButton" mnemonicParsing="false" onAction="#handleClose" text="Close" textFill="#dd1634">
-                     <StackPane.margin>
-                        <Insets top="100.0" />
-                     </StackPane.margin>
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
                   <Label text="You loose!" textFill="#dd1634">
                      <font>
                         <Font name="System Bold" size="64.0" />
@@ -601,6 +587,42 @@
                         <Insets bottom="250.0" />
                      </StackPane.margin>
                   </Label>
+                  <Label fx:id="reasonForLoosingLabel" text="reason">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <StackPane.margin>
+                        <Insets bottom="100.0" />
+                     </StackPane.margin>
+                  </Label>
+                  <Label text="Thank you for Playing">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="closeButton" mnemonicParsing="false" onAction="#handleClose" prefHeight="39.0" prefWidth="86.0" text="Close" textFill="#dd1634">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets left="335.0" top="380.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="restartButton" mnemonicParsing="false" onAction="#handleRestart" prefWidth="86.0" text="Restart" textFill="#dd1634">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" top="380.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </StackPane>
             <StackPane fx:id="welcomeDisplay" prefHeight="150.0" prefWidth="200.0" visible="false">
