@@ -4,9 +4,10 @@
 package ZuulBad;
 
 /**
+ * This class is the superclass for all items of the game. Specific item classes extend this class.
+ * It provides all information about each item.
+ * 
  * @author Sarah Engelmayer
- * @author Katerina Matysova
- * @author Daniel Birk
  */
 public abstract class Item {
 	

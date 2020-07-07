@@ -6,8 +6,6 @@ package ZuulBad;
  * the player at the beginning, the maximum portable weight of his/her backpack
  * and the rate of damage caused by monsters.
  * 
- * @author Daniel Birk
- * @author Katerina Matysova
  * @author Sarah Engelmayer
  *
  */

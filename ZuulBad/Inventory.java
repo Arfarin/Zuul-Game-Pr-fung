@@ -3,6 +3,13 @@ package ZuulBad;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ * This class handles the inventory of the player. It creates an instance of the class Items
+ * and provides methods the player can call to interact with items of the game (p.e. drop, eat, etc.).
+ * 
+ * @author Sarah Engelmayer
+ */
+
 public class Inventory {
 	/**
 	 * specifies the maximum permissible weight of the inventory

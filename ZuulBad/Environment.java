@@ -3,6 +3,13 @@ package ZuulBad;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This class initializes all objects in the game, such as rooms, items, characters.
+ * It also sets up the starting point of the game.
+ * 
+ * @author Daniel Birk
+ */
+
 public class Environment{
 
 	private Items itemsOfGame;

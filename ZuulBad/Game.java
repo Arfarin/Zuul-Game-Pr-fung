@@ -1,6 +1,5 @@
 package ZuulBad;
 
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -22,20 +21,12 @@ import javafx.stage.Popup;
 import javafx.util.Duration;
 
 /**
- * This class is the main class of the "World of Zuul" application. "World of
- * Zuul" is a very simple, text based adventure game. Users can walk around some
- * scenery. That's all. It should really be extended to make it more
- * interesting!
+ * This class is the controller class for the graphical user interface 
+ * and it connects the other classes of the game.
  * 
- * To play this game, create an instance of this class and call the "play"
- * method.
- * 
- * This main class creates and initialises all the others: it creates all rooms,
- * creates the parser and starts the game. It also evaluates and executes the
- * commands that the parser returns.
- * 
- * @author Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author Daniel Birk
+ * @author Katerina Matysova
+ * @author Sarah Engelmayer
  */
 
 public class Game extends VBox {

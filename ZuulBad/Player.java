@@ -3,6 +3,14 @@ package ZuulBad;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ * This class creates the character which is controlled by the user. It has properties that need to be
+ * satisfied such as lifeBar and foodBar in order for the game to continue. An instance of the class 
+ * Inventory is used to store the items the player can carry.
+ * 
+ * @author Sarah Engelmayer
+ */
+
 public class Player {
 	
 	private int maxFood = 10;
