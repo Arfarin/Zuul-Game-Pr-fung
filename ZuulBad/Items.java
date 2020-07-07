@@ -2,6 +2,14 @@ package ZuulBad;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to store items of the game in an arraylist as well as allowing interaction with
+ * that list (p.e. removing or adding items).
+ * 
+ * @author Katerina Matysova
+ * @version 1.0.0
+ */
+
 public class Items {
 
 	private ArrayList<Item> itemlist;

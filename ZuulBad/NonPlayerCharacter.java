@@ -3,10 +3,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * This class creates a Non Player Character who can give messages and hints.
- * The messages are used at random and the hints have a given order.
+ * This class creates a Non Player Character who can give messages when player enters a room
+ * and hints when player carries specific item.
+ * 
  * @author Katerina Matysova
- *
  */
 
 public class NonPlayerCharacter {
