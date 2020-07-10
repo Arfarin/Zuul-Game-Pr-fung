@@ -818,7 +818,7 @@ public class Game extends VBox {
 		checkVitals();
 		
 		if (currentRoom.getRoomEntries() > 1) {
-				informationTextArea.setText("You have already entered this room . \r \n");
+				informationTextArea.setText("You have already been in this room before. \r \n");
 			} 
 	}
 	
