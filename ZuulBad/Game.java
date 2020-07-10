@@ -71,11 +71,12 @@ public class Game extends VBox {
 	Rectangle foodbarRectangle;
 	@FXML
 	Rectangle timeRectangle;
-	
 	@FXML
 	TextArea popupTextArea;
 	@FXML
 	Button popupButton;
+	@FXML 
+	ImageView floorImage;
 	
 	@FXML
 	private void handlePopupClose() {
