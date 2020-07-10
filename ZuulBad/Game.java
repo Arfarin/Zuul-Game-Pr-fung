@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import javafx.animation.PauseTransition;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -70,11 +71,12 @@ public class Game extends VBox {
 	Rectangle foodbarRectangle;
 	@FXML
 	Rectangle timeRectangle;
-	
 	@FXML
 	TextArea popupTextArea;
 	@FXML
 	Button popupButton;
+	@FXML 
+	ImageView floorImage;
 	
 	@FXML
 	private void handlePopupClose() {
@@ -84,14 +86,14 @@ public class Game extends VBox {
 	@FXML
 	private void handleRoomPopup() {
 		openDescriptionPopup();
-		popupTextArea.setText(currentRoom.getLongDescription());
+		popupTextArea.setText(currentRoom.getDescription());
 	}
 	
 	@FXML
 	private void handleFoodPopup() {
 		if (currentRoom.getFood() != null) {
 			openDescriptionPopup();
-			popupTextArea.setText(currentRoom.getFood().getDescription());
+			popupTextArea.setText(currentRoom.getFood().getDescriptionWithWeight());
 		}
 	}
 
@@ -99,7 +101,7 @@ public class Game extends VBox {
 	private void handleWeaponPopup() {
 		if (currentRoom.getWeapon() != null) {
 			openDescriptionPopup();
-			popupTextArea.setText(currentRoom.getWeapon().getDescription());
+			popupTextArea.setText(currentRoom.getWeapon().getDescriptionWithWeight());
 		}
 	}
 
@@ -107,7 +109,7 @@ public class Game extends VBox {
 	private void handleValuablePopup() {
 		if (currentRoom.getValuable() != null) {
 			openDescriptionPopup();
-			popupTextArea.setText(currentRoom.getValuable().getDescription());
+			popupTextArea.setText(currentRoom.getValuable().getDescriptionWithWeight());
 		}
 	}
 	@FXML
@@ -344,6 +346,16 @@ public class Game extends VBox {
 	Label upDoorLabel;
 	@FXML
 	Label downDoorLabel;
+	@FXML
+	ImageView lockNorth;
+	@FXML
+	ImageView lockEast;
+	@FXML
+	ImageView lockSouth;
+	@FXML
+	ImageView lockWest;
+	
+	
 	
 	@FXML
 	private void handleGoNorth(ActionEvent ActionEvent) {
@@ -365,8 +377,9 @@ public class Game extends VBox {
 	private void handleGoEast(ActionEvent ActionEvent) {
 		goRoom("east");
 	}
+	
 	@FXML
-	private void handleGoEasyByClickOnRectangle() {
+	private void handleGoEastByClickOnRectangle() {
 		goRoom("east");
 	}
 	@FXML
@@ -522,7 +535,7 @@ public class Game extends VBox {
 	public void play() {
 		environment.prepareEnvironment();
 		player = new Player();
-		time = Level.setValue(30, -5);
+		time = Level.setValue(35, -5);
 		
 		currentRoom = environment.getFirstRoom();
 		setUpRoom();
@@ -553,7 +566,7 @@ public class Game extends VBox {
 			@Override
 			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
 				int maxwidth = 387;
-				int maxtime = Level.setValue(30, -5);
+				int maxtime = Level.setValue(35, -5);
 				double length = (timeProperty().doubleValue() / maxtime) * maxwidth;
 				timeRectangle.setWidth(length);
 			}
@@ -627,26 +640,52 @@ public class Game extends VBox {
 	}
 	
 	private void setExitLabels() {
-		if (currentRoom.getExit("north") == null) {
+		
+		lockNorth.setVisible(false);
+		lockSouth.setVisible(false);
+		lockEast.setVisible(false);
+		lockWest.setVisible(false);
+		
+		Room northRoom = currentRoom.getExit("north");
+		if (northRoom == null) {
 			northDoorRectangle.setVisible(false);
 		} else {
 			northDoorRectangle.setVisible(true);
+			if(northRoom.isLocked()) {
+				lockNorth.setVisible(true);
+			}
 		}
-		if (currentRoom.getExit("south") == null) {
+		
+		Room southRoom = currentRoom.getExit("south");
+		if (southRoom == null) {
 			southDoorRectangle.setVisible(false);
 		} else {
 			southDoorRectangle.setVisible(true);
+			if(southRoom.isLocked()) {
+				lockSouth.setVisible(true);
+				}
 		}
-		if (currentRoom.getExit("east") == null) {
+		
+		Room eastRoom = currentRoom.getExit("east");
+		if (eastRoom == null) {
 			eastDoorRectangle.setVisible(false);
 		} else {
 			eastDoorRectangle.setVisible(true);
+			if(eastRoom.isLocked()) {
+				lockEast.setVisible(true);
+				}
 		}
-		if (currentRoom.getExit("west") == null) {
+		
+		Room westRoom = currentRoom.getExit("west");
+		if (westRoom == null) {
 			westDoorRectangle.setVisible(false);
 		} else {
 			westDoorRectangle.setVisible(true);
+			if(westRoom.isLocked()) {
+				lockWest.setVisible(true);
+				}
 		}
+		
 		if (currentRoom.getExit("up") == null) {
 			upDoorRectangle.setVisible(false);
 			upDoorLabel.setVisible(false);
@@ -702,6 +741,7 @@ public class Game extends VBox {
 			npcTextArea.appendText("Can you please get me my " + currentRoom.getWantedNPCItem() + "?");
 		}
 	}
+
 	
 	private void looseGame() {
 		instructionDisplay.setVisible(false);
@@ -711,6 +751,10 @@ public class Game extends VBox {
 		looserDisplay.setVisible(true);
 		welcomeDisplay.setVisible(false);
 	}
+	@FXML
+	ImageView crownImage;
+	@FXML
+	ImageView girlImage;
 	
 	private void winGame() {
 		instructionDisplay.setVisible(false);
@@ -719,6 +763,13 @@ public class Game extends VBox {
 		winnerDisplay.setVisible(true);
 		looserDisplay.setVisible(false);
 		welcomeDisplay.setVisible(false);
+		
+		RotateTransition rt = new RotateTransition(Duration.millis(3000), girlImage);
+		    rt.setByAngle(40);
+		    rt.setCycleCount(4);
+		    rt.setAutoReverse(true);
+		    
+		    rt.play();
 	}
 
 	/**
@@ -756,16 +807,19 @@ public class Game extends VBox {
 	
 	private void switchRoom(Room nextRoom) {
 		currentRoom = nextRoom;
-		
-		System.out.println(currentRoom.getLongDescription());
+
 		time--;
 		player.getHungry();
 		player.increaseLifeBar();
-		
+		currentRoom.addRoomEntry();
 		timeproperty.setValue(time);
 		
 		setUpRoom();
 		checkVitals();
+		
+		if (currentRoom.getRoomEntries() > 1) {
+				informationTextArea.setText("You have already been in this room before. \r \n");
+			} 
 	}
 	
 	private void tryUnlockRoom(Room nextRoom) {
@@ -807,7 +861,7 @@ public class Game extends VBox {
 		if (player.backpackContainsItem(dragonGlass)) {
 			winGame();
 		} else {
-		int damage = Level.setValue(1, 1) * 2;
+		int damage = Level.setValue(1, 1) * 2; // final boss makes double damage (amount of damage depends on selected level)
 		player.reduceLifeBar(damage);
 		informationTextArea.setText("The Monster hurt you badly. You have to flee back to the previous room.\n");
 		}
