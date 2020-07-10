@@ -50,7 +50,6 @@ public class Inventory {
 			content.removeItem(item);
 			currentWeight.setValue(currentWeight.getValue() - item.getWeight());
 		} else {
-	//		System.out.println("Sorry, your backpack doesn't contain that.");
 			removed = false;
 		}
 		return removed;

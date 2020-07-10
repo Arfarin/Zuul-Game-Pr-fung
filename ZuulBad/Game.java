@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import javafx.animation.PauseTransition;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -375,8 +376,9 @@ public class Game extends VBox {
 	private void handleGoEast(ActionEvent ActionEvent) {
 		goRoom("east");
 	}
+	
 	@FXML
-	private void handleGoEasyByClickOnRectangle() {
+	private void handleGoEastByClickOnRectangle() {
 		goRoom("east");
 	}
 	@FXML
@@ -637,26 +639,52 @@ public class Game extends VBox {
 	}
 	
 	private void setExitLabels() {
-		if (currentRoom.getExit("north") == null) {
+		
+		lockNorth.setVisible(false);
+		lockSouth.setVisible(false);
+		lockEast.setVisible(false);
+		lockWest.setVisible(false);
+		
+		Room northRoom = currentRoom.getExit("north");
+		if (northRoom == null) {
 			northDoorRectangle.setVisible(false);
 		} else {
 			northDoorRectangle.setVisible(true);
+			if(northRoom.isLocked()) {
+				lockNorth.setVisible(true);
+			}
 		}
-		if (currentRoom.getExit("south") == null) {
+		
+		Room southRoom = currentRoom.getExit("south");
+		if (southRoom == null) {
 			southDoorRectangle.setVisible(false);
 		} else {
 			southDoorRectangle.setVisible(true);
+			if(southRoom.isLocked()) {
+				lockSouth.setVisible(true);
+				}
 		}
-		if (currentRoom.getExit("east") == null) {
+		
+		Room eastRoom = currentRoom.getExit("east");
+		if (eastRoom == null) {
 			eastDoorRectangle.setVisible(false);
 		} else {
 			eastDoorRectangle.setVisible(true);
+			if(eastRoom.isLocked()) {
+				lockEast.setVisible(true);
+				}
 		}
-		if (currentRoom.getExit("west") == null) {
+		
+		Room westRoom = currentRoom.getExit("west");
+		if (westRoom == null) {
 			westDoorRectangle.setVisible(false);
 		} else {
 			westDoorRectangle.setVisible(true);
+			if(westRoom.isLocked()) {
+				lockWest.setVisible(true);
+				}
 		}
+		
 		if (currentRoom.getExit("up") == null) {
 			upDoorRectangle.setVisible(false);
 			upDoorLabel.setVisible(false);
@@ -712,6 +740,7 @@ public class Game extends VBox {
 			npcTextArea.appendText("Can you please get me my " + currentRoom.getWantedNPCItem() + "?");
 		}
 	}
+
 	
 	private void looseGame() {
 		instructionDisplay.setVisible(false);
@@ -721,6 +750,10 @@ public class Game extends VBox {
 		looserDisplay.setVisible(true);
 		welcomeDisplay.setVisible(false);
 	}
+	@FXML
+	ImageView crownImage;
+	@FXML
+	ImageView girlImage;
 	
 	private void winGame() {
 		instructionDisplay.setVisible(false);
@@ -729,6 +762,13 @@ public class Game extends VBox {
 		winnerDisplay.setVisible(true);
 		looserDisplay.setVisible(false);
 		welcomeDisplay.setVisible(false);
+		
+		RotateTransition rt = new RotateTransition(Duration.millis(3000), girlImage);
+		    rt.setByAngle(40);
+		    rt.setCycleCount(4);
+		    rt.setAutoReverse(true);
+		    
+		    rt.play();
 	}
 
 	/**
@@ -766,7 +806,7 @@ public class Game extends VBox {
 	
 	private void switchRoom(Room nextRoom) {
 		currentRoom = nextRoom;
-	//	System.out.println(currentRoom.getLongDescription());
+
 		time--;
 		player.getHungry();
 		player.increaseLifeBar();
