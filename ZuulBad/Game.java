@@ -84,14 +84,14 @@ public class Game extends VBox {
 	@FXML
 	private void handleRoomPopup() {
 		openDescriptionPopup();
-		popupTextArea.setText(currentRoom.getLongDescription());
+		popupTextArea.setText(currentRoom.getDescription());
 	}
 	
 	@FXML
 	private void handleFoodPopup() {
 		if (currentRoom.getFood() != null) {
 			openDescriptionPopup();
-			popupTextArea.setText(currentRoom.getFood().getDescription());
+			popupTextArea.setText(currentRoom.getFood().getDescriptionWithWeight());
 		}
 	}
 
@@ -99,7 +99,7 @@ public class Game extends VBox {
 	private void handleWeaponPopup() {
 		if (currentRoom.getWeapon() != null) {
 			openDescriptionPopup();
-			popupTextArea.setText(currentRoom.getWeapon().getDescription());
+			popupTextArea.setText(currentRoom.getWeapon().getDescriptionWithWeight());
 		}
 	}
 
@@ -107,7 +107,7 @@ public class Game extends VBox {
 	private void handleValuablePopup() {
 		if (currentRoom.getValuable() != null) {
 			openDescriptionPopup();
-			popupTextArea.setText(currentRoom.getValuable().getDescription());
+			popupTextArea.setText(currentRoom.getValuable().getDescriptionWithWeight());
 		}
 	}
 	@FXML
@@ -344,6 +344,16 @@ public class Game extends VBox {
 	Label upDoorLabel;
 	@FXML
 	Label downDoorLabel;
+	@FXML
+	ImageView lockNorth;
+	@FXML
+	ImageView lockEast;
+	@FXML
+	ImageView lockSouth;
+	@FXML
+	ImageView lockWest;
+	
+	
 	
 	@FXML
 	private void handleGoNorth(ActionEvent ActionEvent) {
@@ -522,7 +532,7 @@ public class Game extends VBox {
 	public void play() {
 		environment.prepareEnvironment();
 		player = new Player();
-		time = Level.setValue(30, -5);
+		time = Level.setValue(35, -5);
 		
 		currentRoom = environment.getFirstRoom();
 		setUpRoom();
@@ -553,7 +563,7 @@ public class Game extends VBox {
 			@Override
 			public void changed(ObservableValue <? extends Object> observable, Object oldValue, Object newValue) {
 				int maxwidth = 387;
-				int maxtime = Level.setValue(30, -5);
+				int maxtime = Level.setValue(35, -5);
 				double length = (timeProperty().doubleValue() / maxtime) * maxwidth;
 				timeRectangle.setWidth(length);
 			}
@@ -756,16 +766,19 @@ public class Game extends VBox {
 	
 	private void switchRoom(Room nextRoom) {
 		currentRoom = nextRoom;
-		
-		System.out.println(currentRoom.getLongDescription());
+	//	System.out.println(currentRoom.getLongDescription());
 		time--;
 		player.getHungry();
 		player.increaseLifeBar();
-		
+		currentRoom.addRoomEntry();
 		timeproperty.setValue(time);
 		
 		setUpRoom();
 		checkVitals();
+		
+		if (currentRoom.getRoomEntries() > 1) {
+				informationTextArea.setText("You have already entered this room . \r \n");
+			} 
 	}
 	
 	private void tryUnlockRoom(Room nextRoom) {
@@ -807,7 +820,7 @@ public class Game extends VBox {
 		if (player.backpackContainsItem(dragonGlass)) {
 			winGame();
 		} else {
-		int damage = Level.setValue(1, 1) * 2;
+		int damage = Level.setValue(1, 1) * 2; // final boss makes double damage (amount of damage depends on selected level)
 		player.reduceLifeBar(damage);
 		informationTextArea.setText("The Monster hurt you badly. You have to flee back to the previous room.\n");
 		}

@@ -245,16 +245,11 @@ enum Room{
      */
     
 	public String getNpcMessage() {
-		
 		if (npc == null) {
 			return "";
-		} else if (roomentries > 0) {
-			return "You have already entered this room.";
 		} else {
-			addRoomEntry();
-			return npc.getMessage();
+			return  npc.getMessage();
 		}
-
 	}
     
     /**
@@ -291,6 +286,9 @@ enum Room{
      */
     public void addRoomEntry() {
     	roomentries++;
+    }
+    public int getRoomEntries() {
+    	return roomentries;
     }
     
 }

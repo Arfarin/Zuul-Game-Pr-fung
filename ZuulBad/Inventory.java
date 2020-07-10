@@ -27,7 +27,7 @@ public class Inventory {
 	private Items content;
 
 	public Inventory() {
-		setMaxWeight(Level.setValue(23, -5));
+		setMaxWeight(Level.setValue(25, -5));
 		content = new Items();
 		currentWeight = new SimpleIntegerProperty(0);
 	}

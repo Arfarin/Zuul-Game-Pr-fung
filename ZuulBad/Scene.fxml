@@ -112,22 +112,29 @@
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor>
                                                       </Label>
-                                                      <Rectangle fx:id="northDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoNorthByClickOnRectangle" stroke="BLACK" strokeType="INSIDE" width="85.0" />
+                                                      <StackPane prefHeight="150.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Rectangle fx:id="northDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoNorthByClickOnRectangle" stroke="BLACK" strokeType="INSIDE" width="85.0">
+                                                               <StackPane.margin>
+                                                                  <Insets right="190.0" />
+                                                               </StackPane.margin>
+                                                            </Rectangle>
+                                                            <ImageView fx:id="lockNorth" fitHeight="32.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                               <StackPane.margin>
+                                                                  <Insets right="190.0" />
+                                                               </StackPane.margin>
+                                                               <image>
+                                                                  <Image url="@Images/locked-padlock.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </StackPane>
                                                    </items>
                                                    <opaqueInsets>
                                                       <Insets left="5.0" />
                                                    </opaqueInsets>
                                                 </SplitPane>
                                              </top>
-                                             <left>
-                                                <Rectangle fx:id="westDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoWestByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
-                                             </left>
-                                             <bottom>
-                                                <Rectangle fx:id="southDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoSouthByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="85.0" BorderPane.alignment="CENTER" />
-                                             </bottom>
-                                             <right>
-                                                <Rectangle fx:id="eastDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoEasyByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
-                                             </right>
                                              <center>
                                                 <GridPane BorderPane.alignment="CENTER">
                                                    <columnConstraints>
@@ -335,6 +342,49 @@
                                                    </children>
                                                 </GridPane>
                                              </center>
+                                             <left>
+                                                <StackPane prefHeight="431.0" prefWidth="28.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Rectangle fx:id="westDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoWestByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" />
+                                                      <ImageView fx:id="lockWest" fitHeight="32.0" fitWidth="74.0" opacity="0.74" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                         <image>
+                                                            <Image url="@Images/locked-padlock.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </StackPane>
+                                             </left>
+                                             <right>
+                                                <StackPane prefHeight="431.0" prefWidth="28.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Rectangle fx:id="eastDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoWestByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" />
+                                                      <ImageView fx:id="lockEast" fitHeight="32.0" fitWidth="74.0" opacity="0.74" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                         <image>
+                                                            <Image url="@Images/locked-padlock.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </StackPane>
+                                             </right>
+                                             <bottom>
+                                                <StackPane opacity="0.57" prefHeight="25.0" prefWidth="506.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Rectangle fx:id="southDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoNorthByClickOnRectangle" stroke="BLACK" strokeType="INSIDE" width="85.0">
+                                                         <StackPane.margin>
+                                                            <Insets />
+                                                         </StackPane.margin>
+                                                      </Rectangle>
+                                                      <ImageView fx:id="lockSouth" fitHeight="32.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                         <StackPane.margin>
+                                                            <Insets />
+                                                         </StackPane.margin>
+                                                         <image>
+                                                            <Image url="@Images/locked-padlock.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </StackPane>
+                                             </bottom>
                                           </BorderPane>
                                        </children>
                                     </StackPane>
