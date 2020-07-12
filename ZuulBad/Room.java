@@ -75,10 +75,6 @@ enum Room{
         monster = false;
         finalroom = false;
     }
-    
-//    public StringProperty roomDescriptionProperty() {
-//		return description;
-//	}
 
     public String getDescription() {
     	return description;
@@ -209,7 +205,7 @@ enum Room{
     {
         return description + ".\n" + getExitString() + "\n\n" +
         "These are the items in the room:" + "\n" +
-        itemlist.getItemList() + "\n\n"+ getNpcMessage();
+        itemlist.getItemList();
     }
 
     /**

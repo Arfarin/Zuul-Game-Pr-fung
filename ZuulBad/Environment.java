@@ -225,7 +225,7 @@ public class Environment{
 //		
 		//Accessoires
 		Accessory chair = new Accessory("chair", 10, "a dark wooden chair");
-		Accessory couch = new Accessory("blue couch", 10, "a blue and very cosy couch");
+		Accessory couch = new Accessory("blue couch", 10, "a blue and very cozy couch");
 		Accessory desk = new Accessory("old desk", 10, "a desk with a quill and a vial of black ink on it");
 		Accessory vase = new Accessory("giant vase", 10, "a giant vase decorated with mother-of-pearl and rose paintings");
 		Accessory candlestick = new Accessory("huge candle holder", 50, "a golden three-armed candlestick");
