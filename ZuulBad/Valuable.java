@@ -12,5 +12,10 @@ public class Valuable extends Item implements Transportable  {
 	Valuable(String name, int weight, String description) {
 		super(name, weight, description);
 	}
+	
+	@Override
+	public String getDescriptionWithWeight(){
+		return super.getDescription() + " " + " Weight: " + getWeight();
+	}
 
 }

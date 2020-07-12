@@ -92,7 +92,12 @@
                                  <children>
                                     <StackPane layoutX="40.0" prefHeight="482.0" prefWidth="513.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <ImageView fx:id="floorImageView" fitHeight="537.0" fitWidth="785.0" opacity="0.54" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="floorBasementImageView" fitHeight="504.0" fitWidth="982.0" opacity="0.72" pickOnBounds="true" preserveRatio="true" visible="false">
+                                             <image>
+                                                <Image url="@Images/steinboden_karo.jpg" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="floorImageView" fitHeight="537.0" fitWidth="785.0" opacity="0.62" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@Images/grauer_steinboden.jpg" />
                                              </image>
@@ -112,22 +117,29 @@
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor>
                                                       </Label>
-                                                      <Rectangle fx:id="northDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoNorthByClickOnRectangle" stroke="BLACK" strokeType="INSIDE" width="85.0" />
+                                                      <StackPane prefHeight="150.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Rectangle fx:id="northDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoNorthByClickOnRectangle" stroke="BLACK" strokeType="INSIDE" width="85.0">
+                                                               <StackPane.margin>
+                                                                  <Insets right="190.0" />
+                                                               </StackPane.margin>
+                                                            </Rectangle>
+                                                            <ImageView fx:id="lockNorth" fitHeight="32.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                               <StackPane.margin>
+                                                                  <Insets right="190.0" />
+                                                               </StackPane.margin>
+                                                               <image>
+                                                                  <Image url="@Images/locked-padlock.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                      </StackPane>
                                                    </items>
                                                    <opaqueInsets>
                                                       <Insets left="5.0" />
                                                    </opaqueInsets>
                                                 </SplitPane>
                                              </top>
-                                             <left>
-                                                <Rectangle fx:id="westDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoWestByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
-                                             </left>
-                                             <bottom>
-                                                <Rectangle fx:id="southDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoSouthByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="85.0" BorderPane.alignment="CENTER" />
-                                             </bottom>
-                                             <right>
-                                                <Rectangle fx:id="eastDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoEasyByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" BorderPane.alignment="CENTER" />
-                                             </right>
                                              <center>
                                                 <GridPane BorderPane.alignment="CENTER">
                                                    <columnConstraints>
@@ -335,6 +347,49 @@
                                                    </children>
                                                 </GridPane>
                                              </center>
+                                             <left>
+                                                <StackPane prefHeight="431.0" prefWidth="28.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Rectangle fx:id="westDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoWestByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" />
+                                                      <ImageView fx:id="lockWest" fitHeight="32.0" fitWidth="74.0" opacity="0.74" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                         <image>
+                                                            <Image url="@Images/locked-padlock.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </StackPane>
+                                             </left>
+                                             <right>
+                                                <StackPane prefHeight="431.0" prefWidth="28.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Rectangle fx:id="eastDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="85.0" onMouseClicked="#handleGoEastByClickOnRectangle" opacity="0.57" stroke="BLACK" strokeType="INSIDE" width="15.0" />
+                                                      <ImageView fx:id="lockEast" fitHeight="32.0" fitWidth="74.0" opacity="0.74" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                         <image>
+                                                            <Image url="@Images/locked-padlock.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </StackPane>
+                                             </right>
+                                             <bottom>
+                                                <StackPane opacity="0.57" prefHeight="25.0" prefWidth="506.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Rectangle fx:id="southDoorRectangle" arcHeight="5.0" arcWidth="5.0" fill="#a44f0e" height="15.0" onMouseClicked="#handleGoSouthByClickOnRectangle" stroke="BLACK" strokeType="INSIDE" width="85.0">
+                                                         <StackPane.margin>
+                                                            <Insets />
+                                                         </StackPane.margin>
+                                                      </Rectangle>
+                                                      <ImageView fx:id="lockSouth" fitHeight="32.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                         <StackPane.margin>
+                                                            <Insets />
+                                                         </StackPane.margin>
+                                                         <image>
+                                                            <Image url="@Images/locked-padlock.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </StackPane>
+                                             </bottom>
                                           </BorderPane>
                                        </children>
                                     </StackPane>
@@ -565,16 +620,35 @@
             </BorderPane>
             <StackPane fx:id="winnerDisplay" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
                <children>
-                  <ImageView fitHeight="375.0" fitWidth="459.0" opacity="0.31" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="crownImage" fitHeight="375.0" fitWidth="459.0" opacity="0.31" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/crown.png" />
                      </image>
+                     <StackPane.margin>
+                        <Insets bottom="125.0" />
+                     </StackPane.margin>
                   </ImageView>
                   <Label text="You win!" textFill="#d2220b">
                      <font>
                         <Font name="System Bold" size="64.0" />
                      </font>
                   </Label>
+                  <Label text=" Thank you for rescuing me!">
+                     <StackPane.margin>
+                        <Insets left="200.0" top="525.0" />
+                     </StackPane.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="girlImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Girl%203.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets left="600.0" top="400.0" />
+                     </StackPane.margin>
+                  </ImageView>
                </children>
             </StackPane>
             <StackPane fx:id="looserDisplay" prefHeight="150.0" prefWidth="200.0" visible="false">

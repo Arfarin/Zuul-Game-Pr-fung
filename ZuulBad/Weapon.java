@@ -13,4 +13,9 @@ public class Weapon extends Item implements Transportable {
 		super(name, weight, description);
 	}
 
+	@Override
+	public String getDescriptionWithWeight(){
+		return super.getDescription() + " " + " Weight: " + getWeight();
+	}
+	
 }

@@ -27,7 +27,7 @@ public class Inventory {
 	private Items content;
 
 	public Inventory() {
-		setMaxWeight(Level.setValue(23, -5));
+		setMaxWeight(Level.setValue(25, -5));
 		content = new Items();
 		currentWeight = new SimpleIntegerProperty(0);
 	}
@@ -50,7 +50,6 @@ public class Inventory {
 			content.removeItem(item);
 			currentWeight.setValue(currentWeight.getValue() - item.getWeight());
 		} else {
-	//		System.out.println("Sorry, your backpack doesn't contain that.");
 			removed = false;
 		}
 		return removed;

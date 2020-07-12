@@ -12,5 +12,10 @@ public class Food extends Item implements Transportable {
 	public Food(String name, int weight, String description) {
 		super(name, weight, description);
 	}
-
+	
+	@Override
+	public String getDescriptionWithWeight(){
+		return super.getDescription() + " " + " Weight: " + getWeight();
+	}
+	
 }
