@@ -36,7 +36,7 @@ public class WorldOfZuul extends Application {
 	public void start(Stage stage) throws Exception {
 		
 		VBox root = FXMLLoader.load(getClass().getResource("Scene.fxml"));
-		Scene scene = new Scene(root, 850, 650);
+		Scene scene = new Scene(root, 850, 690);
 		Game game = new Game();
 		
 		root = game;
