@@ -218,8 +218,7 @@ public class Game extends VBox {
 	StackPane endSceneDisplay;
 	@FXML
 	Button nextButton;
-//	@FXML
-//	Button kissPrincessButton;
+
 
 	@FXML
 	private void handleStart(ActionEvent ActionEvent) {
@@ -343,7 +342,6 @@ public class Game extends VBox {
 	@FXML 
 	private void handleKissPrincess(ActionEvent ActionEvent) {
 		endSceneDisplay.setVisible(false);
-	//	noThanksDisplay(true);
 		winnerDisplay.setVisible(false);
 	}
 	
