@@ -1026,21 +1026,6 @@ public class Game extends VBox {
 	}
 
 
-//	public final void chooseLevelOfDifficulty() {
-//
-//		printer.printDifficultyChoices();
-//
-//		String input = parser.getUserInput().trim().toUpperCase();
-//		try {
-//			difficultyLevel = Level.valueOf(input);
-//			System.out.println("Thank you. Level of difficulty is set to: " + input);
-//		} catch (IllegalArgumentException e) {
-//			System.out.println(input + " ist not valid!");
-//			System.out.println();
-//			chooseLevelOfDifficulty();
-//		}
-//	}
-
 	/**
 	 * Getter for the level of difficulty. For the classes player and monster to set
 	 * the maximum weight of backpack and the damage of one attack
