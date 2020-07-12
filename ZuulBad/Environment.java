@@ -239,10 +239,10 @@ public class Environment{
 		// put items into rooms
 		Room.CastleCourtyard.addItem(starfruit, chair);
 		Room.CastleGarden.addItem(apple, knife);
-		Room.FlowerGarden.addItem(couch);
+		Room.FlowerGarden.addItem(spoon);
 		Room.KingsChamber.addItem(hairbrush, chest);
-		Room.EntryHall.addItem(banana, toothpick, glasses);
-		Room.TowerStaircases.addItem();
+		Room.EntryHall.addItem(banana, toothpick);
+		Room.TowerStaircases.addItem(glasses);
 		Room.DestroyedTower.addItem(beans, nail, key);
 		Room.DiningRoom.addItem(key);
 		Room.Kitchen.addItem(leftovers);
@@ -250,13 +250,12 @@ public class Environment{
 		Room.Warehouse.addItem(dagger, couch);
 		Room.Pantry.addItem(tiara);
 		Room.DesertedWineStorage.addItem(tupperware, desk);
-		Room.BasementEntry.addItem(spoon, vase);
+		Room.BasementEntry.addItem(sword, vase);
 		Room.Armoury.addItem(tomatoes, axe, armour);
 		Room.TreasureChamber.addItem(dragonglass);
-		Room.UndergroundHallway.addItem(key, sword, bookcase);
+		Room.UndergroundHallway.addItem(key, bookcase);
 		Room.HiddenPath.addItem(bread);
 		Room.Dungeon.addItem();
-
 	}
 
 	private void addRoomConditions() {
