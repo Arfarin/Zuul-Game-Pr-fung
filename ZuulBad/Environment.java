@@ -225,7 +225,7 @@ public class Environment{
 //		
 		//Accessoires
 		Accessory chair = new Accessory("chair", 10, "a dark wooden chair");
-		Accessory couch = new Accessory("blue couch", 10, "a blue and very cosy couch");
+		Accessory couch = new Accessory("blue couch", 10, "a blue and very cozy couch");
 		Accessory desk = new Accessory("old desk", 10, "a desk with a quill and a vial of black ink on it");
 		Accessory vase = new Accessory("giant vase", 10, "a giant vase decorated with mother-of-pearl and rose paintings");
 		Accessory candlestick = new Accessory("huge candle holder", 50, "a golden three-armed candlestick");
@@ -239,10 +239,10 @@ public class Environment{
 		// put items into rooms
 		Room.CastleCourtyard.addItem(starfruit, chair);
 		Room.CastleGarden.addItem(apple, knife);
-		Room.FlowerGarden.addItem(spoon);
+		Room.FlowerGarden.addItem(couch);
 		Room.KingsChamber.addItem(hairbrush, chest);
-		Room.EntryHall.addItem(banana, toothpick);
-		Room.TowerStaircases.addItem(glasses);
+		Room.EntryHall.addItem(banana, toothpick, glasses);
+		Room.TowerStaircases.addItem();
 		Room.DestroyedTower.addItem(beans, nail, key);
 		Room.DiningRoom.addItem(key);
 		Room.Kitchen.addItem(leftovers);
@@ -250,12 +250,13 @@ public class Environment{
 		Room.Warehouse.addItem(dagger, couch);
 		Room.Pantry.addItem(tiara);
 		Room.DesertedWineStorage.addItem(tupperware, desk);
-		Room.BasementEntry.addItem(sword, vase);
+		Room.BasementEntry.addItem(spoon, vase);
 		Room.Armoury.addItem(tomatoes, axe, armour);
 		Room.TreasureChamber.addItem(dragonglass);
-		Room.UndergroundHallway.addItem(key, bookcase);
+		Room.UndergroundHallway.addItem(key, sword, bookcase);
 		Room.HiddenPath.addItem(bread);
 		Room.Dungeon.addItem();
+
 	}
 
 	private void addRoomConditions() {
