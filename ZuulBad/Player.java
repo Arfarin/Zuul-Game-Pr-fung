@@ -70,7 +70,6 @@ public class Player {
 
 		} else {
 			backpack.addItemToBackpack(item);
-			System.out.println("Item successfully stored.");
 			stored = true;
 		}
 		return stored;
