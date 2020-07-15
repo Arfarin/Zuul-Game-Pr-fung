@@ -30,7 +30,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="Help">
                <items>
-                  <MenuItem fx:id="helpme" mnemonicParsing="false" onAction="#handleReadInstructions" text="read instructions" />
+                  <MenuItem fx:id="helpme" mnemonicParsing="false" onAction="#handleClickHelp" text="get short instructions" />
                </items></Menu>
         <Menu mnemonicParsing="false" text="Quit">
           <items>
@@ -741,7 +741,7 @@
                   </TextArea>
                </center>
                <bottom>
-                  <Button fx:id="play" mnemonicParsing="false" onAction="#handleGoOnPlaying" text="Go on playing ZuulBad" BorderPane.alignment="CENTER">
+                  <Button fx:id="play" mnemonicParsing="false" onAction="#handleStart" text="Go on playing ZuulBad" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets bottom="150.0" />
                      </BorderPane.margin>
@@ -791,7 +791,7 @@
                         </Button>
                      </center>
                      <right>
-                        <Button fx:id="heavy" mnemonicParsing="false" onAction="#chooseHeavy" prefHeight="160.0" prefWidth="240.0" text="impossible" BorderPane.alignment="CENTER">
+                        <Button fx:id="heavy" mnemonicParsing="false" onAction="#chooseHeavy" prefHeight="160.0" prefWidth="240.0" text="heavy" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets right="20.0" />
                            </BorderPane.margin>
@@ -946,7 +946,7 @@
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="353.0" fitWidth="364.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="labyrinth" fitHeight="353.0" fitWidth="364.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/labyrinth.png" />
                      </image>
