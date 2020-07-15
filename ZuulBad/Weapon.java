@@ -4,6 +4,7 @@ package ZuulBad;
  * This class is responsible for weapon items in the game.
  * 
  * @author Katerina Matsyova
+ * @version 1.0
  *
  */
 
@@ -22,9 +23,9 @@ public class Weapon extends Item implements Transportable {
 	}
 
 	/**
-	 * This class returns the weapon weight.
+	 * Returns a description with the weight of the weapon item.
 	 * 
-	 * @return int weight
+	 * @return description with the weight of the weapon item
 	 */
 	@Override
 	public String getDescriptionWithWeight() {

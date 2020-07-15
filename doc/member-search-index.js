@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"ZuulBad","c":"Weapon","l":"getDescriptionWithWeight()"},{"p":"ZuulBad","c":"Weapon","l":"Weapon(String, int, String)","url":"%3Cinit%3E(java.lang.String,int,java.lang.String)"}]
