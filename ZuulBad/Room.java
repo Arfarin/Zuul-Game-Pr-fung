@@ -17,9 +17,13 @@ import java.util.HashMap;
  * @author Sarah Engelmayer
  */
 
+/**
+ * Set up the different rooms and give them a description.
+ * 
+ */
 enum Room{
 	
-	CastleCourtyard("starting point: You are in front of a very old castle."),
+	CastleCourtyard("Starting point: You are in front of a very old castle."),
 	CastleGarden("You enter the castle's magnificent garden."),
 	FlowerGarden("You are now surrounded by beautiful flowers."),
 	KingsChamber("You reach the holy chambers of the royal family."),
@@ -40,30 +44,63 @@ enum Room{
 	Dungeon("Nobody wants so be hold captive in this cold dungeon."),
 	TeleporterRoom("Everything is moving... What is happening?");
 	
- //   private StringProperty description;
+	/**
+	 * Create a description for the rooms.
+	 * 
+	 */
 	private String description;
+	
+	/**
+	 * Store exits of the rooms.
+	 * 
+	 */
     private HashMap<String, Room> exits;        // stores exits of this room.
-    
+    /**
+	 * Create NPCs.
+	 * 
+	 */
     private NonPlayerCharacter npc;
+    /**
+	 * Create the item list.
+	 * 
+	 */
     private Items itemlist;
-	
+    /**
+	 * Create room entries.
+	 * 
+	 */
 	private int roomentries;
-	
+	/**
+	 * For room condition if the room is locked. 
+	 * 
+	 */
 	private boolean locked;
+	/**
+	 * For room condition if the room is a teleporter room.
+	 * 
+	 */
 	private boolean teleports;
+	/**
+	 * For room condition if a room contains monsters.
+	 * 
+	 */
 	private boolean monster;
+	/**
+	 * For room condition if the room is the final room.
+	 * 
+	 */
 	private boolean finalroom;
 
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
      * "an open court yard".
+     * 
      * @param description The room's description.
      */
     Room(String description) 
     {
 
-   // 	this.description = new SimpleStringProperty(description);
     	this.description = description;
        
         exits = new HashMap<>();
@@ -75,11 +112,11 @@ enum Room{
         monster = false;
         finalroom = false;
     }
-    
-//    public StringProperty roomDescriptionProperty() {
-//		return description;
-//	}
-
+    /**
+	 * Assign the description to the room.
+	 * 
+	 * @return description specific description for the room
+	 */
     public String getDescription() {
     	return description;
     }
@@ -94,42 +131,73 @@ enum Room{
         exits.put(direction, neighbor);
     }
     
+    /**
+	 * Lock the room so that the player needs a key to open it.
+	 * 
+	 */
     public void lockRoom() {
     	locked = true;
     }
-    
+    /**
+	 * Unlock the room so that the player can enter it.
+	 * 
+	 */
     public void unlockRoom() {
     	locked = false;
     }
-    
+    /**
+	 * Check if the room is locked.
+	 * 
+	 */
     public boolean isLocked() {
     	return locked;
     }
-    
+    /**
+	 * Set up the teleporter room.
+	 * 
+	 */
     public void makeTeleporterRoom() {
     	teleports = true;
     }
-    
+    /**
+	 * Check if the room is a teleporter room.
+	 * 
+	 */
     public boolean isTeleporterRoom() {
     	return teleports;
     }
-    
+    /**
+	 * Set up a monster in the room.
+	 * 
+	 */
     public void putMonster() {
     	monster = true;
     }
-    
+    /**
+	 * Remove the monster from the room after killing it.
+	 * 
+	 */
     public void killMonster() {
     	monster = false;
     }
-    
+    /**
+	 * Check if the room has a monster in it.
+	 * 
+	 */
     public boolean hasMonster() {
     	return monster;
     }
-    
+    /**
+	 * Set up final room.
+	 * 
+	 */
     public void makeFinalRoom() {
     	finalroom = true;
     }
-    
+    /**
+	 * Check if the room is the final room.
+	 * 
+	 */
     public boolean isFinalRoom() {
     	return finalroom;
     }
@@ -142,21 +210,35 @@ enum Room{
     public NonPlayerCharacter getNpc() {
     	return npc;
     }
-    
+    /**
+	 *
+	 *
+	 */
     public String getWantedNPCItem() {
 		return npc.getWantedItem();
 	}
-    
+    /**
+	 *
+	 *
+	 */
     public void createNPC(String itemforhint) {
     	 npc = new NonPlayerCharacter(itemforhint);
     }
     
+    /**
+	 * Add items to the item list.
+	 *
+	 */
+
 	public void addItem(Item ...items) {
 		for (Item item : items) {
 			itemlist.addItem(item);
 		}
 	}
-	
+	/**
+	 * 
+	 *
+	 */
 	public void addItem(String item) {
 			itemlist.addItem(item);
 	}
@@ -171,11 +253,21 @@ enum Room{
 		
 		return itemlist.contains(specificitem);
 	}
-	
+	/**
+	 * Checks if the specified item is in the room.
+	 * 
+	 * @return boolean whether item is in room or not
+	 */
+
 	public boolean containsItem(String specificitem) {
 		return itemlist.contains(specificitem);
 	}
-	
+	/**
+	 * Checks if the specified food is in the room.
+	 * 
+	 * @return boolean whether food is in room or not
+	 */
+
 	public boolean containsFood(String specificFood) {
 		return itemlist.containsFood(specificFood);
 	}
@@ -190,11 +282,17 @@ enum Room{
 		String items = itemlist.getItemList();
 		return items;
 	}
-	
+	/**
+	 *
+	 *
+	 */
 	public void removeItem(Item item) {
 		itemlist.removeItem(item);
 }
-
+	/**
+	 *
+	 *
+	 */
 	public void removeItem(String item) {
 		itemlist.removeItem(item);
 	}
@@ -203,18 +301,20 @@ enum Room{
      * Return a description of the room in the form:
      *     You are in the kitchen.
      *     Exits: north west
+     *     
      * @return A long description of this room
      */
     public String getLongDescription()
     {
         return description + ".\n" + getExitString() + "\n\n" +
         "These are the items in the room:" + "\n" +
-        itemlist.getItemList() + "\n\n"+ getNpcMessage();
+        itemlist.getItemList();
     }
 
     /**
      * Return a string describing the room's exits, for example
      * "Exits: north west".
+     * 
      * @return Details of the room's exits.
      */
     private String getExitString()
@@ -230,6 +330,7 @@ enum Room{
     /**
      * Return the room that is reached if we go from this room in direction
      * "direction". If there is no room in that direction, return null.
+     * 
      * @param direction The exit's direction.
      * @return The room in the given direction.
      */
@@ -241,6 +342,7 @@ enum Room{
     /**
      * Return a message at first room entry. If the room has been entered already,
      * return an according message.
+     * 
      * @return Message from NPC
      */
     
@@ -266,16 +368,31 @@ enum Room{
 			return ("There is nobody to give you a hint");	
 		}
 	}
-	
+	/**
+	 *
+	 *
+	 */
 	public Food getFood() {
 		return itemlist.getFood();
 	}
+	/**
+	 *
+	 *
+	 */
 	public Weapon getWeapon() {
 		return itemlist.getWeapon();
 	}
+	/**
+	 *
+	 *
+	 */
 	public Valuable getValuable() {
 		return itemlist.getValuable();
 	}
+	/**
+	 *
+	 *
+	 */
 	public Accessory getAccessory() {
 		return itemlist.getAccessory();
 	}
@@ -287,6 +404,11 @@ enum Room{
     public void addRoomEntry() {
     	roomentries++;
     }
+    /**
+	 *Give the number of room entries.
+	 *
+	 *@return roomentries Number of room entries
+	 */
     public int getRoomEntries() {
     	return roomentries;
     }

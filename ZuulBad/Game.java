@@ -33,24 +33,46 @@ import javafx.util.Duration;
 public class Game extends VBox {
 
 	/**
-	 * the room in which the player is at the moment
+	 * The room in which the player is at the moment.
 	 */
 	private Room currentRoom;
-
+	/**
+	 *
+	 *
+	 */
 	private Environment environment;
+	/**
+	 *
+	 *
+	 */
 	private Player player;
+	/**
+	 *
+	 *
+	 */
 	private Random random;
-
+	/**
+	 *
+	 *
+	 */
 	private static Level difficultyLevel = Level.EASY;
 
 	/**
-	 * how much time the game should last. Measured by the number of how often the
-	 * player moves from one room to another
+	 * Time for the player to complete the game.
+	 * Measured by the number of room changes of the player.
+	 * 
+	 * @param int time 
 	 */
 	private int time;
-
+	/**
+	 *
+	 *
+	 */
 	private SimpleIntegerProperty timeproperty;
-
+	/**
+	 *
+	 *
+	 */
 	public Game() {
 		environment = new Environment();
 		timeproperty = new SimpleIntegerProperty(time);
@@ -74,19 +96,28 @@ public class Game extends VBox {
 	Button popupButton;
 	@FXML
 	ImageView floorImage;
-
+	
+	/**
+	 *Set the popup to invisible.
+	 */
 	@FXML
 	private void handlePopupClose() {
 		popupPane.setVisible(false);
 		descriptionPane.setVisible(false);
 	}
-
+	
+	/**
+	 *Show the room.
+	 */
 	@FXML
 	private void handleRoomPopup() {
 		openDescriptionPopup();
 		popupTextArea.setText(currentRoom.getLongDescription());
 	}
-
+	
+	/**
+	 *Let the food show up in the room.
+	 */
 	@FXML
 	private void handleFoodPopup() {
 		if (currentRoom.getFood() != null) {
@@ -95,6 +126,9 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 *Let the weapons show up in the room.
+	 */
 	@FXML
 	private void handleWeaponPopup() {
 		if (currentRoom.getWeapon() != null) {
@@ -103,6 +137,9 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 *Let the valuables show up in the room.
+	 */
 	@FXML
 	private void handleValuablePopup() {
 		if (currentRoom.getValuable() != null) {
@@ -111,6 +148,9 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 *Let the static items shop up in the room.
+	 */
 	@FXML
 	private void handleStaticItemPopup() {
 		if (currentRoom.getAccessory() != null) {
@@ -119,6 +159,9 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 *Show the description popup and set the other popups to invisible. 
+	 */
 	private void openDescriptionPopup() {
 		popupPane.setVisible(true);
 		descriptionPane.setVisible(true);
@@ -140,12 +183,17 @@ public class Game extends VBox {
 	Label roomUnlockedPopup;
 
 	PauseTransition visiblePause = new PauseTransition(Duration.seconds(2));
-
+	
+	/**
+	 *Set a display time for the popups.
+	 */
 	private void waitAndEnd() {
 		visiblePause.play();
 		visiblePause.setOnFinished(event -> popupPane.setVisible(false));
 	}
-
+	/**
+	 *Show that the player killed the monster.
+	 */
 	private void KillMonsterPopup() {
 		monsterDamagePopup.setVisible(false);
 		roomLockedPopup.setVisible(false);
@@ -158,6 +206,9 @@ public class Game extends VBox {
 		waitAndEnd();
 	}
 
+	/**
+	 *Show that the monster caused damage to the player.
+	 */
 	private void monsterDamagePopup() {
 		roomLockedPopup.setVisible(false);
 		roomUnlockedPopup.setVisible(false);
@@ -169,7 +220,9 @@ public class Game extends VBox {
 
 		waitAndEnd();
 	}
-
+	/**
+	 *Show that the room is locked.
+	 */
 	private void roomLockedPopup() {
 		roomUnlockedPopup.setVisible(false);
 		monsterKilledPopup.setVisible(false);
@@ -181,7 +234,9 @@ public class Game extends VBox {
 
 		waitAndEnd();
 	}
-
+	/**
+	 *Show that the room is unlocked.
+	 */
 	private void roomUnlockedPopup() {
 		monsterKilledPopup.setVisible(false);
 		monsterDamagePopup.setVisible(false);
@@ -218,9 +273,10 @@ public class Game extends VBox {
 	StackPane endSceneDisplay;
 	@FXML
 	Button nextButton;
-//	@FXML
-//	Button kissPrincessButton;
 
+	/**
+	 *
+	 */
 	@FXML
 	private void handleStart(ActionEvent ActionEvent) {
 		instructionDisplay.setVisible(false);
@@ -232,6 +288,9 @@ public class Game extends VBox {
 		play();
 	}
 
+	/**
+	 *
+	 */
 	@FXML
 	private void handleReadInstructions(ActionEvent ActionEvent) {
 		instructionDisplay.setVisible(true);
@@ -244,6 +303,9 @@ public class Game extends VBox {
 
 	}
 
+	/**
+	 *
+	 */
 	@FXML
 	private void handleGoOnPlaying(ActionEvent ActionEvent) {
 		instructionDisplay.setVisible(false);
@@ -262,6 +324,9 @@ public class Game extends VBox {
 	@FXML
 	Button heavy;
 
+	/**
+	 *Show the welcome display when the player chose the difficulty 'EASY'.
+	 */
 	@FXML
 	private void chooseEasy(ActionEvent ActionEvent) {
 		difficultyLevel = Level.EASY;
@@ -269,6 +334,9 @@ public class Game extends VBox {
 		welcomeDisplay.setVisible(true);
 	}
 
+	/**
+	 *Show the welcome display when the player chose the difficulty 'MEDIUM'.
+	 */
 	@FXML
 	private void chooseMedium(ActionEvent ActionEvent) {
 		difficultyLevel = Level.MEDIUM;
@@ -276,6 +344,9 @@ public class Game extends VBox {
 		welcomeDisplay.setVisible(true);
 	}
 
+	/**
+	 *Show the welcome display when the player chose the difficulty 'HEAVY'.
+	 */
 	@FXML
 	private void chooseHeavy(ActionEvent ActionEvent) {
 		difficultyLevel = Level.HEAVY;
@@ -288,6 +359,9 @@ public class Game extends VBox {
 	@FXML
 	MenuItem quit;
 
+	/**
+	 *Show the instructions display when the player clicks on 'help'.
+	 */
 	@FXML
 	private void handleClickHelp(ActionEvent ActionEvent) {
 		instructionDisplay.setVisible(true);
@@ -298,6 +372,9 @@ public class Game extends VBox {
 		welcomeDisplay.setVisible(false);
 	}
 
+	/**
+	 *Show the you loose display when the player clicks on 'quit'.
+	 */
 	@FXML
 	private void handleQuit(ActionEvent ActionEvent) {
 		mainGameDisplay.setVisible(false);
@@ -311,6 +388,9 @@ public class Game extends VBox {
 	@FXML
 	Button closeButton;
 
+	/**
+	 *Exit the game when the player closes it.
+	 */
 	@FXML
 	private void handleClose(ActionEvent ActionEvent) {
 		Platform.exit();
@@ -320,6 +400,9 @@ public class Game extends VBox {
 	@FXML
 	Button restartButton;
 
+	/**
+	 *Show the difficulty selection display when the player wants to restart the game.
+	 */
 	@FXML
 	private void handleRestart(ActionEvent ActionEvent) {
 		levelSelectionDisplay.setVisible(true);
@@ -327,6 +410,9 @@ public class Game extends VBox {
 		looserDisplay.setVisible(false);
 	}
 	
+	/**
+	 *Show the winner display and rotate it when the player wins the game.
+	 */
 	@FXML
 	private void handleChangeToWinnerDisplay(ActionEvent ActionEvent) {
 		winnerDisplay.setVisible(true);
@@ -339,11 +425,12 @@ public class Game extends VBox {
 
 		rt.play();
 	}
-	
+	/**
+	 *Show the kiss princess display after the winner display as end scene.
+	 */
 	@FXML 
 	private void handleKissPrincess(ActionEvent ActionEvent) {
 		endSceneDisplay.setVisible(false);
-	//	noThanksDisplay(true);
 		winnerDisplay.setVisible(false);
 	}
 	
@@ -374,55 +461,55 @@ public class Game extends VBox {
 	@FXML
 	ImageView lockWest;
 
-//	@FXML
-//	private void handleGoNorth(ActionEvent ActionEvent) {
-//		goRoom("north");
-//	}
+	/**
+	 *Change the room that is displayed in the direction 'north' 
+	 *when the player clicks on the given rectangle.
+	 */
 	@FXML
 	private void handleGoNorthByClickOnRectangle() {
 		goRoom("north");
 	}
 
-//	@FXML
-//	private void handleGoSouth(ActionEvent ActionEvent) {
-//		goRoom("south");
-//	}
+	/**
+	 *Change the room that is displayed in the direction 'south' 
+	 *when the player clicks on the given rectangle.
+	 */
 	@FXML
 	private void handleGoSouthByClickOnRectangle() {
 		goRoom("south");
 	}
-//	@FXML
-//	private void handleGoEast(ActionEvent ActionEvent) {
-//		goRoom("east");
-//	}
 
+	/**
+	 *Change the room that is displayed in the direction 'east' 
+	 *when the player clicks on the given rectangle.
+	 */
 	@FXML
 	private void handleGoEastByClickOnRectangle() {
 		goRoom("east");
 	}
 
-//	@FXML
-//	private void handleGoWest(ActionEvent ActionEvent) {
-//		goRoom("west");
-//	}
+	/**
+	 *Change the room that is displayed in the direction 'west' 
+	 *when the player clicks on the given rectangle.
+	 */
 	@FXML
 	private void handleGoWestByClickOnRectangle() {
 		goRoom("west");
 	}
 
-//	@FXML
-//	private void handleGoUp(ActionEvent ActionEvent) {
-//		goRoom("up");
-//	}
+	/**
+	 *Change the room that is displayed in the direction 'up' 
+	 *when the player clicks on the given rectangle.
+	 */
 	@FXML
 	private void handleGoUpByClickOnStairsUp() {
 		goRoom("up");
 	}
 
-//	@FXML
-//	private void handleGoDown(ActionEvent ActionEvent) {
-//		goRoom("down");
-//	}
+	/**
+	 *Change the room that is displayed in the direction 'down' 
+	 *when the player clicks on the given rectangle.
+	 */
 	@FXML
 	private void handleGoDownByClickOnStairsDown() {
 		goRoom("down");
@@ -440,7 +527,8 @@ public class Game extends VBox {
 	Label backpackWeightLabel;
 
 	/**
-	 * 
+	 * Refresh the backpack so that items disappear when they
+	 * are dropped/consumed or appear when they are taken. 
 	 */
 	private void refreshBackpack() {
 		backpacklabel.setText(player.getBackpackContent());
@@ -449,7 +537,7 @@ public class Game extends VBox {
 	}
 
 	/**
-	 *
+	 *Refresh the backpack after eating food from the backpack.
 	 * @param ActionEvent
 	 */
 	@FXML
@@ -460,7 +548,7 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * 
+	 * Refresh the backpack after dropping items.
 	 * @param ActionEvent
 	 */
 	@FXML
@@ -471,7 +559,7 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * 
+	 * Refresh the backpack after fighting a monster (destroying the weapon).
 	 * @param ActionEvent
 	 */
 	@FXML
@@ -483,7 +571,10 @@ public class Game extends VBox {
 
 	@FXML
 	Button hintButton;
-
+	
+	/**
+	 *Display the hint from a NPC.
+	 */
 	@FXML
 	private void handleClickHint(ActionEvent ActionEvent) {
 		String npchint = hint();
@@ -519,6 +610,9 @@ public class Game extends VBox {
 	@FXML
 	BorderPane npcBorderPane;
 
+	/**
+	 *Let the food disappear from the room after eating it directly.
+	 */
 	@FXML
 	private void handleEatFoodClick(ActionEvent ActionEvent) {
 		if (foodLabel.getText() != "") {
@@ -527,7 +621,9 @@ public class Game extends VBox {
 		}
 		refreshBackpack();
 	}
-
+	/**
+	 *Display the food in the backpack after taking it from the room.
+	 */
 	@FXML
 	private void handleStoreFoodClick(ActionEvent ActionEvent) {
 		if (foodLabel.getText() != "") {
@@ -536,7 +632,9 @@ public class Game extends VBox {
 		}
 		refreshBackpack();
 	}
-
+	/**
+	 *Display the weapon in the backpack after taking it from the room.
+	 */
 	@FXML
 	private void handleStoreWeaponClick(ActionEvent ActionEvent) {
 		if (weaponLabel.getText() != "") {
@@ -545,7 +643,9 @@ public class Game extends VBox {
 		}
 		refreshBackpack();
 	}
-
+	/**
+	 *Display the valuable in the backpack after taking it from the room.
+	 */
 	@FXML
 	private void handleStoreValuableClick(ActionEvent ActionEvent) {
 		if (valuableLabel.getText() != "") {
@@ -663,7 +763,9 @@ public class Game extends VBox {
 		}
 
 	}
-
+	/**
+	 *Show the fields for changing the room if there are exits. 
+	 */
 	private void setExitLabels() {
 
 		lockNorth.setVisible(false);
@@ -726,10 +828,11 @@ public class Game extends VBox {
 			downDoorLabel.setVisible(true);
 		}
 	}
-
+	/**
+	 *Display the label of the backpack (weight). 
+	 */
 	private void setOtherLabels() {
 
-		// backpack label
 		int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
 		backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());
 	}
@@ -737,6 +840,9 @@ public class Game extends VBox {
 	@FXML
 	Label reasonForLoosingLabel;
 
+	/**
+	 *Check if the player is still alive (time, hunger and life points). 
+	 */
 	private void checkVitals() {
 		if (timeOver(time)) {
 			reasonForLoosingLabel.setText("Time was over");
@@ -750,6 +856,9 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 *Display the different rooms.
+	 */
 	private void setUpRoom() {
 		setItemLabels();
 		setExitLabels();
@@ -767,7 +876,9 @@ public class Game extends VBox {
 		currentRoom.addRoomEntry();
 
 	}
-
+	/**
+	 *Show the looser display to the player.
+	 */
 	private void looseGame() {
 		instructionDisplay.setVisible(false);
 		levelSelectionDisplay.setVisible(false);
@@ -780,7 +891,9 @@ public class Game extends VBox {
 	@FXML
 	ImageView crownImage;
 
-
+	/**
+	 *Show the winner display to the player.
+	 */
 	private void winGame() {
 		instructionDisplay.setVisible(false);
 		levelSelectionDisplay.setVisible(false);
@@ -798,7 +911,6 @@ public class Game extends VBox {
 	private void goRoom(String direction) {
 		informationTextArea.clear();
 
-		// Try to leave current room.
 		Room nextRoom = currentRoom.getExit(direction);
 
 		if (nextRoom == null) {
@@ -823,7 +935,10 @@ public class Game extends VBox {
 
 		checkVitals();
 	}
-
+	/**
+	 *Switch the room and update the statics:
+	 *decrease time, increase hunger, increase life points
+	 */
 	private void switchRoom(Room nextRoom) {
 		currentRoom = nextRoom;
 
@@ -839,7 +954,10 @@ public class Game extends VBox {
 			informationTextArea.setText("You have already been in this room before. \r \n");
 		}
 	}
-
+	/**
+	 *Unlock a locked room if the player has a key in his backpack. 
+	 *Otherwise print a message that the room is locked.
+	 */
 	private void tryUnlockRoom(Room nextRoom) {
 		Item key = environment.getItem("key");
 
@@ -855,6 +973,10 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 *Kill the monster in the room if the player has a weapon in the backpack.
+	 *Otherwise receive damage and flee back to the previous room.
+	 */
 	private void tryKillMonster(Room nextRoom) {
 
 		if (player.hasWeapon()) {
@@ -873,6 +995,11 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 *Rescue the princess and win the game if the player has 
+	 *the valuable 'dragonglass' in the backpack.
+	 *Otherwise receive double damage and flee back to the previous room.
+	 */
 	private void rescuePrincess() {
 		Valuable dragonGlass = Environment.getValuable("dragonglass");
 
@@ -932,6 +1059,12 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 *Return the NPC hint if there is one and the player has the suitable valuable in the backpack.
+	 *Otherwise print one of the two messages.
+	 *
+	 *@return hint or message 
+	 */
 	private String hint() {
 
 		if (currentRoom.getNpc() == null) {
@@ -953,11 +1086,11 @@ public class Game extends VBox {
 
 	/**
 	 * Put a portable item lying in the current room into the inventory. The item
-	 * can be fetched later when needed. To use the function the user has to type in
+	 * can be fetched later when needed. To use the function the player has to type in
 	 * the command word "store" an the name of the specified item which should be
 	 * stored.
 	 * 
-	 * @param command the second word of the user's input
+	 * @param command the second word of the player's input
 	 * @return true when storing was successful
 	 */
 
@@ -982,7 +1115,14 @@ public class Game extends VBox {
 			player.putItemIntoBackpack(item);
 		}
 	}
-
+	/**
+	 * Drop an item from the backback into the room. To use the function the player has to type in
+	 * the command word "drop" an the name of the specified item which should be
+	 * dropped.
+	 * 
+	 * @param command the second word of the player's input
+	 * @return true when dropping was successful
+	 */
 	public void drop(String typedWord) {
 		Item item;
 
@@ -1007,7 +1147,14 @@ public class Game extends VBox {
 			informationTextArea.setText("You have dropped " + typedWord.toLowerCase().trim());
 		}
 	}
-
+	/**
+	 * Destroy an item from the backback into the room. To use the function the player has to type in
+	 * the command word "destroy" an the name of the specified item which should be
+	 * destroyed.
+	 * 
+	 * @param command the second word of the player's input
+	 * @return true when destroying was successful
+	 */
 	public void destroy(String typedWord) {
 		Item item;
 
@@ -1024,7 +1171,12 @@ public class Game extends VBox {
 			informationTextArea.setText("You have destroyed " + typedWord.toLowerCase().trim());
 		}
 	}
-
+	/**
+	 * Define that the time is over if the time is < 1.
+	 * 
+	 * @param int time
+	 * @return true if the time if < 1
+	 */
 	private boolean timeOver(int time) {
 		if (time < 1) {
 			System.out.println("Time is over.");
@@ -1034,6 +1186,9 @@ public class Game extends VBox {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private Room getRandomRoom() {
 		random = new Random();
 
@@ -1043,24 +1198,9 @@ public class Game extends VBox {
 		return randomroom;
 	}
 
-//	public final void chooseLevelOfDifficulty() {
-//
-//		printer.printDifficultyChoices();
-//
-//		String input = parser.getUserInput().trim().toUpperCase();
-//		try {
-//			difficultyLevel = Level.valueOf(input);
-//			System.out.println("Thank you. Level of difficulty is set to: " + input);
-//		} catch (IllegalArgumentException e) {
-//			System.out.println(input + " ist not valid!");
-//			System.out.println();
-//			chooseLevelOfDifficulty();
-//		}
-//	}
-
 	/**
 	 * Getter for the level of difficulty. For the classes player and monster to set
-	 * the maximum weight of backpack and the damage of one attack
+	 * the maximum weight of backpack and the damage of one attack.
 	 * 
 	 * @return the level of difficulty set by the user at the beginning of the Game
 	 */
@@ -1164,6 +1304,9 @@ public class Game extends VBox {
 	@FXML 
 	Label destroyedTowerLabel;
 
+	/**
+	 * Display the room the player is in and add that room to the small map on the screen.
+	 */
 	public void setRoomOnMapVisible() {
 
 		mapBasement.setVisible(false);
