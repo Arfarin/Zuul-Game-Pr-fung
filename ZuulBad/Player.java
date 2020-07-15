@@ -51,7 +51,6 @@ public class Player {
 	public void eatFoodFromBackpack(Food food) {
 			backpack.removeItem(food);
 			increaseFoodBar();
-			System.out.println("It was stored in your backpack before.");
 	}
 	
 
@@ -70,7 +69,6 @@ public class Player {
 
 		} else {
 			backpack.addItemToBackpack(item);
-			System.out.println("Item successfully stored.");
 			stored = true;
 		}
 		return stored;

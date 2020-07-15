@@ -42,7 +42,7 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
     </MenuBar>
-      <StackPane prefHeight="690.0" prefWidth="854.0">
+      <StackPane prefHeight="692.0" prefWidth="854.0">
          <children>
             <SplitPane fx:id="mainGameDisplay" dividerPositions="0.6014425314099581" prefHeight="594.0" prefWidth="844.0" visible="false">
                <items>
