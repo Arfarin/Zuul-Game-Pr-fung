@@ -21,7 +21,7 @@ public class Food extends Item implements Transportable {
 	}
 
 	/**
-	 * Returns weight of the food item
+	 * Returns a description with the weight of the food item
 	 * 
 	 * @return weight
 	 */
