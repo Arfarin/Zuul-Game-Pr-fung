@@ -410,29 +410,7 @@ public class Game extends VBox {
 		looserDisplay.setVisible(false);
 	}
 	
-	/**
-	 *Show the winner display and rotate it when the player wins the game.
-	 */
-	@FXML
-	private void handleChangeToWinnerDisplay(ActionEvent ActionEvent) {
-		winnerDisplay.setVisible(true);
-		endSceneDisplay.setVisible(false);
-		
-		RotateTransition rt = new RotateTransition(Duration.millis(3000), crownImage);
-		rt.setByAngle(360);
-		rt.setCycleCount(4);
-		rt.setAutoReverse(true);
-
-		rt.play();
-	}
-	/**
-	 *Show the kiss princess display after the winner display as end scene.
-	 */
-	@FXML 
-	private void handleKissPrincess(ActionEvent ActionEvent) {
-		endSceneDisplay.setVisible(false);
-		winnerDisplay.setVisible(false);
-	}
+	
 	
 
 
@@ -656,7 +634,8 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Main play routine. Loops until end of play.
+	 * Starts playing the game. Creating items and distribute them to the rooms, creates an instance of Player, sets the time depending on the difficulty Level,
+	 * sets the first room, sets up the first room and sets up the Change-Listeners for the variables lifeBar and foodBar (for class Player), time (for Game) and maxWeight (for inventory).  
 	 */
 	public void play() {
 		environment.prepareEnvironment();
@@ -701,12 +680,16 @@ public class Game extends VBox {
 		player.backpackWeightProperty().addListener(new ChangeListener<Object>() {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
-				int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
+				int usedWeight = player.getMaxWeight() - player.getBackpacksFreeWeight();
 				backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());
 			}
 		});
 
 	}
+	/**
+	 * Getter for time-Property. Necessary for the listener to control the variable 'time'.
+	 * @return
+	 */
 
 	public IntegerProperty timeProperty() {
 		return timeproperty;
@@ -764,7 +747,7 @@ public class Game extends VBox {
 
 	}
 	/**
-	 *Show the fields for changing the room if there are exits. 
+	 *Show the rectangles (doors) to neighbour-rooms if there are exits. 
 	 */
 	private void setExitLabels() {
 
@@ -833,7 +816,7 @@ public class Game extends VBox {
 	 */
 	private void setOtherLabels() {
 
-		int usedWeight = player.getMaxWeight() - player.getBackpacksWeight();
+		int usedWeight = player.getMaxWeight() - player.getBackpacksFreeWeight();
 		backpackWeightLabel.setText("Backpack Weight: " + usedWeight + " / " + player.getMaxWeight());
 	}
 
@@ -857,7 +840,7 @@ public class Game extends VBox {
 	}
 
 	/**
-	 *Display the different rooms.
+	 *Display the items, the non player character, the images and labels of the current room and clear the Text-Area which displays general information. Increments the number of entries of the current room. 
 	 */
 	private void setUpRoom() {
 		setItemLabels();
@@ -877,7 +860,7 @@ public class Game extends VBox {
 
 	}
 	/**
-	 *Show the looser display to the player.
+	 *Show the display for loosing the game
 	 */
 	private void looseGame() {
 		instructionDisplay.setVisible(false);
@@ -892,7 +875,7 @@ public class Game extends VBox {
 	ImageView crownImage;
 
 	/**
-	 *Show the winner display to the player.
+	 *Show the display before the winner-Display. Called when the game's goal is reached. It tells the story that the princess is rescued from a monster now.
 	 */
 	private void winGame() {
 		instructionDisplay.setVisible(false);
@@ -902,6 +885,22 @@ public class Game extends VBox {
 		looserDisplay.setVisible(false);
 		welcomeDisplay.setVisible(false);
 
+	}
+	
+	/**
+	 *Show the winner display and rotate an image of a crown. This is the last display of the game when winning.
+	 */
+	@FXML
+	private void handleChangeToWinnerDisplay(ActionEvent ActionEvent) {
+		winnerDisplay.setVisible(true);
+		endSceneDisplay.setVisible(false);
+		
+		RotateTransition rt = new RotateTransition(Duration.millis(3000), crownImage);
+		rt.setByAngle(360);
+		rt.setCycleCount(4);
+		rt.setAutoReverse(true);
+
+		rt.play();
 	}
 
 	/**
@@ -1014,19 +1013,20 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Eat a food item. The food item is either picked up from the room or retrieved
-	 * from the inventory if not available in the room.
+	 * Eat a food item lying in the current room. Eating something the player's FoodBar increases and the item is removed from the room.
+	 * Called when clicking on the 'eat' button in the room.
+	 * If the food is a magic muffin than the player gets the power to carry a unlimited weight in his/her backpack.
 	 * 
-	 * @param command
+	 * @param foodstring the food that is eaten.
 	 */
 
 	public void eatFromRoom(String foodstring) {
-		Food food;
 		Item fooditem;
 
-		// check if this food exists in the game and store food object in variable
-		food = Environment.getFood(foodstring);
+		// check if this item exists in the game and store the object in variable
 		fooditem = environment.getItem(foodstring);
+		//check if the item is a food
+		if (fooditem instanceof Food) {
 
 		if (foodstring.matches("magic muffin")) { // check if user wants to eat a magic muffin
 			informationTextArea.setText(player.getPowerFromMuffin());
@@ -1034,8 +1034,17 @@ public class Game extends VBox {
 		}
 		currentRoom.removeItem(fooditem);
 		player.increaseFoodBar();
+		}
+		else {
+			informationTextArea.setText("This is not a food. You can't eat it.");
+		}
 	}
 
+	/**
+	 * Eat a food which is stored in the backpack. Eating something the player's FoodBar increases and the item is removed from the backpack.
+	 * Called when clicking on the 'eat' button of backpack after typing in the name of the food in the text-field.
+	 * @param foodstring the food that should be eaten
+	 */
 	public void eatFromBackpack(String foodstring) {
 		Food food;
 		Item item;
@@ -1046,7 +1055,7 @@ public class Game extends VBox {
 
 		if (food != null) {
 
-			if (player.backpackContainsItem(item)) { // if item is not in room, go to inventory
+			if (player.backpackContainsItem(item)) { 
 				player.increaseFoodBar();
 				player.removeItemFromBackpack(item);
 
@@ -1061,7 +1070,7 @@ public class Game extends VBox {
 
 	/**
 	 *Return the NPC hint if there is one and the player has the suitable valuable in the backpack.
-	 *Otherwise print one of the two messages.
+	 *Otherwise return a message that says the player should find the right valuable for him/her.
 	 *
 	 *@return hint or message 
 	 */
@@ -1097,10 +1106,10 @@ public class Game extends VBox {
 	private void store(String secondWord) {
 		Item item;
 
-		// check if this item exists in the game and store it in variable
+		// check if this item exists in the game and if it is transportable; store it in variable
 		item = environment.getItem(secondWord);
 		if (item == null || !(item instanceof Transportable)) {
-			System.out.println("This won't work.");
+			informationTextArea.setText("Sorry. Storing is not possible.");
 
 		} else if (player.cantCarryMore(item.getWeight())) { // check if there is free capacity to store the item
 

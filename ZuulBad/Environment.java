@@ -282,7 +282,7 @@ public class Environment{
 	
 	/**
 	 * 
-	 * 
+	 * Getter for all items available in the game 
 	 * @return 
 	 */
 	

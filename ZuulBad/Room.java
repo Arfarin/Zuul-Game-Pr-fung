@@ -2,9 +2,6 @@
 package ZuulBad;
 
 import java.util.HashMap;
-//import javafx.beans.property.StringProperty;
-//import javafx.beans.property.SimpleStringProperty;
-//import javafx.beans.value.ObservableValue;
 
 
 /**

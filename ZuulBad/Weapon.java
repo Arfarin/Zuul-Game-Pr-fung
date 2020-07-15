@@ -4,6 +4,7 @@ package ZuulBad;
  * This class is responsible for weapon items in the game.
  * 
  * @author Katerina Matsyova
+ * @version 1.0
  *
  */
 
