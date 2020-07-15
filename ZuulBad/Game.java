@@ -1208,8 +1208,8 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Unlock a locked room if the player has a key in his backpack. Otherwise print
-	 * a message that the room is locked.
+	 * Unlock a locked room if the player has a key in his backpack. Remove the stored key and switch into the next room. 
+	 * Otherwise print a message that the room is locked.
 	 */
 	private void tryUnlockRoom(Room nextRoom) {
 		Item key = environment.getItem("key");
@@ -1227,7 +1227,7 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Kill the monster in the room if the player has a weapon in the backpack.
+	 * Kill the monster in the room if the player has a weapon in the backpack. Remove the weapon from the backpack and display a message in a popup that a monster was killed.
 	 * Otherwise receive damage and flee back to the previous room.
 	 */
 	private void tryKillMonster(Room nextRoom) {
@@ -1250,7 +1250,7 @@ public class Game extends VBox {
 
 	/**
 	 * Rescue the princess and win the game if the player has the valuable
-	 * 'dragonglass' in the backpack. Otherwise receive double damage and flee back
+	 * 'dragonglass' in his/her backpack. Otherwise receive double damage to the players lifeBar and flee back
 	 * to the previous room.
 	 */
 	private void rescuePrincess() {
@@ -1259,8 +1259,7 @@ public class Game extends VBox {
 		if (player.backpackContainsItem(dragonGlass)) {
 			winGame();
 		} else {
-			int damage = Level.setValue(1, 1) * 2; // final boss makes double damage (amount of damage depends on
-													// selected level)
+			int damage = Level.setValue(1, 1) * 2; 
 			player.reduceLifeBar(damage);
 			informationTextArea.setText("The Monster hurt you badly. You have to flee back to the previous room.\n");
 		}
@@ -1354,19 +1353,19 @@ public class Game extends VBox {
 	/**
 	 * Put a portable item lying in the current room into the inventory. The item
 	 * can be fetched later when needed. To use the function the player has to type
-	 * in the command word "store" an the name of the specified item which should be
-	 * stored.
+	 * in  the name of the specified item which should be
+	 * stored and click on the button 'store'.
+	 * The item can't be stored when its weight would exceed the maximum portable weight of backpack
 	 * 
-	 * @param command the second word of the player's input
-	 * @return true when storing was successful
+	 * @param itemToStore the string name of the item that should be stored (received from the textField) 
 	 */
 
-	private void store(String secondWord) {
+	private void store(String itemToStore) {
 		Item item;
 
 		// check if this item exists in the game and if it is transportable; store it in
 		// variable
-		item = environment.getItem(secondWord);
+		item = environment.getItem(itemToStore);
 		if (item == null || !(item instanceof Transportable)) {
 			informationTextArea.setText("Sorry. Storing is not possible.");
 
@@ -1386,12 +1385,14 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Drop an item from the backback into the room. To use the function the player
-	 * has to type in the command word "drop" an the name of the specified item
-	 * which should be dropped.
+	 * Drop an item from the backpack into the current room. To use the function the player
+	 * has to type in the name of the specified item which should be dropped
+	 *  and click on the button 'drop'. 
+	 *  An item can't be dropped when there is already an item of the same category in the room. 
+	 *  (There can only be one food one weapon and one valuable item in a room at maximum.)
 	 * 
-	 * @param command the second word of the player's input
-	 * @return true when dropping was successful
+	 * 
+	 * @param typedWord the string name of the item that should be dropped (received from the textField) 
 	 */
 	public void drop(String typedWord) {
 		Item item;
@@ -1419,12 +1420,11 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Destroy an item from the backback into the room. To use the function the
-	 * player has to type in the command word "destroy" an the name of the specified
-	 * item which should be destroyed.
+	 * Destroy an item from the backpack. To use the function the
+	 * player has to type in the name of the specified
+	 * item which should be destroyed and click on the button 'destroy'.
 	 * 
-	 * @param command the second word of the player's input
-	 * @return true when destroying was successful
+	 * @param typedWord the name of the item that should be destroyed (received from the textField) 
 	 */
 	public void destroy(String typedWord) {
 		Item item;
@@ -1444,10 +1444,10 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Define that the time is over if the time is < 1.
+	 * Defines that the game is over if the variable 'time' is less than one.
 	 * 
-	 * @param int time
-	 * @return true if the time if < 1
+	 * @param time; the current left time
+	 * @return 'true' if the time if < 1; 'false' if not
 	 */
 	private boolean timeOver(int time) {
 		if (time < 1) {
@@ -1476,113 +1476,236 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Getter for the level of difficulty. For the classes player and monster to set
-	 * the maximum weight of backpack and the damage of one attack.
+	 * Getter for the level of difficulty.
 	 * 
-	 * @return the level of difficulty set by the user at the beginning of the Game
+	 * @return the level of difficulty set by the user at the beginning of the game
 	 */
 	public static Level getLevel() {
 		return difficultyLevel;
 	}
-
+	
+	// map of rooms 
+	/**
+	 * a rectangle representing the room 'pastry' in the map
+	 */
 	@FXML
 	Rectangle pastry;
+	/**
+	 * a label for the rectangle for the room 'pastry'
+	 */
 	@FXML
 	Label pastryLabel;
+	/**
+	 * a rectangle representing the room 'kitchen' in the map
+	 */
 	@FXML
 	Rectangle kitchen;
+	/**
+	 * a label for the rectangle for the room 'kitchen'
+	 */
 	@FXML
 	Label kitchenLabel;
+	/**
+	 * a rectangle representing the room 'diningRoom' in the map
+	 */
 	@FXML
 	Rectangle diningRoom;
+	/**
+	 * a label for the rectangle for the room 'diningRoom'
+	 */
 	@FXML
 	Label diningRoomLabel;
+	
+	/**
+	 * a rectangle representing the room 'entryHall' in the map
+	 */
 	@FXML
 	Rectangle entryHall;
+	/**
+	 * a label for the rectangle for the room 'entryHall'
+	 */
 	@FXML
 	Label entryHallLabel;
+	/**
+	 * a rectangle representing the room 'pantry' in the map
+	 */
 	@FXML
 	Rectangle pantry;
+	/**
+	 * a label for the rectangle for the room 'pantryLabel'
+	 */
 	@FXML
 	Label pantryLabel;
+	/**
+	 * a rectangle representing the room 'warehouse' in the map
+	 */
 	@FXML
 	Rectangle warehouse;
+	/**
+	 * a label for the rectangle for the room 'warehouse'
+	 */
 	@FXML
 	Label warehouseLabel;
+	/**
+	 * a rectangle representing the room 'castleCourtyard' in the map
+	 */
 	@FXML
 	Rectangle castleCourtyard;
+	/**
+	 * a label for the rectangle for the room 'castleCourtyard'
+	 */
 	@FXML
 	Label castleCourtyardLabel;
+	/**
+	 * a rectangle representing the room 'castleGarden' in the map
+	 */
 	@FXML
 	Rectangle castleGarden;
+	/**
+	 * a label for the rectangle for the room 'castleGarden'
+	 */
 	@FXML
 	Label castleGardenLabel;
+	/**
+	 * a rectangle representing the room 'desWineStorage' (deserted wine storage) in the map 
+	 */
 	@FXML
 	Rectangle desWineStorage;
+	/**
+	 * a label for the rectangle for the room 'desWineStorage' (deserted wine storage)
+	 */
 	@FXML
 	Label desWineStorageLabel;
+	/**
+	 * a rectangle representing the room 'flowerGarden' in the map
+	 */
 	@FXML
 	Rectangle flowerGarden;
+	/**
+	 * a label for the rectangle for the room 'flowerGarden' 
+	 */
 	@FXML
 	Label flowerGardenLabel;
+	/**
+	 * a rectangle representing the room 'kingsChamber' in the map
+	 */
 	@FXML
 	Rectangle kingsChamber;
+	/**
+	 * a label for the rectangle for the room 'kingsChamber' 
+	 */
 	@FXML
 	Label kingsChamberLabel;
+	/**
+	 * a rectangle representing the room 'towerStaircases' in the map
+	 */
 	@FXML
 	Rectangle towerStaircases;
+	/**
+	 * a label for the rectangle for the room 'towerStaircases' 
+	 */
 	@FXML
 	Label towerStaircasesLabel;
-
+	/**
+	 * a GridPane for the map of the ground floor 
+	 */
 	@FXML
 	GridPane mapGroundFloor;
+	/**
+	 * a GridPane for the map of the second floor 
+	 */
 	@FXML
 	GridPane mapSecondFloor;
+	/**
+	 * a GridPane for the map of the basement
+	 */
 	@FXML
 	GridPane mapBasement;
-
+	/**
+	 * a rectangle representing the room 'basementEntry' in the map
+	 */
 	@FXML
 	Rectangle basementEntry;
+	/**
+	 * a label for the rectangle for the room 'basementEntry' 
+	 */
 	@FXML
 	Label basementEntryLabel;
-
+	/**
+	 * a rectangle representing the room 'armoury' in the map
+	 */
 	@FXML
 	Rectangle armoury;
+	/**
+	 * a label for the rectangle for the room 'armoury' 
+	 */
 	@FXML
 	Label armouryLabel;
-
+	/**
+	 * a rectangle representing the room 'treasureChamber' in the map
+	 */
 	@FXML
 	Rectangle treasureChamber;
+	/**
+	 * a label for the rectangle for the room 'treasureChamber' 
+	 */
 	@FXML
 	Label treasureChamberLabel;
-
+	/**
+	 * a rectangle representing the room 'undergroundHallway' in the map
+	 */
 	@FXML
 	Rectangle undergroundHallway;
+	/**
+	 * a label for the rectangle for the room 'undergroundHallway' 
+	 */
 	@FXML
 	Label undergroundHallwayLabel;
-
+	/**
+	 * a rectangle representing the room 'hiddenPath' in the map
+	 */
 	@FXML
 	Rectangle hiddenPath;
+	/**
+	 * a label for the rectangle for the room 'hiddenPath' 
+	 */
 	@FXML
 	Label hiddenPathLabel;
-
+	/**
+	 * a rectangle representing the room 'dungeon' in the map
+	 */
 	@FXML
 	Rectangle dungeon;
+	/**
+	 * a label for the rectangle for the room 'dungeon' 
+	 */
 	@FXML
 	Label dungeonLabel;
-
+	/**
+	 * a rectangle representing the room 'teleporterRoom' in the map
+	 */
 	@FXML
 	Rectangle teleporterRoom;
+	
+	/**
+	 * a label for the rectangle for the room 'teleporterRoom' 
+	 */
 	@FXML
 	Label teleporterRoomLabel;
-
+	/**
+	 * a rectangle representing the room 'destroyedTower' in the map
+	 */
 	@FXML
 	Rectangle destroyedTower;
+	/**
+	 * a label for the rectangle for the room 'destroyedTower' 
+	 */
 	@FXML
 	Label destroyedTowerLabel;
 
 	/**
-	 * Display the room the player is in and add that room to the small map on the
+	 * Display the GridPane for basement, ground or second floor depending on the room the player is in.
+	 *  Add that room to the small map on the
 	 * screen.
 	 */
 	public void setRoomOnMapVisible() {
