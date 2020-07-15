@@ -23,9 +23,9 @@ public class Weapon extends Item implements Transportable {
 	}
 
 	/**
-	 * This class returns the weapon weight.
+	 * Returns a description with the weight of the weapon item.
 	 * 
-	 * @return int weight
+	 * @return description with the weight of the weapon item
 	 */
 	@Override
 	public String getDescriptionWithWeight() {

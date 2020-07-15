@@ -21,9 +21,9 @@ public class Valuable extends Item implements Transportable {
 	}
 
 	/**
-	 * Returns the weight of the Valuable.
+	 * Returns a description with the weight of the valuable.
 	 * 
-	 * @return weight
+	 * @return description with the weight of the valuable
 	 */
 	@Override
 	public String getDescriptionWithWeight() {
