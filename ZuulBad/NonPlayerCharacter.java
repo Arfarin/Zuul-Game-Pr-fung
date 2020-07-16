@@ -59,7 +59,7 @@ public class NonPlayerCharacter {
 	 */
 	private final void fillHints() {
 		hints.put("glasses",
-				"Old Lady: Thank you for finding my glasses. Beware, I saw a strong goblin in the castle but my husband doesn't believe me. He says that I always imagine silly things when I don't wear my glasses.");
+				"Old Lady: Thank you for finding my glasses. Beware, I saw a strong goblin in the castle but my husband doesn't believe me. Other types of glasses may also help you with the goblin!");
 		hints.put("tiara",
 				"Queen: Thank you! This belonged to my daughter. She was kidnapped by a strange creature and I don't know where she is...");
 		hints.put("spoon",
