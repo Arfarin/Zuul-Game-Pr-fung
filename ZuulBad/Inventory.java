@@ -31,10 +31,12 @@ public class Inventory {
 	/**
 	 * initializes the variables 'content' and 'currentWeight' and sets the maximum
 	 * portable weight to a value depending on the level of difficulty.
-	 * 
+	 * If level 'Easy' is chosen then maximum portable weight is 20.
+	 * If level 'Medium' is chosen then maximum portable weight is 15.
+	 * If level 'Heavy' is chosen then maximum portable weight is 10.
 	 */
 	public Inventory() {
-		setMaxWeight(Level.setValue(18, -5));
+		setMaxWeight(Level.setValue(20, -5));
 		content = new Items();
 		currentWeight = new SimpleIntegerProperty(0);
 	}

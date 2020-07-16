@@ -16,28 +16,35 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Player {
 
 	/**
-	 * the maximum value the FoodBar of the player can reach
+	 * The maximum value the FoodBar of the player can reach. This variable is created for a graphical aspect. 
+	 * The rectangles that represents the foodBar should not become too long.
 	 */
 	private int maxFood = 10;
 	/**
-	 * the maximum value the LifeBar of the player can reach
+	 * The maximum value the LifeBar of the player can reach. This variable is created for a graphical aspect. 
+	 * The rectangles that represents the foodBar should not become too long.
 	 */
 	private int maxLife = 10;
 
 	/**
-	 * an instance of Inventory presenting the backpack of the player
+	 * An instance of Inventory representing the backpack of the player. With this
+	 * he/she can store transportable items.
 	 */
 	private Inventory backpack;
 
 	/**
 	 * The points of life a player has. Demonstrating the health of the player. The
-	 * lower the value is the weaker is a player.
+	 * lower the value is the weaker is the player.
+	 * If monsters cause damage on the player, the lifebar is reduced. 
+	 * Going through rooms (and not getting attacked) the player regenerates and lifebar increases.
 	 */
 	private SimpleIntegerProperty lifeBar;
 
 	/**
 	 * The points of food a player has. Demonstrating the hunger a player has. The
-	 * lower the value is the hungrier the player is.
+	 * lower the value is the hungrier is the player.
+	 * Walking through rooms, the player gets hungry and foodBar decreases. 
+	 * Eating food, foodbar increases.
 	 */
 	private SimpleIntegerProperty foodBar;
 
