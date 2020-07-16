@@ -24,6 +24,8 @@ import javafx.util.Duration;
  * @author Daniel Birk
  * @author Katerina Matysova
  * @author Sarah Engelmayer
+ * 
+ * @version 1.0.0
  */
 
 public class Game extends VBox {
@@ -225,8 +227,10 @@ public class Game extends VBox {
 	Label roomUnlockedPopup;
 
 	/**
-	 * 
+	 * The label displaying the information that says the player was teleported.
 	 */
+	@FXML
+	Label youWereTeleportedPopup;
 
 	/**
 	 * plays the PauseTransition-variable. When the time ends the popup is closed.
@@ -237,67 +241,64 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Show that the player killed the monster in a popup. Show the popup for a
+	 * Show that the player killed the monster in a popup writing. Show the popup for a
 	 * definite time which is determined in the variable 'visiblePause'.
 	 */
 	private void KillMonsterPopup() {
-		monsterDamagePopup.setVisible(false);
-		roomLockedPopup.setVisible(false);
-		roomUnlockedPopup.setVisible(false);
-		descriptionPane.setVisible(false);
-
-		popupPane.setVisible(true);
+		preparePopup();
 		monsterKilledPopup.setVisible(true);
-
 		waitAndEnd();
 	}
 
 	/**
-	 * Show that the monster caused damage to the player in a popup. Show the popup
+	 * Show that the monster caused damage to the player in a popup writing. Show the popup
 	 * for a definite time which is determined in the variable 'visiblePause'.
 	 */
 	private void monsterDamagePopup() {
-		roomLockedPopup.setVisible(false);
-		roomUnlockedPopup.setVisible(false);
-		monsterKilledPopup.setVisible(false);
-		descriptionPane.setVisible(false);
-
-		popupPane.setVisible(true);
+		preparePopup();
 		monsterDamagePopup.setVisible(true);
-
 		waitAndEnd();
 	}
 
 	/**
-	 * Show that the room is locked in a popup. Show the popup for a definite time
+	 * Show that the room is locked in a popup writing. Show the popup for a definite time
 	 * which is determined in the variable 'visiblePause'.
 	 */
 	private void roomLockedPopup() {
-		roomUnlockedPopup.setVisible(false);
-		monsterKilledPopup.setVisible(false);
-		monsterDamagePopup.setVisible(false);
-		descriptionPane.setVisible(false);
-
-		popupPane.setVisible(true);
+		preparePopup();
 		roomLockedPopup.setVisible(true);
-
 		waitAndEnd();
 	}
 
 	/**
-	 * Show that the room is unlocked in a popup. Show the popup for a definite time
+	 * Show that the room is unlocked in a popup writing. Show the popup for a definite time
 	 * which is determined in the variable 'visiblePause'.
 	 */
 	private void roomUnlockedPopup() {
-		monsterKilledPopup.setVisible(false);
+		preparePopup();
+		roomUnlockedPopup.setVisible(true);
+		waitAndEnd();
+	}
+	/**
+	 * Show a writing in a popup that says that the player was teleported into a random room.
+	 */
+	private void startTeleportedPopup() {
+		preparePopup();
+		youWereTeleportedPopup.setVisible(true);
+		waitAndEnd();
+	}
+	/**
+	 * Prepare the graphical elements that information (from one of the Labels) can be shown in a popup. 
+	 */
+	private void preparePopup() {
 		monsterDamagePopup.setVisible(false);
 		roomLockedPopup.setVisible(false);
+		roomUnlockedPopup.setVisible(false);
+		youWereTeleportedPopup.setVisible(false);
+		monsterKilledPopup.setVisible(false);
 		descriptionPane.setVisible(false);
-
+		
 		popupPane.setVisible(true);
-		roomUnlockedPopup.setVisible(true);
-
-		waitAndEnd();
 	}
 
 	/**
@@ -1171,8 +1172,10 @@ public class Game extends VBox {
 			tryUnlockRoom(nextRoom);
 
 		} else if (nextRoom.isTeleporterRoom()) {
-			informationTextArea.setText("You were randomly teleported." + "\n");
 			switchRoom(getRandomRoom());
+			informationTextArea.setText("You were randomly teleported." + "\n");
+			startTeleportedPopup();
+			
 
 		} else if (nextRoom.hasMonster()) {
 			tryKillMonster(nextRoom);
@@ -1606,21 +1609,7 @@ public class Game extends VBox {
 	 */
 	@FXML
 	Label towerStaircasesLabel;
-	/**
-	 * a GridPane for the map of the ground floor 
-	 */
-	@FXML
-	GridPane mapGroundFloor;
-	/**
-	 * a GridPane for the map of the second floor 
-	 */
-	@FXML
-	GridPane mapSecondFloor;
-	/**
-	 * a GridPane for the map of the basement
-	 */
-	@FXML
-	GridPane mapBasement;
+	
 	/**
 	 * a rectangle representing the room 'basementEntry' in the map
 	 */
@@ -1704,6 +1693,52 @@ public class Game extends VBox {
 	Label destroyedTowerLabel;
 
 	/**
+	 * a GridPane for the map of the ground floor 
+	 */
+	@FXML
+	GridPane mapGroundFloor;
+	/**
+	 * a GridPane for the map of the second floor 
+	 */
+	@FXML
+	GridPane mapSecondFloor;
+	/**
+	 * a GridPane for the map of the basement
+	 */
+	@FXML
+	GridPane mapBasement;
+	/**
+	 * A label for the map of the basement;
+	 */
+	@FXML
+	Label basementLabel;
+	/**
+	 * A label for the map of the ground floor;
+	 */
+	@FXML
+	Label groundFloorLabel;
+	/**
+	 * A label for the map of the second floor;
+	 */
+	@FXML
+	Label secondFloorLabel;
+	
+	
+	public void setBasementVisible() {
+		mapBasement.setVisible(true);
+		basementLabel.setVisible(true);
+	}
+	
+	public void setGroundFloorVisible() {
+		mapGroundFloor.setVisible(true);
+		groundFloorLabel.setVisible(true);
+	}
+	
+	public void setSecondFloorVisible() {
+		mapSecondFloor.setVisible(true);
+		secondFloorLabel.setVisible(true);
+	}
+	/**
 	 * Display the GridPane for basement, ground or second floor depending on the room the player is in.
 	 *  Add that room to the small map on the
 	 * screen.
@@ -1713,105 +1748,108 @@ public class Game extends VBox {
 		mapBasement.setVisible(false);
 		mapGroundFloor.setVisible(false);
 		mapSecondFloor.setVisible(false);
+		basementLabel.setVisible(false);
+		groundFloorLabel.setVisible(false);
+		secondFloorLabel.setVisible(false);
 
 		switch (currentRoom) {
 		case CastleCourtyard:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			castleCourtyard.setVisible(true);
 			castleCourtyardLabel.setVisible(true);
 			break;
 		case CastleGarden:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			castleGarden.setVisible(true);
 			castleGardenLabel.setVisible(true);
 			break;
 		case FlowerGarden:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			flowerGarden.setVisible(true);
 			flowerGardenLabel.setVisible(true);
 			break;
 		case KingsChamber:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			kingsChamber.setVisible(true);
 			kingsChamberLabel.setVisible(true);
 			break;
 		case EntryHall:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			entryHall.setVisible(true);
 			entryHallLabel.setVisible(true);
 			break;
 		case TowerStaircases:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			towerStaircases.setVisible(true);
 			towerStaircasesLabel.setVisible(true);
 			break;
 		case DiningRoom:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			diningRoom.setVisible(true);
 			diningRoomLabel.setVisible(true);
 			break;
 		case Kitchen:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			kitchen.setVisible(true);
 			kitchenLabel.setVisible(true);
 			break;
 		case Pastry:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			pastry.setVisible(true);
 			pastryLabel.setVisible(true);
 			break;
 		case Pantry:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			pantry.setVisible(true);
 			pantryLabel.setVisible(true);
 			break;
 		case Warehouse:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			warehouse.setVisible(true);
 			warehouseLabel.setVisible(true);
 			break;
 		case DesertedWineStorage:
-			mapGroundFloor.setVisible(true);
+			setGroundFloorVisible();
 			desWineStorage.setVisible(true);
 			desWineStorageLabel.setVisible(true);
 			break;
 		case BasementEntry:
-			mapBasement.setVisible(true);
+			setBasementVisible();
 			basementEntry.setVisible(true);
 			basementEntryLabel.setVisible(true);
 			break;
 		case Armoury:
-			mapBasement.setVisible(true);
+			setBasementVisible();
 			armoury.setVisible(true);
 			armouryLabel.setVisible(true);
 			break;
 		case TreasureChamber:
-			mapBasement.setVisible(true);
+			setBasementVisible();
 			treasureChamber.setVisible(true);
 			treasureChamberLabel.setVisible(true);
 			break;
 		case UndergroundHallway:
-			mapBasement.setVisible(true);
+			setBasementVisible();
 			undergroundHallway.setVisible(true);
 			undergroundHallwayLabel.setVisible(true);
 			break;
 		case HiddenPath:
-			mapBasement.setVisible(true);
+			setBasementVisible();
 			hiddenPath.setVisible(true);
 			hiddenPathLabel.setVisible(true);
 			break;
 		case Dungeon:
-			mapBasement.setVisible(true);
+			setBasementVisible();
 			dungeon.setVisible(true);
 			dungeonLabel.setVisible(true);
 			break;
 		case TeleporterRoom:
-			mapSecondFloor.setVisible(true);
+			setSecondFloorVisible();
 			teleporterRoom.setVisible(true);
 			teleporterRoomLabel.setVisible(true);
 			break;
 		case DestroyedTower:
-			mapSecondFloor.setVisible(true);
+			setSecondFloorVisible();
 			destroyedTower.setVisible(true);
 			destroyedTowerLabel.setVisible(true);
 			break;

@@ -717,6 +717,9 @@
                                           </StackPane>
                                        </children>
                                     </VBox>
+                                    <Label fx:id="basementLabel" layoutX="14.0" layoutY="283.0" text="Basement" visible="false" />
+                                    <Label fx:id="groundFloorLabel" layoutX="132.0" layoutY="283.0" text="Ground floor " visible="false" />
+                                    <Label fx:id="secondFloorLabel" layoutX="247.0" layoutY="285.0" text="Second floor" visible="false" />
                                  </children>
                               </AnchorPane>
                            </items>
@@ -727,14 +730,14 @@
             </SplitPane>
             <BorderPane fx:id="instructionDisplay" prefHeight="652.0" prefWidth="867.0" visible="false">
                <top>
-                  <Label text="Short game instructions" BorderPane.alignment="CENTER">
+                  <Label text="Game instructions" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
                </top>
                <center>
-                  <TextArea editable="false" prefHeight="496.0" prefWidth="614.0" text="Navigation: &#10;click on a direction button (e.g. &quot;south&quot;) to move from one room to another. &#10;The name of the room you are currently in is shown on top of the left lower display-area.&#10; &#10;Items in a room:&#10;There can be different things in a room. You can store all transportable objects that means food, wepons or valuable items. &#10;Food can also be eaten immediately.&#10;Items in your backpack are displayed in the right upper display-area. You can drop them in a room by click on the corresponding button.&#10;&#10;Person in a room:&#10;Walking across rooms you may meet other people. Provided that you have a specified item in your backpack, &#10;each person is going to give you a helpful hint. Click on the Button &quot;hint&quot; to ask them. &#10;&#10;Monster in a room:&#10;There are also monsters in rooms. As long as you have a weapon with you a monster won't bother you. Otherwise they reduce your lifebar or kill you.&#10;&#10;Goal of the game: &#10;You wander around in a castle and there is a bad monster. When you manage killing it there will be a surprise event.&#10;&#10;Keep your resources in mind: &#10;The bars in the left-upper area show your status. If you ignore them you might die.  &#10;&#10;Now let's go on playing: " BorderPane.alignment="CENTER">
+                  <TextArea editable="false" prefHeight="496.0" prefWidth="614.0" text="You wander around in a castle shrouded in legend. They say there was once a splendid time but it is now a mysterious and dangerous place. &#10;The only hope is that you find out the secret and what happened!&#10;&#10;Navigation: &#10;Click on a door (brown rectangle) to move from one room to another. &#10;The name of the room you are currently in is shown above the room. You can click on it to get more information about the room.&#10; &#10;Items in a room:&#10;There can be different things in a room. You can store all transportable objects that means food, wepons or valuable items. They are displayed in the &#10;left side of the room.  &#10;Food can also be eaten immediately. This increases your Energy.&#10;There can also be items in a room which can't be moved. These are displayed in the bottom right side of the room. An image of a table represents &#10;these static items. &#10;To get information about an item, no matter which, click on the according image in the room.&#10;&#10;Backpack:&#10;Your backpack is displayed in the right upper display-area. You can eat food, drop or destroy items which are in your backpack. To do that&#10;you have to type the name of the item of your backpack you want to eat, drop or destroy into the text field under the image of the backpack and&#10;then click on the corresponding button next to the text field.&#10;Logically, you can only eat food. Dropping or destroying is possible for every kind of item. You can only drop items under the condition that there&#10;is free space in the current room. There can maximally be one food item, one weapon, one valuable item and one static item in a room.  &#10;&#10;Person in a room:&#10;Walking across rooms you may meet other people. Provided that you have a specified item in your backpack, &#10;each person is going to give you a helpful hint. Click on the Button &quot;hint&quot; to ask them. &#10;&#10;Monster in a room:&#10;There are also monsters in rooms. As long as you have a weapon with you a monster won't bother you. Otherwise they will hurt or even kill you.&#10;&#10;Goal of the game: &#10;Find out the secret about the castle and what has happened. Hints from persons might help you. &#10;There is a special item you need to store to win the game.&#10;&#10;Keep your resources in mind: &#10;The bars in the left-upper area show your status. If you ignore them you might die.  &#10;Your time is limited: You can only change room for certain times. &#10;&#10;Now let's play and enjoy the adventure!" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </BorderPane.margin>
@@ -743,7 +746,7 @@
                <bottom>
                   <Button fx:id="play" mnemonicParsing="false" onAction="#handleStart" text="Go on playing ZuulBad" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
-                        <Insets bottom="150.0" />
+                        <Insets bottom="30.0" />
                      </BorderPane.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -1019,6 +1022,11 @@
                      </font>
                   </Label>
                   <Label fx:id="roomUnlockedPopup" layoutX="160.0" layoutY="276.0" text="You unlocked the room" textFill="#f9c805" visible="false">
+                     <font>
+                        <Font name="System Bold" size="48.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="youWereTeleportedPopup" layoutX="80.0" layoutY="286.0" prefHeight="103.0" prefWidth="711.0" text="You were randomly teleported!" textFill="#2ab71d" visible="false">
                      <font>
                         <Font name="System Bold" size="48.0" />
                      </font>
