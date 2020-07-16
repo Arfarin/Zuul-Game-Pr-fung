@@ -80,7 +80,7 @@ public class Game extends VBox {
 	 */
 	public Game() {
 		environment = new Environment();
-		timeProperty = new SimpleIntegerProperty(time);
+		timeProperty = new SimpleIntegerProperty(time); //timeProperty is initialized with the value of 'time'.  
 		player = new Player();
 		visiblePause = new PauseTransition(Duration.seconds(2));
 	}
@@ -859,9 +859,10 @@ public class Game extends VBox {
 	 * Change-Listeners for the variables lifeBar and foodBar (for class Player),
 	 * time (for Game) and maxWeight (for Inventory).
 	 */
+	
 	public void play() {
 		environment.prepareEnvironment();
-		time = Level.setValue(35, -6); // set time depending on the chosen Level: easy: 35 room-switchings; medium: 29 room-switchings; heavy: 23 room-switches
+		time = Level.setValue(38, -8); // set 'time' depending on the chosen level of difficulty: easy: 38 room-switchings; medium: 30 room-switchings; heavy: 22 room-switches
 
 		currentRoom = environment.getFirstRoom();
 		setUpRoom();
@@ -892,7 +893,7 @@ public class Game extends VBox {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				int maxwidth = 387;
-				int maxtime = Level.setValue(35, -5);
+				int maxtime = time; // 'time' has the highest value at the beginning of the game. During the game it is counted down.
 				double length = (timeProperty().doubleValue() / maxtime) * maxwidth;
 				timeRectangle.setWidth(length);
 			}
