@@ -19,7 +19,7 @@ import java.util.HashMap;
  * @version 1.0
  */
 
-enum Room{
+public enum Room{
 	
 	CastleCourtyard("Starting point: You are in front of a very old castle."),
 	CastleGarden("You enter the castle's magnificent garden."),
