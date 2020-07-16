@@ -893,7 +893,7 @@ public class Game extends VBox {
 			@Override
 			public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
 				int maxwidth = 387;
-				int maxtime = time; // 'time' has the highest value at the beginning of the game. During the game it is counted down.
+				int maxtime = Level.setValue(38, -8); // 'time' has the highest value at the beginning of the game. During the game it is counted down.
 				double length = (timeProperty().doubleValue() / maxtime) * maxwidth;
 				timeRectangle.setWidth(length);
 			}

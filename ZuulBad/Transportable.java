@@ -1,7 +1,8 @@
 package ZuulBad;
 
 /**
- * This Interface represents the transportability of something. The objects of the classes which implement this interface are transportable. That means the player can e.g. pick the objects up or store them. 
+ * This Interface represents the transportability of something. The objects of the classes 
+ * which implement this interface are transportable. That means the player can e.g. pick the objects up or store them. 
  * @author Sarah Engelmayer
  * @version 1.0.0
  */

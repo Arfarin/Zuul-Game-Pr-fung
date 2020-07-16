@@ -1,4 +1,4 @@
-package ZuulBad;
+
 
 /**
  * Provides the classes necessary to create the game 'ZuulBad'.
@@ -12,3 +12,4 @@ package ZuulBad;
  * @version 1.0
 * 
  */
+package ZuulBad;
