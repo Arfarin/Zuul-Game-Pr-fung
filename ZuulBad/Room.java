@@ -4,20 +4,19 @@ package ZuulBad;
 import java.util.HashMap;
 
 
-/**
- * An instance of this class represents one location in the scenery of the game. It is 
+
+ /** An instance of this class represents one location in the scenery of the game. It is 
  * connected to other rooms via exits. There is an instance of the class Items, which is
  * used to store items contained in the room. 
+ * There are some special features of a room. E.g. a room can be a able to teleport the player.
  * 
  * @author Daniel Birk
  * @author Katerina Matysova
  * @author Sarah Engelmayer
+ * 
+ * @version 1.0
  */
 
-/**
- * Set up the different rooms and give them a description.
- * 
- */
 enum Room{
 	
 	CastleCourtyard("Starting point: You are in front of a very old castle."),
@@ -42,56 +41,61 @@ enum Room{
 	TeleporterRoom("Everything is moving... What is happening?");
 	
 	/**
-	 * Create a description for the rooms.
+	 * The description of the room.
 	 * 
 	 */
 	private String description;
 	
 	/**
-	 * Store exits of the rooms.
+	 * Store exits of the rooms. For each exit put a String (describing the direction 
+	 * in which the exit is e.g. "north") as its key and the room behind this exit as its value.
 	 * 
 	 */
-    private HashMap<String, Room> exits;        // stores exits of this room.
+    private HashMap<String, Room> exits;        
     /**
-	 * Create NPCs.
+	 * A non player character (npc) in the room.
 	 * 
 	 */
     private NonPlayerCharacter npc;
     /**
-	 * Create the item list.
+	 *  A lit of items which are in the room.
 	 * 
 	 */
-    private Items itemlist;
+    private Items itemList;
     /**
-	 * Create room entries.
+	 * The number how often a room is entered. 	
 	 * 
 	 */
-	private int roomentries;
+	private int roomEntries;
 	/**
-	 * For room condition if the room is locked. 
+	 * A room condition describing if the room is locked. 
 	 * 
 	 */
 	private boolean locked;
 	/**
-	 * For room condition if the room is a teleporter room.
+	 * A room condition describing if the room is a teleporter room. 
+	 * 'True' if the room is a teleporter room, 'false' otherwise.
 	 * 
 	 */
 	private boolean teleports;
 	/**
-	 * For room condition if a room contains monsters.
+	 * A room condition describing if a room contains monsters.
+	 * 'True' if the room has a monster, 'false' otherwise.
 	 * 
 	 */
 	private boolean monster;
 	/**
-	 * For room condition if the room is the final room.
+	 * A room condition describing if the room is the final room. 
+	 * 'True' if the room is the final room, 'false' otherwise.
 	 * 
 	 */
 	private boolean finalroom;
 
     /**
-     * Create a room described "description". Initially, it has
+     * Create a room described by its description (as a string). Initially, it has
      * no exits. "description" is something like "a kitchen" or
      * "an open court yard".
+     * Initialize the variables exits, itelList, roomentries, locked, teleports, monster, finalroom.
      * 
      * @param description The room's description.
      */
@@ -101,25 +105,25 @@ enum Room{
     	this.description = description;
        
         exits = new HashMap<>();
-        itemlist = new Items();
+        itemList = new Items();
         
-        roomentries = 0;
+        roomEntries = 0;
         locked = false;
         teleports = false;
         monster = false;
         finalroom = false;
     }
     /**
-	 * Assign the description to the room.
+	 * Get the description of the room.
 	 * 
-	 * @return description specific description for the room
+	 * @return description specific description string of the room
 	 */
     public String getDescription() {
     	return description;
     }
     
     /**
-     * Define an exit from this room.
+     * Define an exit of the room.
      * @param direction The direction of the exit.
      * @param neighbor  The room to which the exit leads.
      */
@@ -136,7 +140,7 @@ enum Room{
     	locked = true;
     }
     /**
-	 * Unlock the room so that the player can enter it.
+	 * Unlock the room so that the player can enter it without a key.
 	 * 
 	 */
     public void unlockRoom() {
@@ -144,13 +148,13 @@ enum Room{
     }
     /**
 	 * Check if the room is locked.
-	 * 
+	 * @return 'true' if the room is locked, 'false' if not.
 	 */
     public boolean isLocked() {
     	return locked;
     }
     /**
-	 * Set up the teleporter room.
+	 * Make the room to a teleporter room. It teleports the player when he/she enters the room.
 	 * 
 	 */
     public void makeTeleporterRoom() {
@@ -158,28 +162,28 @@ enum Room{
     }
     /**
 	 * Check if the room is a teleporter room.
-	 * 
+	 * @return 'true' if the room is a teleporter room, 'false' if not.
 	 */
     public boolean isTeleporterRoom() {
     	return teleports;
     }
     /**
-	 * Set up a monster in the room.
+	 * Create a monster in the room.
 	 * 
 	 */
     public void putMonster() {
     	monster = true;
     }
     /**
-	 * Remove the monster from the room after killing it.
+	 * Remove the monster from the room. E.g. called when the player kills the monster of the room.
 	 * 
 	 */
     public void killMonster() {
     	monster = false;
     }
     /**
-	 * Check if the room has a monster in it.
-	 * 
+	 * Check if the room has a monster.
+	 * @return 'true' if there is a monster in the room, 'false' if not
 	 */
     public boolean hasMonster() {
     	return monster;
@@ -193,51 +197,44 @@ enum Room{
     }
     /**
 	 * Check if the room is the final room.
-	 * 
+	 * @return 'true' if the room is the final room, 'false' if not
 	 */
     public boolean isFinalRoom() {
     	return finalroom;
     }
     
     /**
-     * Creates a Non Player Character in the room
+     * Getter for the Non Player Character in the room.
      * 
-     * @param itemforhint The item that the NPC wants in return for a hint
+     * @return the non player character; returns null if there is not a npc in the room.  
      */
     public NonPlayerCharacter getNpc() {
     	return npc;
     }
     /**
-	 *
-	 *
-	 */
+     * Get the name of the item which the non player character in the room wants.
+     * @return the name of the item which the non player character in the room wants
+     */
     public String getWantedNPCItem() {
 		return npc.getWantedItem();
 	}
-    /**
-	 *
-	 *
-	 */
+   /**
+    * Create a non player character in the room
+    * @param itemforhint the name of the item which the npc wants 
+    */
     public void createNPC(String itemforhint) {
     	 npc = new NonPlayerCharacter(itemforhint);
     }
     
     /**
-	 * Add items to the item list.
-	 *
+	 * Add items to the item list of the room.
+	 *@param item the item to add to the list
 	 */
 
 	public void addItem(Item ...items) {
 		for (Item item : items) {
-			itemlist.addItem(item);
+			itemList.addItem(item);
 		}
-	}
-	/**
-	 * 
-	 *
-	 */
-	public void addItem(String item) {
-			itemlist.addItem(item);
 	}
 	
 	/**
@@ -246,66 +243,43 @@ enum Room{
 	 * @return boolean whether item is in room or not
 	 */
 
-	public boolean containsItem(Item specificitem) {
+	public boolean containsItem(Item specificItem) {
 		
-		return itemlist.contains(specificitem);
-	}
-	/**
-	 * Checks if the specified item is in the room.
-	 * 
-	 * @return boolean whether item is in room or not
-	 */
-
-	public boolean containsItem(String specificitem) {
-		return itemlist.contains(specificitem);
-	}
-	/**
-	 * Checks if the specified food is in the room.
-	 * 
-	 * @return boolean whether food is in room or not
-	 */
-
-	public boolean containsFood(String specificFood) {
-		return itemlist.containsFood(specificFood);
+		return itemList.contains(specificItem);
 	}
 
     /**
-     * Converts the list with items into a String.
+     * Get a string that contains the names of all items in the room.
      * 
      * @return String with all items currently in the room
      */
     
 	public String getItemList() {
-		String items = itemlist.getItemList();
+		String items = itemList.getItemList();
 		return items;
 	}
 	/**
-	 *
+	 *Remove an item from the room. 
+	 *@param item the item to remove
 	 *
 	 */
 	public void removeItem(Item item) {
-		itemlist.removeItem(item);
+		itemList.removeItem(item);
 }
-	/**
-	 *
-	 *
-	 */
-	public void removeItem(String item) {
-		itemlist.removeItem(item);
-	}
 
     /**
-     * Return a description of the room in the form:
+     * Return a description of the room, e.g.:
      *     You are in the kitchen.
      *     Exits: north west
+     *     These are the items in the room: apple 
      *     
-     * @return A long description of this room
+     * @return A long description of this room.
      */
     public String getLongDescription()
     {
         return description + ".\n" + getExitString() + "\n\n" +
         "These are the items in the room:" + "\n" +
-        itemlist.getItemList();
+        itemList.getItemList();
     }
 
     /**
@@ -337,10 +311,9 @@ enum Room{
     }
     
     /**
-     * Return a message at first room entry. If the room has been entered already,
-     * return an according message.
-     * 
-     * @return Message from NPC
+     * Get a message from the non player character of the room. 
+     * This is what the npc says before he receives the item he/she/it wants. 
+     * @return The message given by the NPC of the room. 
      */
     
 	public String getNpcMessage() {
@@ -352,7 +325,7 @@ enum Room{
 	}
     
     /**
-	 * Gets hint from NPC.
+	 * Get the hint from the NPC in the room.
 	 * 
 	 * @param Item that unlocks hint
 	 * @return Hint from NPC
@@ -366,48 +339,47 @@ enum Room{
 		}
 	}
 	/**
-	 *
-	 *
+	 * Get the food which is in the room. Returns null if the room doesn't contain food.
+	 * @return the Food object which is in the room 
 	 */
 	public Food getFood() {
-		return itemlist.getFood();
+		return itemList.getFood();
 	}
 	/**
-	 *
-	 *
+	 * Get the weapon which is in the room. Returns null if the room doesn't contain a weapon.
+	 * @return the weapon which is in the room
 	 */
 	public Weapon getWeapon() {
-		return itemlist.getWeapon();
+		return itemList.getWeapon();
 	}
 	/**
-	 *
-	 *
+	 * Get the valuable which is in the room. Returns null if the room doesn't contain a valuable.
+	 * @return the valuable item which is in the room
 	 */
 	public Valuable getValuable() {
-		return itemlist.getValuable();
+		return itemList.getValuable();
 	}
 	/**
-	 *
-	 *
+	 * Get the accessory which is in the room. Returns null if the room doesn't contain a accessory.
+	 * @return the accessory which is in the room
 	 */
 	public Accessory getAccessory() {
-		return itemlist.getAccessory();
+		return itemList.getAccessory();
 	}
 	
-
     /**
-     * Counts times the room has been entered.
+     * The room is entered another time. Increase the counter of the entries of the room.
      */
     public void addRoomEntry() {
-    	roomentries++;
+    	roomEntries++;
     }
     /**
-	 *Give the number of room entries.
+	 *Get the number how often the room has been entered so far.
 	 *
-	 *@return roomentries Number of room entries
+	 *@return roomEntries Number of room entries
 	 */
     public int getRoomEntries() {
-    	return roomentries;
+    	return roomEntries;
     }
     
 }

@@ -4,6 +4,7 @@ package ZuulBad;
  * This class is responsible for valuable items in the game
  * 
  * @author Katerina Matsyova
+ * @version 1.0
  *
  */
 public class Valuable extends Item implements Transportable {

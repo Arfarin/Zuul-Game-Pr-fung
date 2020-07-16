@@ -10,6 +10,8 @@ import java.util.Collections;
  * @author Sarah Engelmayer
  * @author Katerina Matysova
  * @author Daniel Birk
+ * 
+ * @version 1.0.0
  */
 
 public class Environment {

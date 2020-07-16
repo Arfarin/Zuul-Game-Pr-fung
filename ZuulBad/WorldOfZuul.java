@@ -25,6 +25,8 @@ import javafx.stage.Stage;
  * @author Daniel Birk
  * @author Katerina Matysova
  * @author Sarah Engelmayer
+ * 
+ * @version 1.0
  */
 
 public class WorldOfZuul extends Application {
@@ -44,7 +46,7 @@ public class WorldOfZuul extends Application {
 	public void start(Stage stage) throws Exception {
 
 		VBox root = FXMLLoader.load(getClass().getResource("Scene.fxml"));
-		Scene scene = new Scene(root, 850, 690);
+		Scene scene = new Scene(root, 850, 700);
 		Game game = new Game();
 
 		root = game;
