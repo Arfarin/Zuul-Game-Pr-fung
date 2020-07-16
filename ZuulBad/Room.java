@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 
 
- /** An instance of this class represents one location in the scenery of the game. It is 
- * connected to other rooms via exits. There is an instance of the class Items, which is
+ /** This enumeration represents the locations in the scenery of the game. Each room is 
+ * connected to other rooms via exits. Some exits can only be entered from one room the another 
+ * but not back, so these exits are trapdoors.
+ * There is an instance of the class Items, which is
  * used to store items contained in the room. 
  * There are some special features of a room. E.g. a room can be a able to teleport the player.
  * 
@@ -17,7 +19,7 @@ import java.util.HashMap;
  * @version 1.0
  */
 
-enum Room{
+public enum Room{
 	
 	CastleCourtyard("Starting point: You are in front of a very old castle."),
 	CastleGarden("You enter the castle's magnificent garden."),
