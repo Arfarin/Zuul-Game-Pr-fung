@@ -854,14 +854,14 @@ public class Game extends VBox {
 
 	/**
 	 * Starts playing the game. Creating items and distribute them to the rooms,
-	 * creates an instance of Player, sets the time depending on the difficulty
-	 * Level, sets the first room, sets up the first room and sets up the
+	 * sets the time depending on the level of difficulty,
+	 * sets the first room, sets up the first room and sets up the
 	 * Change-Listeners for the variables lifeBar and foodBar (for class Player),
-	 * time (for Game) and maxWeight (for inventory).
+	 * time (for Game) and maxWeight (for Inventory).
 	 */
 	public void play() {
 		environment.prepareEnvironment();
-		time = Level.setValue(35, -5);
+		time = Level.setValue(35, -6); // set time depending on the chosen Level: easy: 35 room-switchings; medium: 29 room-switchings; heavy: 23 room-switches
 
 		currentRoom = environment.getFirstRoom();
 		setUpRoom();
@@ -1197,9 +1197,9 @@ public class Game extends VBox {
 	private void switchRoom(Room nextRoom) {
 		currentRoom = nextRoom;
 
-		time--;
-		player.getHungry();
-		player.increaseLifeBar();
+		time--; // time is measured by the number of room switchings.
+		player.getHungry(); // every time switching room the players foodbar is reduced, so he/she gets hungry walking through the castle and needs to eat
+		player.increaseLifeBar(); // every time switching room the player regenerates from hurts caused by monsters.  
 		timeProperty.setValue(time);
 
 		setUpRoom();
@@ -1230,8 +1230,10 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Kill the monster in the room if the player has a weapon in the backpack. Remove the weapon from the backpack and display a message in a popup that a monster was killed.
-	 * Otherwise receive damage and flee back to the previous room.
+	 * Kill the monster in the room if the player has a weapon in the backpack. 
+	 * Remove the (first) weapon from the backpack and display a message in a popup that a monster was killed.
+	 * Otherwise receive damage and flee back to the previous room. The more difficult the Level of difficulty is, 
+	 * the higher is the value of damage on the players lifeBar.
 	 */
 	private void tryKillMonster(Room nextRoom) {
 
@@ -1244,7 +1246,7 @@ public class Game extends VBox {
 			nextRoom.killMonster();
 			switchRoom(nextRoom);
 		} else {
-			int damage = Level.setValue(1, 1);
+			int damage = Level.setValue(1, 1); //in level easy: damage=1; in level medium: damage=2, in level heavy: damage=3  
 			monsterDamagePopup();
 			player.reduceLifeBar(damage);
 			informationTextArea.setText("The Monster hurt you. You have to flee back to the previous room.\n");
@@ -1252,8 +1254,8 @@ public class Game extends VBox {
 	}
 
 	/**
-	 * Rescue the princess and win the game if the player has the valuable
-	 * 'dragonglass' in his/her backpack. Otherwise receive double damage to the players lifeBar and flee back
+	 * Rescue the princess from the boss monster. To beat the monster the player must have the valuable item (not a weapon!)
+	 * 'dragonglass' in his/her backpack. Otherwise he/she receives double damage on his/her lifeBar and flee back
 	 * to the previous room.
 	 */
 	private void rescuePrincess() {
@@ -1262,9 +1264,9 @@ public class Game extends VBox {
 		if (player.backpackContainsItem(dragonGlass)) {
 			winGame();
 		} else {
-			int damage = Level.setValue(1, 1) * 2; 
+			int damage = Level.setValue(1, 1) * 2; // double damage (value depends on the chosen level of difficulty)
 			player.reduceLifeBar(damage);
-			informationTextArea.setText("The Monster hurt you badly. You have to flee back to the previous room.\n");
+			informationTextArea.setText("The Monster hurt you badly. You had to flee back to the previous room.\n");
 		}
 	}
 
@@ -1723,28 +1725,41 @@ public class Game extends VBox {
 	@FXML
 	Label secondFloorLabel;
 	
-	
+	/**
+	 * Set the map for the basement visible. The map consists of a Gridpane 
+	 * and a label with the name of the floor.  
+	 */
 	public void setBasementVisible() {
 		mapBasement.setVisible(true);
 		basementLabel.setVisible(true);
 	}
-	
+	/**
+	 * Set the map for the ground floor visible. The map consists of a Gridpane 
+	 * and a label with the name of the floor.  
+	 */
 	public void setGroundFloorVisible() {
 		mapGroundFloor.setVisible(true);
 		groundFloorLabel.setVisible(true);
 	}
-	
+	/**
+	 * Set the map for the ground floor visible. The map consists of a Gridpane 
+	 * and a label with the name of the floor.  
+	 */
 	public void setSecondFloorVisible() {
 		mapSecondFloor.setVisible(true);
 		secondFloorLabel.setVisible(true);
 	}
 	/**
-	 * Display the GridPane for basement, ground or second floor depending on the room the player is in.
-	 *  Add that room to the small map on the
-	 * screen.
+	 * Display the GridPane for basement, ground or second floor depending on where the player currently is.
+	 *  Add the room (represented by a rectangle and label with an abbreviated name) in which the player 
+	 *  currently is to the map on the screen.
 	 */
 	public void setRoomOnMapVisible() {
 
+		//a map that shows all the rooms which the player has been at least once
+		//for each floor a different map showing the entered rooms of this floor
+		
+		// reset so that none of the Gridpanes (one for each floor) and its labels are visible.
 		mapBasement.setVisible(false);
 		mapGroundFloor.setVisible(false);
 		mapSecondFloor.setVisible(false);
@@ -1752,6 +1767,10 @@ public class Game extends VBox {
 		groundFloorLabel.setVisible(false);
 		secondFloorLabel.setVisible(false);
 
+		// displaying the floor (Gridpane for basement, for ground floor or for second floor) in which 
+		// the player currently is. 
+		// set the rectangle representing the current room visible in the respective gridPane 
+		// (Use that method after every room switching to control where he/she is
 		switch (currentRoom) {
 		case CastleCourtyard:
 			setGroundFloorVisible();

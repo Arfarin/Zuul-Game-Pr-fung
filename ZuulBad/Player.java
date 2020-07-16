@@ -16,28 +16,35 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Player {
 
 	/**
-	 * the maximum value the FoodBar of the player can reach
+	 * The maximum value the FoodBar of the player can reach. This variable is created for a graphical aspect. 
+	 * The rectangles that represents the foodBar should not become too long.
 	 */
 	private int maxFood = 10;
 	/**
-	 * the maximum value the LifeBar of the player can reach
+	 * The maximum value the LifeBar of the player can reach. This variable is created for a graphical aspect. 
+	 * The rectangles that represents the foodBar should not become too long.
 	 */
 	private int maxLife = 10;
 
 	/**
-	 * an instance of Inventory presenting the backpack of the player
+	 * An instance of Inventory representing the backpack of the player. With this
+	 * he/she can store transportable items.
 	 */
 	private Inventory backpack;
 
 	/**
 	 * The points of life a player has. Demonstrating the health of the player. The
-	 * lower the value is the weaker is a player.
+	 * lower the value is the weaker is the player.
+	 * If monsters cause damage on the player, the lifebar is reduced. 
+	 * Going through rooms (and not getting attacked) the player regenerates and lifebar increases.
 	 */
 	private SimpleIntegerProperty lifeBar;
 
 	/**
 	 * The points of food a player has. Demonstrating the hunger a player has. The
-	 * lower the value is the hungrier the player is.
+	 * lower the value is the hungrier is the player.
+	 * Walking through rooms, the player gets hungry and foodBar decreases. 
+	 * Eating food, foodbar increases.
 	 */
 	private SimpleIntegerProperty foodBar;
 
@@ -54,7 +61,7 @@ public class Player {
 	 * Getter for the lifeBar Property variable. It is necessary for the
 	 * implementation of the according Listener (declared in class 'Game').
 	 * 
-	 * @return the value of lifeBar
+	 * @return The value of lifeBar
 	 */
 	public IntegerProperty lifeBarProperty() {
 		return lifeBar;
@@ -64,7 +71,7 @@ public class Player {
 	 * Getter for the foodBar Property variable. It is necessary for the
 	 * implementation of the according Listener (declared in class 'Game').
 	 * 
-	 * @return the value of foodBar
+	 * @return The value of foodBar
 	 */
 	public IntegerProperty foodBarProperty() {
 		return foodBar;
@@ -75,7 +82,7 @@ public class Player {
 	 * backpack. It is necessary for the implementation of the according Listener
 	 * (declared in class 'Game').
 	 * 
-	 * @return the backpack's weight
+	 * @return The backpack's weight
 	 */
 	public IntegerProperty backpackWeightProperty() {
 		return backpack.backpackWeightProperty();
@@ -85,7 +92,7 @@ public class Player {
 	 * Answers the question if the player's backpack contains a specific item or
 	 * not.
 	 * 
-	 * @param specificitem the item about which we want to know if it is in backpack
+	 * @param specificitem The item about which we want to know if it is in backpack
 	 *                     or not.
 	 * @return 'true' if the item is in the backpack, 'false' if not
 	 */
@@ -97,7 +104,7 @@ public class Player {
 	 * A food item of the player's backpack is eaten. The player's foodBar is
 	 * increased when eating a food.
 	 * 
-	 * @param food the food that should be eaten.
+	 * @param food The food that should be eaten.
 	 */
 	public void eatFoodFromBackpack(Food food) {
 		backpack.removeItem(food);
@@ -115,7 +122,7 @@ public class Player {
 
 	/**
 	 * An item is put into the player's backpack provided that it does not exceed the backpacks capacity (maxWeight). 
-	 * @param item; the item that should be put into the player's backpack.
+	 * @param item The item that should be put into the player's backpack.
 	 * @return 'true' if the item was stored in the player's backpack, 'false' if not.
 	 */
 	public boolean putItemIntoBackpack(Item item) {
@@ -134,7 +141,7 @@ public class Player {
 
 	/**
 	 * The player removes an item of his/her backpack.
-	 * @param item; the item that should be removed 
+	 * @param item The item that should be removed 
 	 * @return 'true' if the item was removed, 'false' if not.
 	 */
 	public boolean removeItemFromBackpack(Item item) {
@@ -150,7 +157,7 @@ public class Player {
 	}
 
 	/**
-	 * The player removes an weapon of his/her backpack.
+	 * The player removes an weapon from his/her backpack. 
 	 */
 	public void removeAWeaponFromBackpack() {
 		backpack.removeWeapon();

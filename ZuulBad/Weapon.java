@@ -2,6 +2,8 @@ package ZuulBad;
 
 /**
  * This class is responsible for weapon items in the game.
+ * In this game all weapons are equally strong, no matter if the weapon is a toothpick or a sword. 
+ * Normal monsters which hide in rooms can be beaten only if the player carries a weapon. 
  * 
  * @author Katerina Matsyova
  * @version 1.0
