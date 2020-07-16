@@ -1723,28 +1723,41 @@ public class Game extends VBox {
 	@FXML
 	Label secondFloorLabel;
 	
-	
+	/**
+	 * Set the map for the basement visible. The map consists of a Gridpane 
+	 * and a label with the name of the floor.  
+	 */
 	public void setBasementVisible() {
 		mapBasement.setVisible(true);
 		basementLabel.setVisible(true);
 	}
-	
+	/**
+	 * Set the map for the ground floor visible. The map consists of a Gridpane 
+	 * and a label with the name of the floor.  
+	 */
 	public void setGroundFloorVisible() {
 		mapGroundFloor.setVisible(true);
 		groundFloorLabel.setVisible(true);
 	}
-	
+	/**
+	 * Set the map for the ground floor visible. The map consists of a Gridpane 
+	 * and a label with the name of the floor.  
+	 */
 	public void setSecondFloorVisible() {
 		mapSecondFloor.setVisible(true);
 		secondFloorLabel.setVisible(true);
 	}
 	/**
-	 * Display the GridPane for basement, ground or second floor depending on the room the player is in.
-	 *  Add that room to the small map on the
-	 * screen.
+	 * Display the GridPane for basement, ground or second floor depending on where the player currently is.
+	 *  Add the room (represented by a rectangle and label with an abbreviated name) in which the player 
+	 *  currently is to the map on the screen.
 	 */
 	public void setRoomOnMapVisible() {
 
+		//a map that shows all the rooms which the player has been at least once
+		//for each floor a different map showing the entered rooms of this floor
+		
+		// reset so that none of the Gridpanes (one for each floor) and its labels are visible.
 		mapBasement.setVisible(false);
 		mapGroundFloor.setVisible(false);
 		mapSecondFloor.setVisible(false);
@@ -1752,6 +1765,10 @@ public class Game extends VBox {
 		groundFloorLabel.setVisible(false);
 		secondFloorLabel.setVisible(false);
 
+		// displaying the floor (Gridpane for basement, for ground floor or for second floor) in which 
+		// the player currently is. 
+		// set the rectangle representing the current room visible in the respective gridPane 
+		// (Use that method after every room switching to control where he/she is
 		switch (currentRoom) {
 		case CastleCourtyard:
 			setGroundFloorVisible();

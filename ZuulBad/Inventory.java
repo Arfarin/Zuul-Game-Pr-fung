@@ -67,8 +67,8 @@ public class Inventory {
 	 * An item is removed from the backpack. If the backpack contains the specified
 	 * item, it will be removed and the weight of the backpack decreased.
 	 * 
-	 * @param item the item that should be removed from the backpack
-	 * @return 'true' if the item was removed from the backpack; 'false' if the item
+	 * @param item The item that should be removed from the backpack
+	 * @return 'true' if the item was removed from the backpack, 'false' if the item
 	 *         was not removed
 	 */
 	public boolean removeItem(Item item) {
@@ -84,7 +84,8 @@ public class Inventory {
 	}
 
 	/**
-	 * An arbitrary weapon is removed from the backpack.
+	 * An arbitrary weapon is removed from the backpack. If there is no weapon in the backpack, 
+	 * nothing happens.
 	 */
 	public void removeWeapon() {
 		this.removeItem(content.getWeapon());
@@ -93,7 +94,7 @@ public class Inventory {
 	/**
 	 * Answers the question if a specified item is in the backpack or not.
 	 * 
-	 * @param specificitem the item about which we want to know if it is in the
+	 * @param specificitem The item about which we want to know if it is in the
 	 *                     backpack or not.
 	 * @return 'true' if the backpack contains the item, 'false' if not.
 	 */
